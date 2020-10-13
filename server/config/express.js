@@ -1,6 +1,7 @@
 const path = require('path'),
     express = require('express'),
     mongoose = require('mongoose'),
+    cors = require("cors");
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     exampleRouter = require('../routes/examples.server.routes');
@@ -11,8 +12,15 @@ module.exports.init = () => {
         - reference README for db uri
     */
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
-        useNewUrlParser: true
-    });
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    },
+    (err) => {
+        if(err) throw err;
+        console.log("MongoDB connection established.")
+    }
+    );
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
 
@@ -25,8 +33,10 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
 
+    app.use(cors())
     // add a router
-    app.use('/api/example', exampleRouter);
+    //app.use('/api/example', exampleRouter);
+    app.use('/users', require("../routes/userRouter"));
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
