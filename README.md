@@ -1,30 +1,27 @@
 ## _**PLEASE READ THIS TO COMPLETION BEFORE ASKING ANY QUESTIONS!**_
 
 ### _**IMPORTANT NOTES**_ - 
-This project does not have a mongoDB connection setup.
+1. Never push anything from your node_modules folder to this repo. 
+2. This project does not have a MongoDB connection setup.
 - local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
 
 ## Run these commands to get started!
 
 ### `npm install`
-### 'npm i mongoose cors dotenv bcryptjs jsonwebtoken axios'
+### `npm install yarn -g`
+### `cd server && npm install`
+### `cd client && npm install`
+
 
 ## Getting Started
-This repository aims to assist you in beginning work on a MERN stack application for heroku deployment with a solid file structure as a foundation. To get started make a copy of this template repo for your project teams by clicking the green "Use this template" button above.
+This project holds both the client application and the server application, so there will be node modules in multiple places. First, run `npm install` from the root. After this, you will run `cd server && npm install` and `cd client && npm install` from the root. 
 
-Since this project will hold both the client application and the server application there will be node modules in two different places. First run `npm install` from the root. After this you will run `npm run-script install-all` from the root. From now on run this command anytime you want to install all modules again. This is a script we have defined in package.json. Alternatively your group may choose to simplify this process by using yarn workspaces as specified [here](https://yarnpkg.com/lang/en/docs/workspaces/).
+Then you will want to create a config.js file in `/server/config` which will contain the MongoDB URI and JSONWebToken password. This file will be ignored by git so your credentials will be kept safe.
 
 This app can be deployed directly to heroku since there is a script defined in package.json which will automatically handle building and deploying the app. For more information on deploying to heroku reference the extra resources at the bottom of this file. 
 
 
 ## Available Scripts
-
-Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:
-
-### `yarn workspace server dev`
-
-Runs both the client app and the server app in development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
 
 ### `yarn workspace client start`
 
