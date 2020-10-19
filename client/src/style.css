@@ -49,6 +49,22 @@ body {
 .page {
   padding: 1rem;
 }
+.continue-button {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #00325c;
+  border-radius: 8px;
+  color:#FFFFFF;
+  background-color: #00325c;
+  font-size: 1.1rem;
+}
+.continue-button:hover{
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #327cb9;
+  border-radius: 8px;
+  color:#FFFFFF;
+  background-color: #327cb9;
+  font-size: 1.1rem;
+}
 
 .container {
   margin: 0 auto;
@@ -82,7 +98,7 @@ body {
   font-size: 1.1rem;
 }
 #header .auth-options button:hover {
-  background-color: #00325c;
+  background-color: #395f7e;
 }
 
 /* form */

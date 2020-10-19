@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import Axios from "axios";
-//import NotFound from "./views/NotFound";
+import NotFound from "./views/NotFound";
 //import NavBar from "./components/Header/NavBar";
-import Header from "./views/HeaderTest";
+import Header from "./views/SiteHeader";
+import Confirmation from "./views/Confirmation";
 import Login from "./views/auth/Login";
+import Dashboard from "./views/Dashboard/Dashboard";
+import Contact from "./views/Contact/Contact";
 import Register from "./views/auth/Register";
 import UserContext from "./context/UserContext";
 import "./style.css";
@@ -38,7 +41,6 @@ export default function App() {
         });
       }
     };
-
     checkLoggedIn();
   }, []);
 
@@ -52,6 +54,10 @@ export default function App() {
               <Route exact path="/" component={Home} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/confirmation" component={Confirmation} />
+              <Route path="*" component={NotFound} />
             </Switch>
           </div>
         </UserContext.Provider>

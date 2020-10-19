@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import AuthOptions from "./auth/AuthOptions";
-//import dtmlogo from './assets/dtmlogo.png';
 
-export default function HeaderTest() {
+export default function SiteHeader() {
   return (
     <header id="header">
       <Link to="/">
