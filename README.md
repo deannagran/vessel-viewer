@@ -55,11 +55,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
     - #### `index.js` - This is what renders the react app by rendering App.js, should not change
 - #### `package.json` - Defines npm behaviors and packages for the client
 #### `server` - Holds the server application
-- #### `config` - This holds our configuration files, like mongoDB uri
+- #### `config` - This holds our configuration files, like mongoDB uri and JSON web token password
 - #### `controllers` - These hold all of the callback functions that each route will call
-- #### `models` - This holds all of our data models
+- #### `middleware` - This is where we define the middleware which will protect selected routes.
+- #### `models` - This holds all of our data models, namely our user model
 - #### `routes` - This holds all of our HTTP to URL path associations for each unique url
-- #### `tests` - This holds all of our server tests that we have defined
 - #### `server.js` - Defines npm behaviors and packages for the client
 #### `package.json` - Defines npm behaviors like the scripts defined in the next section of the README
 #### `.gitignore` - Tells git which files to ignore

@@ -1,10 +1,10 @@
 const path = require('path'),
-    express = require('express'),
-    mongoose = require('mongoose'),
-    cors = require("cors");
-    morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    exampleRouter = require('../routes/examples.server.routes');
+express = require('express'),
+mongoose = require('mongoose'),
+cors = require("cors");
+morgan = require('morgan'),
+bodyParser = require('body-parser'),
+//exampleRouter = require('../routes/examples.server.routes');
 
 module.exports.init = () => {
     /* 
@@ -33,11 +33,13 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
 
+    //handle cross origin requests
     app.use(cors())
+
     // add a router
-    //app.use('/api/example', exampleRouter);
     app.use('/users', require("../routes/userRouter"));
 
+    // for final build
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
         app.use(express.static(path.join(__dirname, '../../client/build')));
