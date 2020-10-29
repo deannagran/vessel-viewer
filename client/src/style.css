@@ -49,6 +49,25 @@ body {
 .page {
   padding: 1rem;
 }
+
+.login-button{
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #00325c;
+  border-radius: 8px;
+  color:#FFFFFF;
+  background-color: #00325c;
+  font-size: 1.1rem;
+}
+
+.register-button
+{
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #00325c;
+  border-radius: 8px;
+  color:#FFFFFF;
+  background-color: #00325c;
+  font-size: 1.1rem;
+}
 .continue-button {
   padding: 0.3rem 0.5rem;
   border: 1px solid #00325c;
