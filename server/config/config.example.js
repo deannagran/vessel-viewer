@@ -3,9 +3,9 @@
 
 module.exports = {
     db: {
-        uri: '', //place the URI of your mongo database here.
+        uri: 'mongodb+srv://aleusa:aleusa@cluster0.oqljz.mongodb.net/test?retryWrites=true&w=majority', //place the URI of your mongo database here.
     },
     jwt: {
-        JWT_SECRET: ' ', // this is the secret server token password-- can be anything you want when you run locally
+        JWT_SECRET: 'h', // this is the secret server token password-- can be anything you want when you run locally
     }
 };

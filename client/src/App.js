@@ -9,6 +9,7 @@ import Confirmation from "./views/Confirmation";
 import Login from "./views/auth/Login";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Contact from "./views/Contact/Contact";
+import MyAccount from "./views/MyAccount/MyAccount";
 import Register from "./views/auth/Register";
 import UserContext from "./context/UserContext";
 import "./style.css";
@@ -56,6 +57,7 @@ export default function App() {
               <Route path="/register" component={Register} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/contact" component={Contact} />
+              <Route path="/myAccount" component={MyAccount} />
               <Route path="/confirmation" component={Confirmation} />
               <Route path="*" component={NotFound} />
             </Switch>

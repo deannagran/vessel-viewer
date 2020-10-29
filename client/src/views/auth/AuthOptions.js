@@ -11,6 +11,7 @@ export default function AuthOptions() {
   const login = () => history.push("/login");
   const dashboard = () => history.push("/dashboard");
   const contact = () => history.push("/contact");
+  const myAccount = () => history.push("/myAccount");
   const logout = () => {
     setUserData({
       token: undefined,
@@ -24,7 +25,8 @@ export default function AuthOptions() {
       {userData.user ? (
         <>
         <button onClick={dashboard}>Dashboard</button>
-        <button onClick={contact}>Contact</button>
+        <button onClick={myAccount}>My Account</button>
+        <button onClick={contact}>Contact</button>  
         <button onClick={logout}>Log out</button>
         </>
       ) : (
