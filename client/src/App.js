@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Welcome from "./views/Welcome/Welcome";
 import Home from "./views/Home/Home";
 import Axios from "axios";
 import NotFound from "./views/NotFound";
@@ -51,7 +52,8 @@ export default function App() {
           <Header />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path="/" component={Home} />          
+              <Route path="/welcome" component={Welcome} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
               <Route path="/dashboard" component={Dashboard} />
