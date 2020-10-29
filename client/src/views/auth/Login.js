@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+import { Link } from "react-router-dom"
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -52,6 +53,11 @@ export default function Login() {
         />
 
         <input type="submit" value="LOG IN" />
+        
+        <label htmlFor="login-password">Don't have an account? Click 
+        <Link to="/register"> here </Link>
+        to register
+        </label>
       </form>
     </div>
   );
