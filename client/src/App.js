@@ -57,6 +57,7 @@ export default function App() {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/contact" component={Contact} />
               <Route path="/confirmation" component={Confirmation} />
+              <Route path="/confirmation2" component={Confirmation} />
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
