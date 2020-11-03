@@ -31,7 +31,7 @@ h2,
 h3,
 h4,
 h5,
-h6,
+h6
 p,
 ul,
 ol,
@@ -42,6 +42,44 @@ li {
 
 /* general */
 
+my-account-label{
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #0080FF;
+  border-radius: 8px;
+  background-color: #66B2FF;
+  font-size: 3rem;
+}
+customed-label{
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  font-size: 2rem;
+}
+customed-label-name{
+  padding: 0.3rem 0.5rem;
+  border-radius: 8px;
+  font-size: 3rem;
+}
+my-account-inbox{
+  padding: 10rem 6rem;
+  border: 1px solid #0080FF;
+  border-radius: 8px;
+  background-color: #66B2FF;
+  font-size: 3rem;
+}
+my-account-box{
+  padding: 9rem 9.7rem;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  font-size: 3rem;
+}
+dashboard-template{
+  padding: 8rem 9.7rem;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  font-size: 3rem;
+}
 body {
   font-family: "Roboto", sans-serif;
 }
@@ -49,7 +87,28 @@ body {
 .page {
   padding: 1rem;
 }
-
+.account-page-info{
+  padding: 2rem 0rem 0rem 32.5rem;
+  width: 100rem;
+}
+.account-name{
+  padding: 10rem 0rem 0rem 12.5rem;
+}
+.account-inbox{
+  padding: 0rem 0rem 0rem 0rem;
+}
+.dashboard-3d-template{
+  padding: 10rem 0rem 0rem 0rem;
+  width: 100rem;
+}
+.dashboard-projectMember-template{
+  padding: 20rem 0rem 0rem 40rem;
+  width: 100rem;
+}
+img{
+  height: 100px;
+  border-radius: 50px;
+}
 .login-button{
   padding: 0.3rem 0.5rem;
   border: 1px solid #00325c;
