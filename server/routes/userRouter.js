@@ -74,6 +74,9 @@ router.post("/login", async (req, res) => {
         user: {
           id: user._id,
           firstName: user.firstName,
+          email: user.email,
+          companyName: user.companyName,
+          lastName: user.lastName,
         },
       });
     } catch (err) {
@@ -105,6 +108,9 @@ router.post("/login", async (req, res) => {
     res.json({
       //only respond with user's first name and db ID
       firstName: user.firstName,
+      email: user.email,
+      companyName: user.companyName,
+      lastName: user.lastName,
       id: user._id,
     });
   });
