@@ -8,30 +8,35 @@ export default function MyAccount(props) {
     if (!userData.user) props.history.push("/login");
   });
 
-  const [users,setUsers] = useState([    {company: userData.user.companyName, email: userData.user.email},
-  ]);
+/*   const [users,setUsers] = useState([    {company: userData.user.companyName, email: userData.user.email},
+  ]); */
   //console.log(userData.user.email);
-  return (
-    /*<div className="page">
-      {users.map(user => (
-        <Accountinfo company ={user.company} email = {user.email}/>
-      ))}
-      
-    </div>*/
-      <div>
-        <div className="acc-header">
-        <img src="default-profile-picture.png" alt=""/>
-        <h1>   {userData.user.firstName} {userData.user.lastName}</h1>
+  if (userData.user){
+    return (
+      /*<div className="page">
+        {users.map(user => (
+          <Accountinfo company ={user.company} email = {user.email}/>
+        ))}
+        
+      </div>*/
+        <div>
+          <div className="acc-header">
+          <img src="default-profile-picture.png" alt=""/>
+          <h1>   {userData.user.firstName} {userData.user.lastName}</h1>
+          </div>
+  
+        <div><h1 className="accountlabel">Account Info </h1></div>
+        <div className="account-page-info">
+          <h3>Company: {userData.user.companyName}</h3>
+          <h3>Email: {userData.user.email}</h3>
         </div>
-
-      <div><h1 className="accountlabel">Account Info </h1></div>
-      <div className="account-page-info">
-        <h3>Company: {userData.user.companyName}</h3>
-        <h3>Email: {userData.user.email}</h3>
-      </div>
-      </div>
-      
-    );
+        </div>
+        
+      );
+  }else{
+    return (<div><h1 className="accountlabel">Account Info </h1></div>);
+  }
+  
 }
 /*<div className="account-name">
         <img src="default-profile-picture.png" alt=""/>
