@@ -42,14 +42,16 @@ li {
 
 /* general */
 
-my-account-label{
+.my-account-label{
+  
   padding: 0.3rem 0.5rem;
   border: 1px solid #0080FF;
   border-radius: 8px;
   background-color: #66B2FF;
   font-size: 3rem;
+  text-align: left;
 }
-customed-label{
+.customed-label{
   padding: 0.3rem 0.5rem;
   border-radius: 8px;
   font-size: 2rem;
@@ -87,12 +89,29 @@ body {
 .page {
   padding: 1rem;
 }
+.acc-header{
+  margin-top: 10%;
+  display: flex;
+  padding: 2%;
+  justify-content: left;
+  align-content: left;
+}
+.accountlabel {
+  background-color: turquoise;
+  border-radius: 10px;
+  width: fit-content;
+}
 .account-page-info{
-  padding: 2rem 0rem 0rem 32.5rem;
-  width: 100rem;
+  height: fit-content;
+  width: 25%;
+  border: 2px solid black;
+ 
+  background-color: white;
 }
 .account-name{
   padding: 10rem 0rem 0rem 12.5rem;
+  align-content: left;
+  
 }
 .account-inbox{
   padding: 0rem 0rem 0rem 0rem;
