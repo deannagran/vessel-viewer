@@ -4,6 +4,7 @@ import Welcome from "./views/Welcome/Welcome";
 import Home from "./views/Home/Home";
 import Axios from "axios";
 import NotFound from "./views/NotFound";
+import ProjectPage from "./views/ProjectPage";
 //import NavBar from "./components/Header/NavBar";
 import Header from "./views/SiteHeader";
 import Confirmation from "./views/Confirmation";
@@ -59,9 +60,9 @@ export default function App() {
               <Route path="/register" component={Register} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/contact" component={Contact} />
+              <Route path="/project" component={ProjectPage} />
               <Route path="/myAccount" component={MyAccount} />
               <Route path="/confirmation" component={Confirmation} />
-              <Route path="/confirmation2" component={Confirmation} />
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
