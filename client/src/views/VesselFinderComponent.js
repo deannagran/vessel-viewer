@@ -32,7 +32,7 @@ export default class VesselFinderComponent extends Component {
 
       }
       componentDidMount() {
-        const script = document.createElement("script");
+/*         const script = document.createElement("script");
         const script2 = document.createElement("script");
          script.src =
           "https://www.vesselfinder.com/aismap.js"; 
@@ -51,7 +51,7 @@ export default class VesselFinderComponent extends Component {
         this.myRef.appendChild(script);
         this.myRef.appendChild(script2);
 
-        
+         */
       }
       render() {
         return (
