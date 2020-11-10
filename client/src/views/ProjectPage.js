@@ -1,17 +1,21 @@
 import React, { useEffect, useContext } from "react";
 import UserContext from "../context/UserContext";
+import VesselFinderComponent from "./VesselFinderComponent";
+
 
 export default function ProjectPage(props) {
   const { userData } = useContext(UserContext);
   useEffect(() => {
-    console.log("hey");
     if (!userData.user) props.history.push("/login");
-    console.log("heyooo");
-    
   });
   
   return (
-     <h1>Contact Digital Twin Marine</h1>
+      <div>
+        <h1>Project Page</h1>
+        <VesselFinderComponent></VesselFinderComponent>
+
+      </div>
+    
         
     );
 }
