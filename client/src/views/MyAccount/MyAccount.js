@@ -1,15 +1,44 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
+//import Accountinfo from './Accountinfo';
 
 export default function MyAccount(props) {
   const { userData } = useContext(UserContext);
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
   });
+
+/*   const [users,setUsers] = useState([    {company: userData.user.companyName, email: userData.user.email},
+  ]); */
+  //console.log(userData.user.email);
+  if (userData.user){
+    return (
+      /*<div className="page">
+        {users.map(user => (
+          <Accountinfo company ={user.company} email = {user.email}/>
+        ))}
+        
+      </div>*/
+        <div>
+          <div className="acc-header">
+          <img src="default-profile-picture.png" alt=""/>
+          <h1>   {userData.user.firstName} {userData.user.lastName}</h1>
+          </div>
   
-  return (
-    <div className="page">
-      <div className="account-name">
+        <div><h1 className="accountlabel">Account Info </h1></div>
+        <div className="account-page-info">
+          <h3>Company: {userData.user.companyName}</h3>
+          <h3>Email: {userData.user.email}</h3>
+        </div>
+        </div>
+        
+      );
+  }else{
+    return (<div><h1 className="accountlabel">Account Info </h1></div>);
+  }
+  
+}
+/*<div className="account-name">
         <img src="default-profile-picture.png" alt=""/>
         <customed-label-name>           {userData.user.firstName} {userData.user.lastName}</customed-label-name>
       </div>
@@ -25,7 +54,4 @@ export default function MyAccount(props) {
         <my-account-inbox>Inbox</my-account-inbox>
         <br></br>
         <my-account-box></my-account-box>
-      </div>
-    </div>
-    );
-}
+      </div>*/
