@@ -7,10 +7,13 @@ export default function Dashboard(props) {
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
   });
-  //const data = findOneVessel();
   return (
-      <div className="page">
-        <h1>User Dashboard</h1>
-      </div>
-  );
+  <div className="page"><h1>User Dashboard</h1>
+    <div className="dashboard-3d-template">
+      <dashboard-template></dashboard-template>
+    </div>
+    <div className="dashboard-projectMember-template">
+      <dashboard-template></dashboard-template>
+    </div>
+  </div>);
 }
