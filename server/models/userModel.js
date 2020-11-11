@@ -4,7 +4,8 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true, minLength: 5},
     firstName:{type: String, required: true},
     lastName: {type: String, required: true},
-    companyName: {type: String}
+    companyName: {type: String},
+    associatedVessels: [String]
 });
 
 module.exports = User = mongoose.model("user", userSchema);

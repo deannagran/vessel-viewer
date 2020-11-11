@@ -11,7 +11,7 @@ router.get("/test", (req, res) => {
 
 router.post("/register", async (req, res) => {
     try {
-        let { email, password, passwordCheck, firstName, lastName, companyName } = req.body;
+        let { email, password, passwordCheck, firstName, lastName, companyName, associatedVessels } = req.body;
 
         // validate
         if (!email || !password || !passwordCheck || !firstName || !lastName)
@@ -40,7 +40,8 @@ router.post("/register", async (req, res) => {
             password: passwordHash,
             firstName,
             lastName,
-            companyName
+            companyName,
+            associatedVessels
         });
         const savedUser = await newUser.save();
         res.json(savedUser);
@@ -73,10 +74,11 @@ router.post("/login", async (req, res) => {
         token,
         user: {
           id: user._id,
-          firstName: user.firstName,
           email: user.email,
+          firstName: user.firstName,
           companyName: user.companyName,
           lastName: user.lastName,
+          associatedVessels: user.associatedVessels
         },
       });
     } catch (err) {
@@ -106,12 +108,20 @@ router.post("/login", async (req, res) => {
   router.get("/", auth, async (req, res) => {
     const user = await User.findById(req.user);
     res.json({
-      //only respond with user's first name and db ID
+      // respond with user's first name and db ID
       firstName: user.firstName,
       email: user.email,
       companyName: user.companyName,
       lastName: user.lastName,
       id: user._id,
+      associatedVessels: user.associatedVessels
+    });
+  });
+
+  router.get("/findVessel", auth, async (req, res) => {
+    const vessel = await Vessel.findById(req.user.associatedVessels[0]);
+    res.json({
+      vesselName: vessel.name,
     });
   });
   
