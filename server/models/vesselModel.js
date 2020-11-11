@@ -6,7 +6,7 @@ const vesselSchema = mongoose.Schema({
         content : String,
         posterID : String
     }],
-    project_files : {type: Schema.Type.ObjectId},
+    project_files : {type: String},
     vesselfinder_link : {type: String, required: true},
     associated_users : [{
         role : String,

@@ -54,7 +54,7 @@ export default function App() {
           <Header />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={Home} />          
+              <Route exact path="/" component={Welcome} />          
               <Route path="/welcome" component={Welcome} />
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
