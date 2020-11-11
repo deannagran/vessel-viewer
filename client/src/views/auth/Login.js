@@ -56,7 +56,7 @@ export default function Login() {
         
         <label htmlFor="login-password">Don't have an account? Click 
         <Link to="/register"> here </Link>
-        to register
+        to register.
         </label>
       </form>
     </div>
