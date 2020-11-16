@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import Axios from "axios";
 import ErrorNotice from "../misc/ErrorNotice";
+import { Link } from "react-router-dom"
 
 export default function Register() {
   const [email, setEmail] = useState();
@@ -12,6 +13,7 @@ export default function Register() {
   const [lastName, setLastName] = useState();
   const [companyName, setCompanyName] = useState();
   const [error, setError] = useState();
+  
 
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
@@ -90,6 +92,10 @@ export default function Register() {
 
         
         <input type="submit" value="Register" />
+        <label htmlFor="login-password">Already have an account? Click 
+        <Link to="/login"> here </Link>
+        to login.
+        </label>
       </form>
     </div>
   );

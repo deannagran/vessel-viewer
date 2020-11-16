@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const JWT_SECRET = require('../config/config').jwt.JWT_SECRET;
+const Vessel = require("../models/vesselModel");
 
 router.get("/test", (req, res) => {
     res.send("Test working!");
@@ -118,11 +119,40 @@ router.post("/login", async (req, res) => {
     });
   });
 
-  router.get("/findVessel", auth, async (req, res) => {
+/*   router.get("/findVessel2", auth, async (req, res) => {
     const vessel = await Vessel.findById(req.user.associatedVessels[0]);
+    console.log("Hey")
     res.json({
-      vesselName: vessel.name,
+      vesselName: vessel.name
     });
+  });
+
+   */
+  router.post("/findVessel", async (req, res) => {
+    //const user = await User.findById(req.user);
+    //const user = req.user;
+
+    //THIS WORKS VVVVVVVVVVVVVVVVVV
+    //res.json({ retInfo: req.body }) 
+
+    //res.json({ retInfo: req.body.user.user.email }) 
+    const vessel = await Vessel.findById(req.body.user.user.associatedVessels[0]);
+    if(vessel){
+      res.json({ retInfo: vessel.name }) 
+    }else{
+      res.json({ retInfo: "null" }) 
+    }
+    
+
+    //if(req.vessel){
+      //const vessel = await Vessel.findById(user.associatedVessels[0]);
+      // res.json({
+      //   vesselName: req.name
+      // });
+    //}else{
+     // res.send('invalid user')
+    //}
+
   });
   
 module.exports = router;
