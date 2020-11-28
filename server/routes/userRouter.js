@@ -154,5 +154,16 @@ router.post("/login", async (req, res) => {
     //}
 
   });
+
+  router.post("/addProjectMember", async (req, res) => {
+    //find the user in our db via email address
+    const user = await User.find({email: req.body.email});
+    if(user){
+      res.json({ nameOfAddedUser: user.firstName }) 
+    }else{
+      res.json({ nameOfAddedUser: null }) 
+    }
+
+  });
   
 module.exports = router;
