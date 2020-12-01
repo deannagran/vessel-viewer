@@ -55,11 +55,11 @@ import Axios from "axios";
       ); */
       const axiosAddUser = async (emailstring) => {
         let routeResponse = await Axios.post("http://localhost:5000/users/addProjectMember",
-        { email: "dgran@ufl.edu"
+        { email: emailstring
         }); 
   
         if(routeResponse){
-            console.log("response: " + routeResponse.data.name);
+            console.log("response: " + routeResponse.data.nameOfAddedUser);
         }else{
             console.log("no response!");
         }

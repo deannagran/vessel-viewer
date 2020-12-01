@@ -157,12 +157,25 @@ router.post("/login", async (req, res) => {
 
   router.post("/addProjectMember", async (req, res) => {
     //find the user in our db via email address
-    const user = await User.find({email: req.body.email});
-    if(user){
-      res.json({ nameOfAddedUser: user.firstName }) 
+    
+
+     //const user = await User.findOne({"email":req.param('email')});
+     //res.json({ nameOfAddedUser: user.firstName }) 
+
+
+     const user = await User.findOne({"email":req.body.email});
+     res.json({ nameOfAddedUser: user.firstName }) 
+
+     /*
+    if(!user === undefined || !user.length == 0){
+
+      if(req.body.email != 'dgran@ufl.edu'){
+        res.json({ nameOfAddedUser: req.body.email }) 
+      }
+      //res.json({ nameOfAddedUser: user }) 
     }else{
-      res.json({ nameOfAddedUser: null }) 
-    }
+      res.json({ nameOfAddedUser: 'hey' }) 
+    } */
 
   });
   
