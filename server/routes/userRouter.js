@@ -164,7 +164,12 @@ router.post("/login", async (req, res) => {
 
 
      const user = await User.findOne({"email":req.body.email});
-     res.json({ nameOfAddedUser: user.firstName }) 
+     if(user && user.length != 0){
+      res.json({ nameOfAddedUser: user.firstName }) 
+     }else{
+      res.json({ nameOfAddedUser: null}) 
+     }
+     
 
      /*
     if(!user === undefined || !user.length == 0){
