@@ -129,30 +129,12 @@ router.post("/login", async (req, res) => {
 
    */
   router.post("/findVessel", async (req, res) => {
-    //const user = await User.findById(req.user);
-    //const user = req.user;
-
-    //THIS WORKS VVVVVVVVVVVVVVVVVV
-    //res.json({ retInfo: req.body }) 
-
-    //res.json({ retInfo: req.body.user.user.email }) 
     const vessel = await Vessel.findById(req.body.user.user.associatedVessels[0]);
     if(vessel){
       res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users }) 
     }else{
       res.json({ retInfo: "null" }) 
     }
-    
-
-    //if(req.vessel){
-      //const vessel = await Vessel.findById(user.associatedVessels[0]);
-      // res.json({
-      //   vesselName: req.name
-      // });
-    //}else{
-     // res.send('invalid user')
-    //}
-
   });
 
   router.post("/addProjectMember", async (req, res) => {

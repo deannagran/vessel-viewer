@@ -6,57 +6,6 @@ import Axios from "axios";
 import Alert from 'react-bootstrap/Alert'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-//const AddProjectMembersComponent = (props) => {
-
-/* const [addMember, setAddMember] = useState({
-        visible: false,
-        id: null,
-    });
-    
-    const cancel = () => {
-    setAddMember({
-        visible: false,
-        id: null,
-    });
-    }
-
-    const showAdd = () => {
-    setAddMember({
-        visible: true,
-        id: null,
-    });
-    } */
-
-   // const [email, setEmail] = useState(null);
-
-   //WORKING HERE=================
- /*    const submit = () => { }
-    
-
-    export default () => (
-        <Popup trigger={<button class="register-button "> Add Project Member </button>} position="right center">
-          <div>Add a new user to this project via email address. ‏‏‎ ‎‏‏‎ ‎
-          ‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‎‎
-          <form class="ui form small fluid">
-              <div class="required field">
-                <input
-                  style={{ height: "35px" }}
-                  type="text"
-                  required
-                  placeholder="Email"
-                  //onChange={(e) => setEmail(e.target.value)}
-                ></input>
-              </div>
-              <button class="register-button " type="submit" onClick={submit}>
-                Submit
-              </button>
-            </form>
-
-          </div>
-        </Popup>
-      ); */
-
-
       const  AddProjectMembersComponent = () => {
         const [email, setEmail] = useState(null);
         const [addedUser, setAddedUser] = useState(null);
