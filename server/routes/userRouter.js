@@ -150,6 +150,20 @@ router.post("/login", async (req, res) => {
      if(user && user.length != 0){
       user.associatedVessels.push(req.body.vesselID);
 
+      //add user to associatedUsers attribute on this vessel object:
+      let vesselObject = {role: 'admin', userID: ''+user._id+''};
+
+      Vessel.updateOne(
+        { _id: req.body.vesselID },
+        { $push: {associated_users: vesselObject} },
+        function (error, success) {
+              if (error) {
+                res.json({ nameOfAddedUser: 'ERROR' })
+              }
+          });
+
+
+      //add vessel ID to associatedVessels attribute on user object:
       User.updateOne(
         { _id: user._id },
         { $push: {associatedVessels: ''+req.body.vesselID+''} },
@@ -158,6 +172,8 @@ router.post("/login", async (req, res) => {
                 res.json({ nameOfAddedUser: 'ERROR' })
               }
           });
+
+      
 
       res.json({ nameOfAddedUser: user.firstName }) 
      }else{
