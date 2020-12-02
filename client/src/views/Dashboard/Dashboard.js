@@ -5,8 +5,10 @@ import Axios from "axios";
 
 export default function Dashboard(props) {
   let associatedVessels = null;
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [vesselName, setVesselName] = useState(0);
+  const [vesselArray, setVesselArray] = useState([]);
+
   useEffect(() => {
     
     if (!userData.user) props.history.push("/login");
@@ -14,20 +16,32 @@ export default function Dashboard(props) {
     const findvessels = async () => {
       let token = localStorage.getItem("auth-token");
       associatedVessels = await Axios.post("http://localhost:5000/users/findVessel",
-      { user: userData, 
-        name: "null",
-        //headers: { "x-auth-token": token } 
+      { user: userData 
       }); 
 
     if(associatedVessels){
       console.log(associatedVessels.data);
     } 
     setVesselName(""+associatedVessels.data.retInfo);
+    vesselArray.push(""+associatedVessels.data.retInfo);
+    vesselArray.push(""+associatedVessels.data.retModelLink);
+    vesselArray.push(""+associatedVessels.data.retVFLink);
+    vesselArray.push(""+associatedVessels.data.retAssociatedUsers);
+
   }
     findvessels();
   });
   const history = useHistory();
-  const proj = () => history.push("/project");
+  const proj = () => {history.push("/project")
+    if(userData){
+      setUserData({
+        token: userData.user.token,
+        user: userData.user,
+        currVessel: vesselArray
+      });
+    }
+    setVesselArray([]);
+  };
  
   if(vesselName && vesselName != 'null'){
 
