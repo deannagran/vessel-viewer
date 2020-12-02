@@ -14,7 +14,7 @@ export default function ProjectPage(props) {
 
   return (
       <div>
-        <h1>{userData.currVessel}</h1>
+        <h1>{userData.currVessel[0]}</h1>
         <AddProjectMembersComponent></AddProjectMembersComponent>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>
