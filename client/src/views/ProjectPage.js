@@ -5,15 +5,16 @@ import VesselModelComponent from "./VesselModelComponent";
 import AddProjectMembersComponent from "./AddProjectMembersComponent";
 
 export default function ProjectPage(props) {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
   });
 
 
+
   return (
       <div>
-        <h1>Project Page</h1>
+        <h1>{userData.currVessel}</h1>
         <AddProjectMembersComponent></AddProjectMembersComponent>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>

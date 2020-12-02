@@ -20,7 +20,9 @@ export default function App() {
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
+    currVessel: undefined,
   });
+
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -41,6 +43,7 @@ export default function App() {
         setUserData({
           token,
           user: userRes.data,
+          currVessel: undefined
         });
       }
     };

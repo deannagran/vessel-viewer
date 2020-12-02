@@ -5,7 +5,7 @@ import Axios from "axios";
 
 export default function Dashboard(props) {
   let associatedVessels = null;
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [vesselName, setVesselName] = useState(0);
   useEffect(() => {
     
@@ -27,7 +27,15 @@ export default function Dashboard(props) {
     findvessels();
   });
   const history = useHistory();
-  const proj = () => history.push("/project");
+  const proj = () => {history.push("/project")
+    if(userData){
+      setUserData({
+        token: userData.user.token,
+        user: userData.user,
+        currVessel: vesselName
+      });
+    }
+  };
  
   if(vesselName && vesselName != 'null'){
 

@@ -60,7 +60,7 @@ export default class VesselFinderComponent extends Component {
               this.myRef = DOMNodeRef;
             }}
           >
-            display embedded scripts:
+            
             <div dangerouslySetInnerHTML={{ __html: '<iframe name="vesselfinder" id="vesselfinder" '
               + ' width="' + "100%" + '"'
               + ' height="' + "300" + '"'
