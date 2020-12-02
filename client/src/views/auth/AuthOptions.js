@@ -13,6 +13,7 @@ export default function AuthOptions() {
   const contact = () => history.push("/contact");
   const myAccount = () => history.push("/myAccount");
   const logout = () => {
+    history.push("/login");
     setUserData({
       token: undefined,
       user: undefined,

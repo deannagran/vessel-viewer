@@ -12,7 +12,7 @@ router.get("/test", (req, res) => {
 
 router.post("/register", async (req, res) => {
     try {
-        let { email, password, passwordCheck, firstName, lastName, companyName, associatedVessels } = req.body;
+        let { email, password, passwordCheck, firstName, lastName, companyName, associatedVessels, webMaster } = req.body;
 
         // validate
         if (!email || !password || !passwordCheck || !firstName || !lastName)
@@ -117,6 +117,7 @@ router.post("/login", async (req, res) => {
       companyName: user.companyName,
       lastName: user.lastName,
       id: user._id,
+      webMaster: user.webMaster,
       associatedVessels: user.associatedVessels
     });
   });

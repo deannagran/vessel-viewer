@@ -12,11 +12,13 @@ export default function WebMaster(props) {
     const { userData, setUserData } = useContext(UserContext);
     const [show, setShow] = useState(true);
 
-    /*useEffect(() => {
-      if (!userData.user.webMaster){
+    useEffect(() => {
+      if (!userData){
         props.history.push("/login");
+      }else if(userData.user && !userData.user.webMaster){
+        props.history.push("/dashboard");
       }
-    });*/
+    });
 
     const axiosAddUser = async (emailString, vesselString) => {
       let routeResponse = await Axios.post("http://localhost:5000/users/webMaster",
@@ -83,7 +85,7 @@ export default function WebMaster(props) {
       <br></br>
       <h2>Connect User with Vessel</h2>
         <form class="ui form small fluid">
-          <label for="exampleInputEmail1">Please enter the email address of the user you would like to add to this project. ‏‏‎ ‎</label>
+          <label for="exampleInputEmail1">Please enter the email address of the user you would like to add to a project. ‏‏‎ ‎</label>
           <div class="required field">
             <input
               style={{ height: "35px" }}
@@ -93,7 +95,7 @@ export default function WebMaster(props) {
               onChange={(e) => setEmail(e.target.value)}
             ></input>
           </div>
-          <label for="exampleInputEmail1">Please enter the vessel you would like to add to this user. ‏‏‎ ‎</label>
+          <label for="exampleInputEmail1">Please enter the name of the vessel you would like to connect with the user. ‏‏‎ ‎</label>
           <div class="required field">
             <input
               style={{ height: "35px" }}
