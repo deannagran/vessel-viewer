@@ -10,11 +10,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const [email, setEmail] = useState(null);
         const [addedUser, setAddedUser] = useState(null);
         const [open, setOpen] = useState(false);
+        const { userData, setUserData } = useContext(UserContext);
 
 
         const axiosAddUser = async (emailstring) => {
           let routeResponse = await Axios.post("http://localhost:5000/users/addProjectMember",
-          { email: emailstring
+          { email: emailstring,
+            vesselID: userData.currVessel[4]
           }); 
     
           if(routeResponse){

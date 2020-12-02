@@ -23,10 +23,12 @@ export default function Dashboard(props) {
       console.log(associatedVessels.data);
     } 
     setVesselName(""+associatedVessels.data.retInfo);
+    
     vesselArray.push(""+associatedVessels.data.retInfo);
     vesselArray.push(""+associatedVessels.data.retModelLink);
     vesselArray.push(""+associatedVessels.data.retVFLink);
     vesselArray.push(""+associatedVessels.data.retAssociatedUsers);
+    vesselArray.push(""+associatedVessels.data.retId);
 
   }
     findvessels();
