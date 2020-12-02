@@ -129,29 +129,52 @@ router.post("/login", async (req, res) => {
 
    */
   router.post("/findVessel", async (req, res) => {
-    //const user = await User.findById(req.user);
-    //const user = req.user;
-
-    //THIS WORKS VVVVVVVVVVVVVVVVVV
-    //res.json({ retInfo: req.body }) 
-
-    //res.json({ retInfo: req.body.user.user.email }) 
     const vessel = await Vessel.findById(req.body.user.user.associatedVessels[0]);
     if(vessel){
-      res.json({ retInfo: vessel.name }) 
+      res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users }) 
     }else{
       res.json({ retInfo: "null" }) 
     }
+  });
+
+  router.post("/addProjectMember", async (req, res) => {
+    //find the user in our db via email address
     
 
-    //if(req.vessel){
-      //const vessel = await Vessel.findById(user.associatedVessels[0]);
-      // res.json({
-      //   vesselName: req.name
-      // });
-    //}else{
-     // res.send('invalid user')
-    //}
+     //const user = await User.findOne({"email":req.param('email')});
+     //res.json({ nameOfAddedUser: user.firstName }) 
+
+
+     const user = await User.findOne({"email":req.body.email});
+
+     if(user && user.length != 0){
+      user.associatedVessels.push(req.body.vesselID);
+
+      User.updateOne(
+        { _id: user._id },
+        { $push: {associatedVessels: ''+req.body.vesselID+''} },
+        function (error, success) {
+              if (error) {
+                res.json({ nameOfAddedUser: 'ERROR' })
+              }
+          });
+
+      res.json({ nameOfAddedUser: user.firstName }) 
+     }else{
+      res.json({ nameOfAddedUser: null}) 
+     }
+     
+
+     /*
+    if(!user === undefined || !user.length == 0){
+
+      if(req.body.email != 'dgran@ufl.edu'){
+        res.json({ nameOfAddedUser: req.body.email }) 
+      }
+      //res.json({ nameOfAddedUser: user }) 
+    }else{
+      res.json({ nameOfAddedUser: 'hey' }) 
+    } */
 
   });
   

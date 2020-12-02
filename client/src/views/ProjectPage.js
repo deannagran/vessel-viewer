@@ -2,20 +2,36 @@ import React, { useEffect, useContext } from "react";
 import UserContext from "../context/UserContext";
 import VesselFinderComponent from "./VesselFinderComponent";
 import VesselModelComponent from "./VesselModelComponent";
+import AddProjectMembersComponent from "./AddProjectMembersComponent";
 
 export default function ProjectPage(props) {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   useEffect(() => {
-    if (!userData.user) props.history.push("/login");
+    if (!userData.user){
+      props.history.push("/login");
+    }
+
+    
   });
-  
+
+
+if(userData.currVessel){
   return (
       <div>
-        <h1>Project Page</h1>
+        <h1>{userData.currVessel[0]}</h1>
+        <AddProjectMembersComponent></AddProjectMembersComponent>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>
+
+        {/* <button onClick={showAdd} class="register-button">Add Project Member</button> */}
       </div>
-    
-        
     );
+  }else{
+    return (
+      <div>
+        <h1>Project Name</h1>
+        {/* <button onClick={showAdd} class="register-button">Add Project Member</button> */}
+      </div>
+    );
+  }
 }

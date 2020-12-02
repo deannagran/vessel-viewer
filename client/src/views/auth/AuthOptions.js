@@ -16,6 +16,7 @@ export default function AuthOptions() {
     setUserData({
       token: undefined,
       user: undefined,
+      currVessel: undefined
     });
     localStorage.setItem("auth-token", "");
   };
