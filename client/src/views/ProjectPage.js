@@ -19,7 +19,7 @@ if(userData.currVessel){
   return (
       <div>
         <h1>{userData.currVessel[0]}</h1>
-        <AddProjectMembersComponent></AddProjectMembersComponent>
+        <h2>{userData.currVessel[3]}</h2>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>
 
