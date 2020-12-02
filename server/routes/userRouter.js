@@ -146,7 +146,19 @@ router.post("/login", async (req, res) => {
 
 
      const user = await User.findOne({"email":req.body.email});
+
      if(user && user.length != 0){
+      user.associatedVessels.push(req.body.vesselID);
+
+      User.updateOne(
+        { _id: user._id },
+        { $push: {associatedVessels: ''+req.body.vesselID+''} },
+        function (error, success) {
+              if (error) {
+                res.json({ nameOfAddedUser: 'ERROR' })
+              }
+          });
+
       res.json({ nameOfAddedUser: user.firstName }) 
      }else{
       res.json({ nameOfAddedUser: null}) 
