@@ -12,6 +12,9 @@ export default function Dashboard(props) {
   useEffect(() => {
     
     if (!userData.user) props.history.push("/login");
+    else if(userData.user.webMaster){ 
+      props.history.push("/webMaster")
+    }
 
     const findvessels = async () => {
       let token = localStorage.getItem("auth-token");

@@ -42,6 +42,7 @@ router.post("/register", async (req, res) => {
             firstName,
             lastName,
             companyName,
+            webMaster: false,
             associatedVessels
         });
         const savedUser = await newUser.save();
@@ -79,6 +80,7 @@ router.post("/login", async (req, res) => {
           firstName: user.firstName,
           companyName: user.companyName,
           lastName: user.lastName,
+          webMaster: user.webMaster,
           associatedVessels: user.associatedVessels
         },
       });
@@ -177,5 +179,45 @@ router.post("/login", async (req, res) => {
     } */
 
   });
+  router.post("/webMaster", async (req, res) => {
+     const user = await User.findOne({"email":req.body.email});
+     const vessel = await Vessel.findOne({"name":req.body.vesselID});
+
+     if(user && user.length != 0){
+      user.associatedVessels.push(vessel._id);
+
+      User.updateOne(
+        { _id: user._id },
+        { $push: {associatedVessels: ''+vessel._id+''} },
+        function (error, success) {
+              if (error) {
+                res.json({ nameOfAddedUser: 'ERROR' })
+              }
+          });
+
+      res.json({ nameOfAddedUser: user.firstName }) 
+     }else{
+      res.json({ nameOfAddedUser: null}) 
+     }
+  });
+  router.post("/webMasterAddVessel", async (req, res) => {
+    try {
+      let { name, model_link, vesselfinder_link } = req.body;
+
+      // validate
+      if (!name || !model_link || !vesselfinder_link)
+          return res.status(400).json({ msg: "Not all required fields have been entered." });
+
+      const newVessel = new Vessel({
+          name,
+          model_link,
+          vesselfinder_link
+      });
+      const savedVessel = await newVessel.save();
+      res.json(savedVessel);
+  } catch (err) {
+      res.status(500).json({ error: err.message });
+  }
+ });
   
 module.exports = router;
