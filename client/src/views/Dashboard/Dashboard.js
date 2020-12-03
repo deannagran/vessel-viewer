@@ -15,6 +15,9 @@ export default function Dashboard(props) {
   useEffect(() => {
     // if user isnt logged in/has an invalid token, push them to login:
     if (!userData.user) props.history.push("/login");
+    else if(userData.user.webMaster){ 
+      props.history.push("/webMaster")
+    }
 
     //query the database to autopopulate dashboard with vessels
     const findvessels = async (index) => {
