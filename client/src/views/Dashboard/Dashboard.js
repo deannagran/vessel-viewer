@@ -44,9 +44,9 @@ export default function Dashboard(props) {
   const history = useHistory();
   const proj = (event) => {
     //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
-    history.push("/project")
+    
     const id = event.target.id;
-    let index = id;
+    let index = null;
     console.log(id);
 
     for(let i = 0; i<vesselArray.length; i++){
@@ -54,15 +54,19 @@ export default function Dashboard(props) {
         index = i;
         break;
       }
-  }
-    if(userData){
-      setUserData({
-        token: userData.user.token,
-        user: userData.user,
-        currVessel: vesselArray[index]
-      });
     }
-    setVesselArray([]);
+
+    if(index != null){
+      history.push("/project")
+      if(userData){
+        setUserData({
+          token: userData.user.token,
+          user: userData.user,
+          currVessel: vesselArray[index]
+        });
+      }
+      setVesselArray([]);
+    }
   };
 
   function refreshPage() {
