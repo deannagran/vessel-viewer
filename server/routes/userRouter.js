@@ -129,7 +129,7 @@ router.post("/login", async (req, res) => {
 
    */
   router.post("/findVessel", async (req, res) => {
-    const vessel = await Vessel.findById(req.body.user.user.associatedVessels[0]);
+    const vessel = await Vessel.findById(req.body.user.user.associatedVessels[req.body.i]);
     if(vessel){
       res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users }) 
     }else{
