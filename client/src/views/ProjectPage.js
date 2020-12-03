@@ -18,7 +18,7 @@ export default function ProjectPage(props) {
 if(userData.currVessel){
   return (
       <div>
-        <h1>{userData.currVessel[0]}</h1>
+        <h1>{userData.currVessel.name}</h1>
         <AddProjectMembersComponent></AddProjectMembersComponent>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>
