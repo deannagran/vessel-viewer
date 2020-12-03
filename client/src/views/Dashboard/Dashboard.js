@@ -65,9 +65,13 @@ export default function Dashboard(props) {
     setVesselArray([]);
   };
 
+  function refreshPage() {
+    setVesselName('');
+  }
+
   //conditionally render this bizzz
   //if(userData.user && vesselArray.length == userData.user.associatedVessels.length){
-  if(vesselArray.length > 0){
+  if(vesselArray.length > 0 && userData.user && vesselArray.length == userData.user.associatedVessels.length){
     let listOfVessels = vesselArray.map(vessel =>
       `<h3>${vessel.name}</h3><button id="${vessel.name}" onClick={proj} class="register-button ">View Project Page</button> <br>
       `
@@ -86,7 +90,24 @@ export default function Dashboard(props) {
       <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
       <h3>There are currently no vessels associated with this account. Please check back later.</h3>
       </div>);
+  }else if(userData.user && userData.user.associatedVessels.length !== 0){
+    return(
+      <div className="page"><h1>User Dashboard</h1>
+      <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
+      Hang tight! We're loading your vessels. <br></br>
+      
+      <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+      </div>
+      <br></br>
+      <button class="register-button " onClick={refreshPage}>Click to reload</button>
+      </div> 
+    );
   }else{
-    return(null);
+    return (
+      <div className="page"><h1>User Dashboard</h1>
+      <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
+      <h3>There are currently no vessels associated with this account. Please check back later.</h3>
+      </div>);
   }
 }
