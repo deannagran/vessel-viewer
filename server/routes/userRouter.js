@@ -206,16 +206,22 @@ router.post("/login", async (req, res) => {
       let { name, model_link, vesselfinder_link } = req.body;
 
       // validate
-      if (!name || !model_link || !vesselfinder_link)
+      if (!name || !model_link || !vesselfinder_link){
           return res.status(400).json({ msg: "Not all required fields have been entered." });
-
+      }
       const newVessel = new Vessel({
           name,
           model_link,
           vesselfinder_link
       });
-      const savedVessel = await newVessel.save();
-      res.json(savedVessel);
+      const vessel = await Vessel.findOne({"name":req.body.name});
+      if(!vessel){
+        const savedVessel = await newVessel.save();
+        res.json({vesselName: savedVessel.name});
+      }
+      else{
+        res.json({vesselName: null});
+      }
   } catch (err) {
       res.status(500).json({ error: err.message });
   }

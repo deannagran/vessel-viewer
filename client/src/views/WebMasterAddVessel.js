@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext, Component } from "react";
-import UserContext from "../context/UserContext";
+import React, { useState } from "react";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import Axios from "axios";
@@ -11,7 +10,8 @@ const WebMasterAddVessel = () => {
     const [modelLink, setModelLink] = useState(null);
     const [IMOnumber, setIMOnumber] = useState(null);
     const [open, setOpen] = useState(false);
-    const { userData, setUserData } = useContext(UserContext);
+    const [addedVessel, setAddedVessel] = useState(null);
+    const [show, setShow] = useState(true);
 
     const axiosAddUser = async (nameString, modelLinkString, IMOnumberString) => {
         let routeResponse = await Axios.post("http://localhost:5000/users/WebMasterAddVessel",
@@ -19,6 +19,45 @@ const WebMasterAddVessel = () => {
             model_link: modelLinkString,
             vesselfinder_link: IMOnumberString
         }); 
+        if(routeResponse){
+            if(routeResponse.data.vesselName){
+              setAddedVessel(routeResponse.data.vesselName);
+              console.log(routeResponse.data.vesselName + " has been added to the project.");
+              setShow(true);
+            }else{
+              setAddedVessel('invalid');
+              setShow(true);
+            }
+              
+          }else{
+            setAddedVessel('invalid');
+            setShow(true);
+          }
+    }
+    if(addedVessel && show){
+        const name = addedVessel;
+        const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
+        
+        if(addedVessel == 'invalid'){
+            //setAddedUser(null);
+            return (
+            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Sorry!</Alert.Heading>
+                <p>
+                The Vessel fail to be added to the project. There is a vessel with the same name
+                </p>
+            </Alert>
+            );
+        }else{
+            return (
+            <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                <Alert.Heading>Vessel successfully added to project!</Alert.Heading>
+                <p>
+                {nameCapitalized} has been added to the project.
+                </p>
+            </Alert>
+            );
+        }    
     }
     const submit = () => {
         if(name){
@@ -45,7 +84,7 @@ const WebMasterAddVessel = () => {
             
         <div className="modal">
             
-        Add a new user to this project via email address. ‏‏‎ ‎
+        Add a new vessel to this project via. ‏‏‎ ‎
         <br></br>
 
         </div>
