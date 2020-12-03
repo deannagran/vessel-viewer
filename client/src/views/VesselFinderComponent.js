@@ -27,7 +27,7 @@ const { userData } = useContext(UserContext);
               + '&amp;height=' + window.height
               + '&amp;names='+"false"
               + ((window.mmsi === undefined) ? '' : '&amp;mmsi=' + window.mmsi)
-              + ((window.imo === undefined) ? '&amp;imo='+(''+userData.currVessel[2]) : '&amp;imo=' + (''+userData.currVessel[2] +'') ) //EDIT THE IMO HERE TO TRACK A SPECIFIC SHIP!!!!!
+              + ((window.imo === undefined) ? '&amp;imo='+(''+userData.currVessel.VFlink) : '&amp;imo=' + (''+userData.currVessel.VFlink +'') ) //EDIT THE IMO HERE TO TRACK A SPECIFIC SHIP!!!!!
               + '&amp;track=' + "true"
               + ((window.fleet === undefined) ? '&amp;fleet=false' : '&amp;fleet='+window.fleet)
               + ((window.fleet_name === undefined) ? '&amp;fleet_name=false' : '&amp;fleet_name='+window.fleet_name)

@@ -16,7 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const axiosAddUser = async (emailstring) => {
           let routeResponse = await Axios.post("http://localhost:5000/users/addProjectMember",
           { email: emailstring,
-            vesselID: userData.currVessel[4]
+            vesselID: userData.currVessel.id
           }); 
     
           if(routeResponse){

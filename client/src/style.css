@@ -38,6 +38,7 @@ ol,
 li {
   margin-top: 1em;
   margin-bottom: 1em;
+  font-family: "Roboto", sans-serif;
 }
 
 /* general */
@@ -88,6 +89,7 @@ body {
 
 .page {
   padding: 1rem;
+  font-family: "Roboto", sans-serif;
 }
 .acc-header{
   margin-top: 10%;
@@ -95,17 +97,20 @@ body {
   padding: 2%;
   justify-content: left;
   align-content: left;
+  font-family: "Roboto", sans-serif;
 }
 .accountlabel {
-  background-color: turquoise;
+  background-color: #00325c;
   border-radius: 10px;
+  color:#FFFFFF;
+  font-family: 'Michroma', sans-serif;
   width: fit-content;
 }
 .account-page-info{
   height: fit-content;
-  width: 25%;
-  border: 2px solid black;
- 
+  width: 50%;
+  border: 2px solid white;
+
   background-color: white;
 }
 .account-name{
@@ -168,6 +173,43 @@ img{
   max-width: 900px;
 }
 
+
+
+/* Contact page */
+.contactlabel {
+  padding-right: 0px;
+  font-size: 20px;
+  
+
+}
+.contactinput{
+  display: flex;
+  width: 50%;
+  height: 25px;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+  
+}
+.contactinput-message{
+  display: flex;
+  width: 50%;
+  height: 50px;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+
+}
+.contactbutton{
+  margin-left: 20%;
+  margin-top: 5%;
+  background-color: #00325c;
+  color: white;
+  padding: .5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1.0rem
+}
 /* header */
 
 #header {
@@ -176,6 +218,7 @@ img{
   justify-content: space-between;
   align-items: center;
   background-color: #00111e;
+  font-family: "Roboto", sans-serif;
 }
 #header .title {
   margin: 0;
@@ -228,8 +271,9 @@ img{
 .form input[type="submit"] {
   padding: 0.3rem 0.5rem;
   border: 1px solid #8ca7be;
+  color: white;
   border-radius: 8px;
-  background-color: #8ca7be;
+  background-color:#00325c;
   font-size: 1.1rem;
 }
 
@@ -276,3 +320,6 @@ img{
     font-size: 0.9rem;
   }
 }
+
+
+
