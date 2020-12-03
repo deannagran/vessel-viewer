@@ -89,6 +89,7 @@ const WebMasterAddVessel = () => {
 
         </div>
         <form class="ui form small fluid">
+        <h2>Add New Vessel</h2>
             <label for="exampleInputEmail1">Please enter the name of the vessel you would like to add. ‏‏‎ ‎</label>
             <div class="required field">
                 <input
