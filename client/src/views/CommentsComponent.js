@@ -51,19 +51,16 @@ export default function Comments(props) {
 				          Etiam a sapien odio, sit amet
 				      </p>
 				  </div>
-
 				</li>
+                <div class="form-group">
+                <label for="comment"></label>
+                <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                </div>
+                <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
 				</ul>
 			</div>
 		</div>
 	</div>
-    <form id="contact-form" /*onSubmit={handleSubmit.bind(this)} method="POST"*/>
-    <div className="contactlabel">
-        <label htmlFor="message">Leave a Comment</label>
-        <textarea className="contactinput-message" rows="5"></textarea>
-    </div>
-    <button type="submit" className="contactbutton">Submit</button>
-    </form> 
 </div>
 
   );
