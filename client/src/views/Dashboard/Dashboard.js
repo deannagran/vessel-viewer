@@ -91,9 +91,11 @@ export default function Dashboard(props) {
       <h3>There are currently no vessels associated with this account. Please check back later.</h3>
       </div>);
   }else if(userData.user && userData.user.associatedVessels.length !== 0){
+    setTimeout(function() { refreshPage(); }, 1000);
     return(
       <div className="page"><h1>User Dashboard</h1>
       <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
+
       Hang tight! We're loading your vessels. <br></br>
       
       <div class="spinner-border text-primary" role="status">
