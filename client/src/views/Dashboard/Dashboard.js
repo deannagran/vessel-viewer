@@ -36,24 +36,25 @@ export default function Dashboard(props) {
     //add to array of all associated vessels:
     for(let i = 0; i < userData.user.associatedVessels.length; i++){
       findvessels(i);
+      //setVesselName("");
     }
   }
   });
 
   const history = useHistory();
-  const proj = (event) => {history.push("/project")
+  const proj = (event) => {
+    //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
+    history.push("/project")
+    const id = event.target.id;
+    let index = id;
+    console.log(id);
 
-  const id = event.target.id;
-  let index = id;
-  console.log(id);
-
-  for(let i = 0; i<vesselArray.length; i++){
-    if(vesselArray[i].name == id){
-      index = i;
-      break;
-    }
+    for(let i = 0; i<vesselArray.length; i++){
+      if(vesselArray[i].name == id){
+        index = i;
+        break;
+      }
   }
-
     if(userData){
       setUserData({
         token: userData.user.token,
@@ -65,7 +66,8 @@ export default function Dashboard(props) {
   };
 
   //conditionally render this bizzz
-  if(vesselName){
+  //if(userData.user && vesselArray.length == userData.user.associatedVessels.length){
+  if(vesselArray.length > 0){
     let listOfVessels = vesselArray.map(vessel =>
       `<h3>${vessel.name}</h3><button id="${vessel.name}" onClick={proj} class="register-button ">View Project Page</button> <br>
       `
@@ -78,15 +80,13 @@ export default function Dashboard(props) {
         <div className="content" onClick={proj} dangerouslySetInnerHTML={{__html: listOfVessels}}></div>
       </table>
     </div>);
-
-  
-  }else{
+  }else if(userData.user && userData.user.associatedVessels.length == 0){
     return (
       <div className="page"><h1>User Dashboard</h1>
       <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
       <h3>There are currently no vessels associated with this account. Please check back later.</h3>
       </div>);
-
-
+  }else{
+    return(null);
   }
 }
