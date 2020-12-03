@@ -2,6 +2,9 @@ import React, { useEffect, useContext, useState } from "react";
 import UserContext from "../../context/UserContext";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Dashboard(props) {
   let associatedVessels = null;
@@ -77,7 +80,16 @@ export default function Dashboard(props) {
   //if(userData.user && vesselArray.length == userData.user.associatedVessels.length){
   if(vesselArray.length > 0 && userData.user && vesselArray.length == userData.user.associatedVessels.length){
     let listOfVessels = vesselArray.map(vessel =>
-      `<h3>${vessel.name}</h3><button id="${vessel.name}" onClick={proj} class="register-button ">View Project Page</button> <br>
+      `<div class="card bg-light mb-3" style="width: 18rem">
+      <img class="card-img-top" src="" alt="Card image">
+      <div class="card-body">
+      <h3 class="card-title">${vessel.name}</h3>
+      <button id="${vessel.name}" onClick={proj} class="register-button ">View Project Page</button> 
+      <br>
+      </div>
+      </div>
+      <br>
+       
       `
     ).join('');
 
@@ -85,7 +97,7 @@ export default function Dashboard(props) {
     <div className="page"><h1>User Dashboard</h1>
     <h2>Welcome to your Dashboard! <br></br> Here you can view any Digital Twin Marine projects associated with your account.</h2>
       <table border = "0" cellPadding = "25" cellSpacing = "10"> 
-        <div className="content" onClick={proj} dangerouslySetInnerHTML={{__html: listOfVessels}}></div>
+        <div  onClick={proj} dangerouslySetInnerHTML={{__html: listOfVessels}}></div>
       </table>
     </div>);
   }else if(userData.user && userData.user.associatedVessels.length == 0){
