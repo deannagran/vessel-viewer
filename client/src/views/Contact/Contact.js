@@ -7,7 +7,11 @@ export default function Contact(props) {
     if (!userData.user) props.history.push("/login");
   });
   if (userData.user){
-    var cname = userData.user.firstName + userData.user.lastName;
+    const fname = userData.user.firstName;
+    const lname = userData.user.lastName;
+    const fnameCapitalized = fname.charAt(0).toUpperCase() + fname.slice(1);
+    const lnameCapitalized = lname.charAt(0).toUpperCase() + lname.slice(1);
+    var cname = fnameCapitalized + ' ' + lnameCapitalized;
   } else {
     var cname = "";
   }
