@@ -38,6 +38,7 @@ ol,
 li {
   margin-top: 1em;
   margin-bottom: 1em;
+  font-family: "Roboto", sans-serif;
 }
 
 /* general */
@@ -97,15 +98,17 @@ body {
   align-content: left;
 }
 .accountlabel {
-  background-color: turquoise;
+  background-color: #00325c;
   border-radius: 10px;
+  color:#FFFFFF;
+  font-family: 'Michroma', sans-serif;
   width: fit-content;
 }
 .account-page-info{
   height: fit-content;
-  width: 25%;
-  border: 2px solid black;
- 
+  width: 50%;
+  border: 2px solid white;
+
   background-color: white;
 }
 .account-name{
@@ -176,6 +179,7 @@ img{
   justify-content: space-between;
   align-items: center;
   background-color: #00111e;
+  font-family: "Roboto", sans-serif;
 }
 #header .title {
   margin: 0;
