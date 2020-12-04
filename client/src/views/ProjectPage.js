@@ -49,7 +49,6 @@ if(userData.currVessel){
   return (
       <div>
         <h1>{userData.currVessel.name}</h1>
-          <h2></h2>
         <AddProjectMembersComponent></AddProjectMembersComponent>
         <VesselModelComponent></VesselModelComponent>
         <VesselFinderComponent></VesselFinderComponent>
