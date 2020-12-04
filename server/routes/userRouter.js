@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const JWT_SECRET = require('../config/config').jwt.JWT_SECRET;
 const Vessel = require("../models/vesselModel");
+const sendMail = require("../mail/sendmail");
 
 router.get("/test", (req, res) => {
     res.send("Test working!");
@@ -47,6 +48,7 @@ router.post("/register", async (req, res) => {
         });
         const savedUser = await newUser.save();
         res.json(savedUser);
+        sendMail();
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
