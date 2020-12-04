@@ -1,22 +1,58 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../context/UserContext";
+import Axios from "axios";
 
 export default function Comments(props) {
   const { userData } = useContext(UserContext);
+  const [commentsArray, setCommentsArray] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
-  });
-  if (userData.user){
-    const fname = userData.user.firstName;
-    const lname = userData.user.lastName;
-    const fnameCapitalized = fname.charAt(0).toUpperCase() + fname.slice(1);
-    const lnameCapitalized = lname.charAt(0).toUpperCase() + lname.slice(1);
-    var cname = fnameCapitalized + ' ' + lnameCapitalized;
-  } else {
-    var cname = "";
-  }
-  if (userData.user){
 
+    //query the database to autopopulate dashboard with vessels
+    const findComments = async (index) => {
+        let associatedComments = await Axios.post("http://localhost:5000/users/getComment",
+        { vesselID: userData.currVessel.id,
+          i: index
+        }); 
+      
+        if(associatedComments){
+            console.log(associatedComments.data);
+            
+            
+            let commentObject = ({poster: ""+associatedComments.data.poster, date:""+associatedComments.data.postedDate, comment: ""+associatedComments.data.comment} );
+        
+            commentsArray.push(commentObject); 
+        }else{
+            console.log("didnt work");
+        }
+    }
+
+
+
+/*     let numComments = 0;
+    if(userData.user && userData.user.currVessel){
+        numComments = userData.user.currVessel.numComments;
+        console.log("finding " + userData.user.currVessel.numComments + " comments..." )
+    }else{
+        setTimeout(function() { refreshPage(); }, 3000);
+
+    } */
+
+    if(userData.user && userData.currVessel && commentsArray.length === 0){
+        //add to array of all associated comments:
+        for(let i = 0; i < userData.currVessel.numComments; i++){
+            findComments(i);
+            console.log("finding " + userData.currVessel.numComments + " comments..." )
+        }
+      }
+}); 
+function refreshPage() {
+    setRefresh(true);
+}
+
+  if (userData.user){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -24,47 +60,120 @@ export default function Comments(props) {
 
     today = mm + '/' + dd + '/' + yyyy;
 
-  return (
-    <div class="container bootstrap snippets bootdey">
-    <div class="row">
-		<div class="col-md-12">
-		    <div class="blog-comment">
-				<h3 class="text-success">Comments</h3>
-                <hr/>
-				<ul class="comments">
-				<li class="clearfix">
-				  <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
-				  <div class="post-comments">
-				      <p class="meta">{today}<a href="#">    JohnDoe</a> says: <i class="pull-right"></i></p>
-				      <p>
-				          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				          Etiam a sapien odio, sit amet
-				      </p>
-				  </div>
-				</li>
-				<li class="clearfix">
-				  <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
-				  <div class="post-comments">
-				      <p class="meta">{today}<a href="#">    JohnDoe</a> says: <i class="pull-right"></i></p>
-				      <p>
-				          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				          Etiam a sapien odio, sit amet
-				      </p>
-				  </div>
-				</li>
-                <div class="form-group">
-                <label for="comment"></label>
-                <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
-                </div>
-                <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
+    let listOfComments = commentsArray.map(comment =>
+        `<li class="clearfix">
+        <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
+        <div class="post-comments">
+            <p class="meta">${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button></i></p>
+            <p>
+                ${comment.comment}
+            </p>
+        </div>
+      </li>
+        `
+      ).join('');
 
-  );
-  } else{
-    return (null);
-  }
+    if(commentsArray.length > 0){
+        return (
+            <div class="container bootstrap snippets bootdey">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="blog-comment">
+                        <h3 class="text-success">Comments</h3>
+                        <hr/>
+                        <ul class="comments">
+                        <li class="clearfix">
+                          <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
+                          <div class="post-comments">
+                              <p class="meta"> {today} <a href="#">    Digital Twin Marine</a> says: <i class="pull-right"></i></p>
+                              <p>
+                                  Welcome to your project page! Here you can leave comments regarding your vessel and Digital Twin Marine will be notified.
+                              </p>
+                          </div>
+                        </li>
+                        <div dangerouslySetInnerHTML={{__html: listOfComments}}></div>
+                        <div class="form-group">
+                        <label for="comment"></label>
+                        <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                        <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        );
+    }else if(userData.currVessel.numComments > 0){
+        //finish loading comments
+        setTimeout(function() { refreshPage(); }, 1000);
+        return(      
+            <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+            </div>
+        );
+    }else{
+        return (
+            <div class="container bootstrap snippets bootdey">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="blog-comment">
+                        <h3 class="text-success">Comments</h3>
+                        <hr/>
+                        <ul class="comments">
+                        <li class="clearfix">
+                          <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
+                          <div class="post-comments">
+                              <p class="meta"> {today} <a href="#">    Digital Twin Marine</a> says: <i class="pull-right"></i></p>
+                              <p>
+                                  Welcome to your project page! Here you can leave comments regarding your vessel and Digital Twin Marine will be notified.
+                              </p>
+                          </div>
+                        </li>
+                        <div class="form-group">
+                        <label for="comment"></label>
+                        <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                        <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        );
+    }
+    } else{
+        /* return (
+            <div class="container bootstrap snippets bootdey">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="blog-comment">
+                        <h3 class="text-success">Comments</h3>
+                        <hr/>
+                        <ul class="comments">
+                        <li class="clearfix">
+                          <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
+                          <div class="post-comments">
+                              <p class="meta">12/3/2020<a href="#">    Digital Twin Marine</a> says: <i class="pull-right"></i></p>
+                              <p>
+                                  Welcome to your project page! Here you can leave comments regarding your vessel and Digital Twin Marine will be notified.
+                              </p>
+                          </div>
+                        </li>
+                        <div class="form-group">
+                        <label for="comment"></label>
+                        <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+                        <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        ); */
+        return(null);
+    }
 }

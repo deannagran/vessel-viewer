@@ -131,9 +131,31 @@ router.post("/login", async (req, res) => {
   router.post("/findVessel", async (req, res) => {
     const vessel = await Vessel.findById(req.body.user.user.associatedVessels[req.body.i]);
     if(vessel){
-      res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users }) 
+      res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users, retNumComments: vessel.comments.length }) 
     }else{
       res.json({ retInfo: "null" }) 
+    }
+  });
+
+  router.post("/getComment", async (req, res) => {
+    //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+    const vessel = await Vessel.findById(req.body.vesselID);
+    if(vessel){
+      //get name of the comment's original poster
+      const user = await User.findById(vessel.comments[req.body.i].posterID);
+      if(user){
+        const fname = user.firstName;
+        const lname = user.lastName;
+        const fnameCapitalized = fname.charAt(0).toUpperCase() + fname.slice(1);
+        const lnameCapitalized = lname.charAt(0).toUpperCase() + lname.slice(1);
+  
+        let fullname = fnameCapitalized + " " + lnameCapitalized;
+        res.json({ poster: fullname, comment: vessel.comments[req.body.i].content, postedDate: vessel.comments[req.body.i].date}) 
+      }else{
+        res.json({ poster: "null", comment: "null", date: "null"}) 
+      }
+    }else{
+      res.json({ poster: "null", comment: "null", date: "null"}) 
     }
   });
 

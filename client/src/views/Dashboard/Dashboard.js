@@ -29,7 +29,7 @@ export default function Dashboard(props) {
       setVesselName(""+associatedVessels.data.retInfo);
     
       let vesselObject = ({name: ""+associatedVessels.data.retInfo, modelLink:""+associatedVessels.data.retModelLink, 
-        VFlink: ""+associatedVessels.data.retVFLink, associatedUsers:associatedVessels.data.retAssociatedUsers, id: ""+associatedVessels.data.retId } );
+        VFlink: ""+associatedVessels.data.retVFLink, associatedUsers:associatedVessels.data.retAssociatedUsers, id: ""+associatedVessels.data.retId, numComments: ""+associatedVessels.data.retNumComments} );
 
       vesselArray.push(vesselObject); 
     }
