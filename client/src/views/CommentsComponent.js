@@ -3,14 +3,14 @@ import UserContext from "../context/UserContext";
 import Axios from "axios";
 
 export default function Comments(props) {
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const [commentsArray, setCommentsArray] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [commentText, setCommentText] = useState("");
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
 
-    //query the database to autopopulate dashboard with vessels
+    //query the database to autopopulate component with comments related to this vessel
     const findComments = async (index) => {
         let associatedComments = await Axios.post("http://localhost:5000/users/getComment",
         { vesselID: userData.currVessel.id,
@@ -18,27 +18,13 @@ export default function Comments(props) {
         }); 
       
         if(associatedComments){
-            console.log(associatedComments.data);
-            
-            
+            console.log("got: " + associatedComments.data.comment);
             let commentObject = ({poster: ""+associatedComments.data.poster, date:""+associatedComments.data.postedDate, comment: ""+associatedComments.data.comment} );
-        
             commentsArray.push(commentObject); 
         }else{
             console.log("didnt work");
         }
     }
-
-
-
-/*     let numComments = 0;
-    if(userData.user && userData.user.currVessel){
-        numComments = userData.user.currVessel.numComments;
-        console.log("finding " + userData.user.currVessel.numComments + " comments..." )
-    }else{
-        setTimeout(function() { refreshPage(); }, 3000);
-
-    } */
 
     if(userData.user && userData.currVessel && commentsArray.length === 0){
         //add to array of all associated comments:
@@ -47,10 +33,16 @@ export default function Comments(props) {
             console.log("finding " + userData.currVessel.numComments + " comments..." )
         }
       }
-}); 
-function refreshPage() {
-    setRefresh(true);
-}
+    }); 
+
+    //use this function to force refresh component when a new comment is posted:
+    function refreshPage() {
+        if(refresh){
+            setRefresh(false);
+        }else{
+            setRefresh(true);
+        }
+    }
 
 const postCommentToDatabase = async (content) => {
     var today = new Date();
@@ -68,6 +60,17 @@ const postCommentToDatabase = async (content) => {
 
     if(postCommentResponse){
         console.log("posted!");
+        let updatedVessel = userData.currVessel;
+        updatedVessel.numComments = parseInt(userData.currVessel.numComments, 10)+1;
+        if(userData){
+            setUserData({
+              token: userData.user.token,
+              user: userData.user,
+              currVessel: updatedVessel
+            });
+            
+        }
+        setCommentsArray([]);
     }
 }
 
