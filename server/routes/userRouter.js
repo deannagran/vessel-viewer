@@ -137,6 +137,16 @@ router.post("/login", async (req, res) => {
     }
   });
 
+    router.post("/getMember", async (req, res) => {
+        const member = await User.findById(req.body.user.currVessel.associatedUsers[req.body.i].userID);
+        const role = await req.body.user.currVessel.associatedUsers[req.body.i].role;
+        if(member){
+            res.json({ retFName: member.firstName, retLName: member.lastName, retRole: role })
+        }else{
+            res.json({ retFName: "null" })
+        }
+    });
+
   router.post("/addProjectMember", async (req, res) => {
     //find the user in our db via email address
     
