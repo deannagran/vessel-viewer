@@ -6,7 +6,7 @@ export default function Comments(props) {
   const { userData } = useContext(UserContext);
   const [commentsArray, setCommentsArray] = useState([]);
   const [refresh, setRefresh] = useState(false);
-
+  const [commentText, setCommentText] = useState("");
   useEffect(() => {
     if (!userData.user) props.history.push("/login");
 
@@ -52,6 +52,50 @@ function refreshPage() {
     setRefresh(true);
 }
 
+const postCommentToDatabase = async (content) => {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+    let postCommentResponse = await Axios.post("http://localhost:5000/users/postComment",
+    { vesselID: userData.currVessel.id,
+      posterID: userData.user.id,
+      date: today,
+      content: content
+    });
+
+    if(postCommentResponse){
+        console.log("posted!");
+    }
+}
+
+const del = (event) => {
+    //delete the comment that the user clicked on:
+    event.preventDefault();
+    const id = event.target.id;
+    let index = null;
+    console.log("clicked: " + event.target.id); //the comment id is just the comment content itself
+
+    for(let i = 0; i<commentsArray.length; i++){
+        if(commentsArray[i].comment == id){
+          index = i;
+          break;
+        }
+    }
+
+    if(index != null){
+        //delete at this index in comment array!
+        console.log("hey");
+    }
+}
+
+const postComment = () => {
+    console.log("posting " + commentText);
+    postCommentToDatabase(commentText);
+}
+
   if (userData.user){
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -64,7 +108,7 @@ function refreshPage() {
         `<li class="clearfix">
         <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
         <div class="post-comments">
-            <p class="meta">${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button type="button" class="close" aria-label="Close">
+            <p class="meta" id="${comment.comment}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button></i></p>
             <p>
@@ -93,12 +137,14 @@ function refreshPage() {
                               </p>
                           </div>
                         </li>
-                        <div dangerouslySetInnerHTML={{__html: listOfComments}}></div>
+                        <div onClick={del} dangerouslySetInnerHTML={{__html: listOfComments}}></div>
                         <div class="form-group">
+                        
                         <label for="comment"></label>
-                        <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        <textarea onChange={(e) => setCommentText(e.target.value)} placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        <div class="float-right"><button onClick={postComment} class="btn btn-primary" type="submit">Post Comment</button></div>
                         </div>
-                        <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
+                        
                         </ul>
                     </div>
                 </div>

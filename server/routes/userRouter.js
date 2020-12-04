@@ -162,6 +162,27 @@ router.post("/login", async (req, res) => {
     }
   });
 
+  router.post("/postComment", async (req, res) => {
+    //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+    const vessel = await Vessel.findById(req.body.vesselID);
+    if(vessel){
+      let commentObject = ({posterID: req.body.posterID, content: req.body.content,date: req.body.date });
+      Vessel.updateOne(
+        { _id: vessel._id },
+        { $push: {comments: commentObject} },
+        function (error, success) {
+              if (error) {
+                res.json({ commentPosted: false })
+              }
+        });
+
+        res.json({ commentPosted: true}) 
+
+    }else{
+      res.json({ commentPosted: false })
+    }
+  });
+
   router.post("/addProjectMember", async (req, res) => {
     //find the user in our db via email address
     
