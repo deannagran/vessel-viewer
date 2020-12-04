@@ -102,8 +102,11 @@ const del = (event) => {
     //delete the comment that the user clicked on:
     event.preventDefault();
     const date = event.target.id;
-    console.log("clicked: " + event.target.id); //the comment id is just the comment content itself
-    deleteCommentFromDB(date);
+    if(date){
+        console.log("clicked: " + event.target.id); //the comment id is just the comment content itself
+        deleteCommentFromDB(date);
+    }
+    
 }
 
 const postComment = () => {
@@ -124,7 +127,7 @@ const postComment = () => {
         `<li class="clearfix">
         <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
         <div class="post-comments">
-            <p class="meta" id="${comment.date}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right">
+            <p class="meta" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right">
             <button id="${comment.date}" >×</button></i>
             <p>
                 ${comment.comment}
