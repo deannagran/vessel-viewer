@@ -183,6 +183,32 @@ router.post("/login", async (req, res) => {
     }
   });
 
+  router.post("/deleteComment", async (req, res) => {
+    //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+    const vessel = await Vessel.findById(req.body.vesselID);
+    if(vessel){
+
+      for(let i = 0; i<vessel.comments.length; i++){
+        if(vessel.comments[i].date == req.body.date){
+
+          Vessel.update(
+            { _id: vessel._id },
+            { $pull: { 'comments': { date: req.body.date } } },
+            function (error, success) {
+              if (error) {
+                res.json({ commentDeleted: false })
+              }
+          }
+          );
+          break;
+        }
+      }
+      res.json({ commentDeleted: true })
+    }else{
+      res.json({ commentDeleted: false })
+    }
+  });
+
   router.post("/addProjectMember", async (req, res) => {
     //find the user in our db via email address
     

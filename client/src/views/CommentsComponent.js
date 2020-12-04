@@ -51,6 +51,8 @@ const postCommentToDatabase = async (content) => {
     var yyyy = today.getFullYear();
 
     today = mm + '/' + dd + '/' + yyyy;
+    today = new Date().toLocaleString();
+
     let postCommentResponse = await Axios.post("http://localhost:5000/users/postComment",
     { vesselID: userData.currVessel.id,
       posterID: userData.user.id,
@@ -74,24 +76,34 @@ const postCommentToDatabase = async (content) => {
     }
 }
 
+const deleteCommentFromDB = async (date) => {
+
+    let delCommentResponse = await Axios.post("http://localhost:5000/users/deleteComment",
+    { vesselID: userData.currVessel.id,
+      date: date
+    });
+    if(delCommentResponse){
+        console.log("deleted!");
+        let updatedVessel = userData.currVessel;
+        updatedVessel.numComments = parseInt(userData.currVessel.numComments, 10)-1;
+        if(userData){
+            setUserData({
+              token: userData.user.token,
+              user: userData.user,
+              currVessel: updatedVessel
+            });
+            
+        }
+        setCommentsArray([]);
+    }
+}
+
 const del = (event) => {
     //delete the comment that the user clicked on:
     event.preventDefault();
-    const id = event.target.id;
-    let index = null;
+    const date = event.target.id;
     console.log("clicked: " + event.target.id); //the comment id is just the comment content itself
-
-    for(let i = 0; i<commentsArray.length; i++){
-        if(commentsArray[i].comment == id){
-          index = i;
-          break;
-        }
-    }
-
-    if(index != null){
-        //delete at this index in comment array!
-        console.log("hey");
-    }
+    deleteCommentFromDB(date);
 }
 
 const postComment = () => {
@@ -106,12 +118,13 @@ const postComment = () => {
     var yyyy = today.getFullYear();
 
     today = mm + '/' + dd + '/' + yyyy;
+    today = new Date().toLocaleString();
 
     let listOfComments = commentsArray.map(comment =>
         `<li class="clearfix">
         <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
         <div class="post-comments">
-            <p class="meta" id="${comment.comment}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button class="close" aria-label="Close">
+            <p class="meta" id="${comment.date}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button class="close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button></i></p>
             <p>
