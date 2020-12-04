@@ -9,3 +9,13 @@ const port = process.env.PORT || 5000;
 const app = express.init()
 
 app.listen(port, () => console.log(`Server now running on port ${port}!`));
+
+app.get("/sendContact", (req, res) => {
+      /*  console.log('data: ',req.body);
+        res.json(
+            {message: 'Message received!!!'}
+          )*/
+     //    sendMail();
+         // res.send("Email sent!");
+         console.log("test!!!!!!!!!!!!!!!")
+      });
