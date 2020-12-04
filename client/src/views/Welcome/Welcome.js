@@ -5,7 +5,14 @@ import { useHistory } from "react-router-dom";
 export default function Welcome(props){
       const { userData } = useContext(UserContext);
       useEffect(() => {
-        if (userData.user) props.history.push("/dashboard");
+        if (userData.user){
+            if(userData.user.webMaster){ 
+                  props.history.push("/webMaster");
+            }
+            else{
+                  props.history.push("/dashboard");
+            }
+        }
       });
 
       const history = useHistory();
