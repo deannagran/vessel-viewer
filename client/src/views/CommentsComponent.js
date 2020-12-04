@@ -124,9 +124,8 @@ const postComment = () => {
         `<li class="clearfix">
         <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
         <div class="post-comments">
-            <p class="meta" id="${comment.date}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right"><button class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button></i></p>
+            <p class="meta" id="${comment.date}" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right">
+            <button id="${comment.date}" >×</button></i>
             <p>
                 ${comment.comment}
             </p>
@@ -194,10 +193,12 @@ const postComment = () => {
                           </div>
                         </li>
                         <div class="form-group">
+                        
                         <label for="comment"></label>
-                        <textarea placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        <textarea onChange={(e) => setCommentText(e.target.value)} placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
+                        <div class="float-right"><button onClick={postComment} class="btn btn-primary" type="submit">Post Comment</button></div>
                         </div>
-                        <div class="float-right"><button class="btn btn-primary" type="submit">Post Comment</button></div>
+                        
                         </ul>
                         
                     </div>
