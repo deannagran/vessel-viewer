@@ -145,13 +145,31 @@ router.post("/findVessel", async (req, res) => {
 
 
 router.post("/getMember", async (req, res) => {
-  const member = await User.findById(req.body.user.currVessel.associatedUsers[req.body.i].userID);
+  const memberID = req.body.user.currVessel.associatedUsers[req.body.i].userID;
+  const member = await User.findById(memberID);
   const role = await req.body.user.currVessel.associatedUsers[req.body.i].role;
   if(member){
-      res.json({ retFName: member.firstName, retLName: member.lastName, retRole: role })
+      res.json({ retMemberID: memberID, retFName: member.firstName, retLName: member.lastName, retRole: role })
   }else{
       res.json({ retFName: "null" })
   }
+});
+
+router.post("/updateMemberRole", async (req,res)=>{
+  //Using currVessel.associatedMembers[i]
+  //add user to associatedUsers attribute on this vessel object
+  Vessel.updateOne(
+      { _id: req.body.vesselID },
+      { $set: { "associated_users.$[req.body.memberID]":  req.body.role} },
+      function (error, success) {
+        if (error) {
+          res.json({ retNewRole: 'ERROR' })
+        }
+        if(success){
+          res.json({retNewRole: req.body.role})
+        }
+      });
+
 });
 
 router.post("/addProjectMember", async (req, res) => {
