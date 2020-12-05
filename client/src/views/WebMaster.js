@@ -25,45 +25,6 @@ export default function WebMaster(props) {
       <br></br>
       <WebMasterConnect></WebMasterConnect>
       <WebMasterList></WebMasterList>
-      <main style={{ marginTop: "50px" }} className="main">
-            <div class="ui two column grid">
-            <div class="row">
-            <div
-                style={{ width: "55%" }}
-                class="table-responsive"
-                className="tableWrapper"
-              >
-                <table class="ui stackable single line fixed striped selectable table padded ">
-                  <thead>
-                    <tr>
-                      <th>Vessels</th>
-                      <th class="four wide" colspan="2">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  
-                </table>
-              </div>
-
-              <div
-                style={{ width: "35%", marginLeft: "50px", marginTop: "-20px" }}
-                class="six wide column"
-              >
-                <div>
-                  
-                </div>
-              </div>
-
-            </div>
-              <div class="row">
-              <div class="column">
-              </div>
-              <div class="column">
-              </div>
-              </div>
-            </div>
-          </main>
       </div>
     );
 };

@@ -254,5 +254,24 @@ router.post("/login", async (req, res) => {
   else
   res.status(500).json({ error: err.message });
 
-});
+ });
+ router.post("/webMasterListDelete", async (req, res) => {
+  try {
+    let { name } = req.body;
+
+    // validate
+    if (!name){
+        return res.status(400).json({ msg: "Not all required fields have been entered." });
+    }
+    await Vessel.deleteOne({"name":req.body.name});
+    if(!vessel){
+      res.json({vesselName: name});
+    }
+    else{
+      res.json({vesselName: null});
+    }
+} catch (err) {
+    res.status(500).json({ error: err.message });
+}
+ });
 module.exports = router;
