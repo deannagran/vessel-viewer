@@ -27,6 +27,8 @@ import Axios from "axios";
                     role: ""+associatedMembers.data.retRole } );
 
                 memberArray.push(memberObject);
+            }else{
+                setMemberName("No Associated Members");
             }
         }
 
@@ -37,4 +39,35 @@ import Axios from "axios";
                 //setMemberName("");
             }
         }
+        let listofMembers = memberArray.map(member =>
+            `<div class="card bg-light mb-3" style="width: 18rem">
+              <img class="card-img-top" src="" alt="Card image">
+              <div class="card-body">
+              <h3 class="card-title">${member.fName + " " + member.lName}</h3>
+              <button id="${member.lName}" onClick={proj} class="register-button ">Update User Roles</button> 
+              <br>
+              </div>
+              </div>
+              <br>
+       
+      `
+        ).join('');
+
+
+        /*let membersString = "No associated members";
+        if(memberArray.length > 0){
+            membersString = "";
+            for(let i = 0; i<memberArray.length/2; i++){
+                let fName = memberArray[i].fName;
+                let lName = memberArray[i].lName;
+                let role = memberArray[i].role;
+                let member = "Name: " + fName + " " + lName + " Role: " + role;
+                membersString = membersString + member;
+            }
+        }
+        return (
+            <h3>{membersString}</h3>
+        );*/
     }
+
+    export default GetAssociatedMembersComponent;
