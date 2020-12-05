@@ -24,6 +24,7 @@ export default function WebMaster(props) {
       <WebMasterAddVessel></WebMasterAddVessel>
       <br></br>
       <WebMasterConnect></WebMasterConnect>
+      <WebMasterList></WebMasterList>
       <main style={{ marginTop: "50px" }} className="main">
             <div class="ui two column grid">
             <div class="row">

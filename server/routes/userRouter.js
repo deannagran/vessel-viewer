@@ -249,7 +249,7 @@ router.post("/login", async (req, res) => {
     var docArray = vesselList.map(function(Vessel) {
       return Vessel.toObject();
     });
-    res.json(docArray(Vessel));
+    res.json({docArray: docArray});
   }
   else
   res.status(500).json({ error: err.message });
