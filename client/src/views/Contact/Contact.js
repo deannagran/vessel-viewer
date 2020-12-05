@@ -18,7 +18,10 @@ export default function Contact(props) {
     var cname = "";
   }
 
-  const gotodashboard = () => props.history.push("/dashboard");
+  const sent = () => 
+  {
+    alert("Your message has been sent successfully!"); 
+  }
 
   if (userData.user){
   return (
@@ -48,7 +51,7 @@ export default function Contact(props) {
         <textarea className="contactinput-message" name = "user_message" 
         rows="5"></textarea>
     </div>
-    <button type="submit"  className="contactbutton">Submit</button>
+    <button type="submit" onClick = {sent}  className="contactbutton">Submit</button>
     </form> 
   </div>
   );
@@ -77,7 +80,7 @@ export default function Contact(props) {
           <label htmlFor="message">Message</label>
           <textarea className="contactinput-message" rows="5"></textarea>
       </div>
-      <button type="submit" className="contactbutton">Submit</button>
+      <button type="submit" onClick = {sent}  className="contactbutton">Submit</button>
       </form> 
     </div>
     );

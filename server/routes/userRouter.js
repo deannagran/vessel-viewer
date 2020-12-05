@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 const JWT_SECRET = require('../config/config').jwt.JWT_SECRET;
 const Vessel = require("../models/vesselModel");
 const nodemailer = require('nodemailer');
-const sendMail = require("../mail/sendmail");
+const regiterConfirm = require("../mail/regiterConfirm");
 
 router.get("/test", (req, res) => {
   res.send("Test working!");
@@ -49,7 +49,7 @@ router.post("/register", async (req, res) => {
     });
     const savedUser = await newUser.save();
     res.json(savedUser);
-    sendMail();
+    regiterConfirm(newUser);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -275,7 +275,6 @@ router.post('/sendContact', (req, res) => {
       console.log('Send mail successfully');
     }
   });
-  res.end("Your message has been sent successfully!")
 });
 
 module.exports = router;
