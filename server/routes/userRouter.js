@@ -143,6 +143,7 @@ router.post("/findVessel", async (req, res) => {
   }
 });
 
+
 router.post("/getMember", async (req, res) => {
   const member = await User.findById(req.body.user.currVessel.associatedUsers[req.body.i].userID);
   const role = await req.body.user.currVessel.associatedUsers[req.body.i].role;
