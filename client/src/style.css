@@ -235,7 +235,7 @@ img{
   background-color: #00325c;
   color: #ffffff;
   font-size: 1.1rem;
-  font-family: Ubuntu-Bold;
+  font-family: Ubuntu-Regular
 }
 #header .auth-options button:hover {
   background-color: #395f7e;
