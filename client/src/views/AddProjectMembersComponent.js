@@ -118,9 +118,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 
             Add a new user to this project via email address. ‏‏‎ ‎
             <br></br>
-‏‏‎
-            
-
+‏
             </div>
             <form class="ui form small fluid">
             <label for="exampleInputEmail1">Please enter the email address of the user you would like to add to this project. ‏‏‎ ‎</label>

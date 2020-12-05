@@ -12,6 +12,7 @@ import Login from "./views/auth/Login";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Contact from "./views/Contact/Contact";
 import MyAccount from "./views/MyAccount/MyAccount";
+import WebMaster from "./views/WebMaster"
 import Register from "./views/auth/Register";
 import UserContext from "./context/UserContext";
 import "./style.css";
@@ -65,6 +66,7 @@ export default function App() {
               <Route path="/contact" component={Contact} />
               <Route path="/project" component={ProjectPage} />
               <Route path="/myAccount" component={MyAccount} />
+              <Route path="/webMaster" component={WebMaster} />
               <Route path="/confirmation" component={Confirmation} />
               <Route path="*" component={NotFound} />
             </Switch>

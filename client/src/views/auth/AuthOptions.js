@@ -13,6 +13,7 @@ export default function AuthOptions() {
   const contact = () => history.push("/contact");
   const myAccount = () => history.push("/myAccount");
   const logout = () => {
+    history.push("/login");
     setUserData({
       token: undefined,
       user: undefined,
@@ -24,13 +25,17 @@ export default function AuthOptions() {
   return (
     <nav className="auth-options">
       {userData.user ? (
+        userData.user.webMaster ? ( 
+          <button onClick={logout}>Log out</button>
+        )
+        : (
         <>
         <button onClick={dashboard}>Dashboard</button>
         <button onClick={myAccount}>My Account</button>
         <button onClick={contact}>Contact</button>  
         <button onClick={logout}>Log out</button>
         </>
-      ) : (
+      )) : (
         <>
           <button onClick={register}>Register</button>
           <button onClick={login}>Log in</button>
