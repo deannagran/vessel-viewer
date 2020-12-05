@@ -43,7 +43,7 @@ export default function Login() {
       )}
 				<form className="login100-form validate-form p-l-55 p-r-55 p-t-140" onSubmit={submit}>
 					<span className="login100-form-title">
-						Sign In
+						Login
 					</span>
 
 					<div className="wrap-input100 validate-input m-b-16" data-validate="Please enter Email Address">
@@ -68,7 +68,7 @@ export default function Login() {
 
 					<div className="container-login100-form-btn">
 						<button className="login100-form-btn" onClick={submit}>
-							Sign in
+							Login
 						</button>
 					</div>
 
