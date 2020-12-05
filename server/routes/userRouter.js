@@ -242,5 +242,17 @@ router.post("/login", async (req, res) => {
       res.status(500).json({ error: err.message });
   }
  });
-  
+ router.post("/webMasterList", async (req, res) => {
+  const vesselList = await Vessel.find({});
+  // validate
+  if(vesselList){
+    var docArray = vesselList.map(function(Vessel) {
+      return Vessel.toObject();
+    });
+    res.json(docArray(Vessel));
+  }
+  else
+  res.status(500).json({ error: err.message });
+
+});
 module.exports = router;

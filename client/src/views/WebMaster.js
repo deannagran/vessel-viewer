@@ -49,6 +49,9 @@ export default function WebMaster(props) {
                 style={{ width: "35%", marginLeft: "50px", marginTop: "-20px" }}
                 class="six wide column"
               >
+                <div>
+                  
+                </div>
               </div>
 
             </div>

@@ -1,43 +1,29 @@
 import React from "react";
 import UserContext from "../context/UserContext";
+import Axios from "axios";
 
 const WebMasterList = () => {
-    /*const [vesselName, setVesselName] = useState(0);
-    setVesselName(""+associatedVessels.data.retInfo);
+    let routeResponse;
+    const axiosAddUser = async () => {
+        routeResponse = await Axios.post("http://localhost:5000/users/webMasterList"); 
+    }
+    axiosAddUser();
     const buildingList =
-    true
-    ? props.data.map((footballClub) => {
+    routeResponse.length === 0
+    ? routeResponse.map(() => {
         return (
-            <tr key={userData.name}>
-            <td onClick={() => viewFootballClub(footballClub.id)}>
-                <i class="School">{footballClub.school} </i>
-            </td>
-            <td data-label="Mascot"> {footballClub.mascot} </td>
-            <td onClick={() => editFootballClub(footballClub.id)}>
-                <i class="edit icon"></i>
-            </td>
-            <td onClick={() => deleteFootballClub(footballClub.id)}>
-                <i class="trash alternate icon"></i>
-            </td>
+            <tr key={routeResponse.name}>
+
             </tr>
         );
         })
-    : props.filteredClubs.map((footballClub) => {
+    : routeResponse.map(() => {
         return (
-            <tr key={footballClub.id}>
-            <td onClick={() => viewFootballClub(footballClub.id)}>
-                <i class="School">{footballClub.school} </i>
-            </td>
-            <td data-label="Mascot"> {footballClub.mascot} </td>
-            <td onClick={() => editFootballClub(footballClub.id)}>
-                <i class="edit icon"></i>
-            </td>
-            <td onClick={() => deleteFootballClub(footballClub.id)}>
-                <i class="trash alternate icon"></i>
-            </td>
+            <tr key={routeResponse.name}>
+
             </tr>
         );
         });
-    return <tbody>{buildingList}</tbody>;*/
+    return <tbody>{buildingList}</tbody>;
 }
 export default WebMasterList;
