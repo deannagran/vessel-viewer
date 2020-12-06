@@ -44,16 +44,16 @@ const WebMasterAddVessel = () => {
             <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                 <Alert.Heading>Sorry!</Alert.Heading>
                 <p>
-                The Vessel fail to be added to the project. There is a vessel with the same name
+                A vessel with the same name already exists within the database. Please try entering a unique vessel name.
                 </p>
             </Alert>
             );
         }else{
             return (
             <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                <Alert.Heading>Vessel successfully added to project!</Alert.Heading>
+                <Alert.Heading>Vessel successfully created!</Alert.Heading>
                 <p>
-                {nameCapitalized} has been added to the project.
+                {nameCapitalized} has been created successfully and added to the database. Click the "Update" button to view it.
                 </p>
             </Alert>
             );
