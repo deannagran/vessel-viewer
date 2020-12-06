@@ -35,8 +35,8 @@ export default function Login() {
   return (
 
 	<div id ="root">
-	<div className="limiter">
-		<div className="container-login100">
+	<center><div className="limiter">
+		
 			<div className="wrap-login100">
       {error && (
         <ErrorNotice message={error} clearError={() => setError(undefined)} />
@@ -83,8 +83,9 @@ export default function Login() {
 					</div>
 				</form>
 			</div>
-		</div>
+		
 	</div>
+  </center>
   </div>
   );
 }
