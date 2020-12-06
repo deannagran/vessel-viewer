@@ -1,10 +1,10 @@
 const nodemailer = require('nodemailer');
 
-const regiterConfirm = (newUser) => {
+const registerConfirm = (newUser) => {
       var mailOptions = {
             from: 'vesselfinderteam@gmail.com',
             to: 'vesselfinderteam@gmail.com',
-            subject: 'New User Alert',
+            subject: 'New User Notification',
             html: '<h2>A new user has signed up for an account:</h2>' + 
              'Name: ' + newUser.firstName + ' '+ newUser.lastName + '<br>' +
               'Email: ' + newUser.email + '<br>' +
@@ -29,7 +29,7 @@ const regiterConfirm = (newUser) => {
           });
 }
 
-module.exports = regiterConfirm;
+module.exports = registerConfirm;
 
 
 
