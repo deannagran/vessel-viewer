@@ -31,8 +31,8 @@ export default function Contact(props) {
     if(show){
       return(<div className="page"> <Alert variant="success" onClose={() => setShow(false)} dismissible>
       <Alert.Heading>Your message has been sent successfully!</Alert.Heading>
-      </Alert> <h1>Contact Digital Twin Marine</h1>
-          <form id="contact-form" action = "/users/sendContact" method = "post">
+      </Alert> <center><h1 className="accountlabel">Contact Digital Twin Marine</h1></center>
+          <form className="contact" id="contact-form" action = "/users/sendContact" method = "post">
           <div className="contactlabel">
               <label htmlFor="name">Name</label>
               <input type="text" className="contactinput" defaultValue={cname}

@@ -7,7 +7,7 @@ export default function SiteFooter() {
 <div class="footer">
 
  <table className="ftable">
-  <tr><td><img className="imgfooter" src="https://digitaltwinmarine.com/wp-content/uploads/2020/07/DTM-Logo-NoWords.png"></img></td>
+  <tr><td><img  src="https://digitaltwinmarine.com/wp-content/uploads/2020/07/DTM-Logo-NoWords.png"></img></td>
   <td><p>contact@digitaltwinmarine.com <br></br>
          +1 (954) 686-7011<br></br>
          2598 E. Sunrise Blvd, Suite 2104, Fort Lauderdale, FL 33304</p>

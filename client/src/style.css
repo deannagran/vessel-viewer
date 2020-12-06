@@ -90,6 +90,8 @@ body {
 .page {
   padding: 1rem;
   font-family: "Roboto", sans-serif;
+  
+  
 }
 .acc-header{
   margin-top: 10%;
@@ -172,17 +174,19 @@ img{
   position: relative;
   min-height: 100vh;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 70%;
   padding-bottom: 10%;
 }
 
 
 
 /* Contact page */
+
+
 .contactlabel {
+  
   padding-right: 0px;
   font-size: 20px;
-  
 
 }
 .contactinput{
@@ -192,6 +196,7 @@ img{
   border: 1px solid #c2c2c2;
   border-radius: 8px;
   background-color: #f0f0f0;
+  
   
 }
 .contactinput-message{
@@ -438,7 +443,7 @@ font-weight: 800;
     background-color: #00111e;
     color: white;
     text-align: center;
-    
+    z-index: 2;
     
    
   }
@@ -448,5 +453,18 @@ font-weight: 800;
 
   }
   
+  .ptable{
+    padding:5px;
+  }
+
+  .ppageHeader{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .ppage{
+    margin-left: 0%;
+    margin-right: 0%;
+  }
 
 
