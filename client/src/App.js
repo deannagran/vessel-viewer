@@ -7,7 +7,6 @@ import NotFound from "./views/NotFound";
 import ProjectPage from "./views/ProjectPage";
 //import NavBar from "./components/Header/NavBar";
 import Header from "./views/SiteHeader";
-import Footer from "./views/SiteFooter";
 import Confirmation from "./views/Confirmation";
 import Login from "./views/auth/Login";
 import Dashboard from "./views/Dashboard/Dashboard";
@@ -57,7 +56,6 @@ export default function App() {
       <BrowserRouter>
         <UserContext.Provider value={{ userData, setUserData }}>
           <Header />
-          
           <div className="container">
             <Switch>
               <Route exact path="/" component={Welcome} />          
@@ -73,7 +71,6 @@ export default function App() {
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
-          <Footer />
         </UserContext.Provider>
       </BrowserRouter>
     </>
