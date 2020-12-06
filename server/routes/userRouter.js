@@ -175,14 +175,13 @@ router.post("/updateMemberRole", async (req,res)=>{
                 );
 
                 Vessel.updateOne(
-                    { _id: vessel._id },
-                    { $push: { 'associated_users': { userObject } } },
+                    { _id: req.body.vesselID },
+                    { $push: { associated_users: userObject } },
                     function (error, success) {
                         if (error) {
-                            res.json({ memberAdded: false })
+                            res.json({ nameOfAddedUser: 'ERROR' })
                         }
-                    }
-                );
+                    });
 
         //res.json({ retVessel : vessel2 })
 
@@ -269,7 +268,7 @@ router.post("/updateMemberRole", async (req,res)=>{
      const vessel = await Vessel.findOne({"name":req.body.vesselID});
 
      if(user && user.length != 0){
-      user.associatedVessels.push(vessel._id);
+      //user.associatedVessels.push(vessel._id);
 
       User.updateOne(
         { _id: user._id },
@@ -279,6 +278,14 @@ router.post("/updateMemberRole", async (req,res)=>{
                 res.json({ nameOfAddedUser: 'ERROR' })
               }
           });
+         Vessel.updateOne(
+             { _id: vessel._id },
+             { $push: { associated_users: { userID: user._id, role: "Admin" } } },
+             function (error, success) {
+                 if (error) {
+                     res.json({ nameOfAddedUser: 'ERROR' })
+                 }
+             });
 
       res.json({ nameOfAddedUser: user.firstName }) 
      }else{
