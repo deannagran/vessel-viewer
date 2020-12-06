@@ -144,6 +144,7 @@ import {useHistory} from "react-router-dom";
                                                 <i className="fa fa-square fa-stack-2x"></i>
                                                 <i className="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                             </span>
+                                            <button id="${member.memberID}" class = "table-link text-warning">Update User Roles</button>
                                                                 </a>
                                                             </td>
                                                         </tr>
