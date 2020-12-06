@@ -120,7 +120,6 @@ import {useHistory} from "react-router-dom";
                                                                 <img src="https://bootdey.com/img/Content/user_1.jpg"
                                                                      alt="">
                                                                     <a href="#" className="user-link">${member.fName + " " + member.lName}</a>
-                                                                    <span className="user-subhead">Member</span>
                                                                 </img>
                                                             </td>
                                                             <td>
