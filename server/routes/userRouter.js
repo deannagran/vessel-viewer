@@ -333,6 +333,7 @@ router.post('/sendContact', (req, res) => {
       'Email: ' + req.body.user_email + '<br>' +
       'Phone number: ' + req.body.user_phone + '<br>' +
       'Company: ' + req.body.user_company + '<br>' +
+      'Subject: ' + req.body.subject + '<br>' +
       '<h2>Message content: </h2>' +
       req.body.user_message
     ,
@@ -353,6 +354,7 @@ router.post('/sendContact', (req, res) => {
       console.log('Send mail successfully');
     }
   });
+  res.redirect('/contactConfirmation');
 });
 
 module.exports = router;
