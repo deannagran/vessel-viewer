@@ -146,9 +146,9 @@ router.post("/findVessel", async (req, res) => {
 
 
 router.post("/getMember", async (req, res) => {
-  const memberID = req.body.user.currVessel.associatedUsers[req.body.i].userID;
+  const memberID = req.body.vessel.associatedUsers[req.body.i].userID;
   const member = await User.findById(memberID);
-  const role = await req.body.user.currVessel.associatedUsers[req.body.i].role;
+  const role = await req.body.vessel.associatedUsers[req.body.i].role;
   if(member){
       res.json({ retMemberID: memberID, retFName: member.firstName, retLName: member.lastName, retRole: role })
   }else{
@@ -159,7 +159,35 @@ router.post("/getMember", async (req, res) => {
 router.post("/updateMemberRole", async (req,res)=>{
   //Using currVessel.associatedMembers[i]
   //add user to associatedUsers attribute on this vessel object
-  Vessel.updateOne(
+    let userObject = {role: req.body.newRole, userID: req.body.memberID};
+
+                Vessel.updateOne(
+                    { _id: req.body.vesselID },
+                    { $pull: { 'associated_users': { userID: req.body.memberID } } },
+                    function (error, success) {
+                        if (error) {
+                            res.json({ memberDeleted: false })
+                        }
+                        if(success){
+                            res.json({memberDeleted: true})
+                        }
+                    }
+                );
+
+                Vessel.updateOne(
+                    { _id: vessel._id },
+                    { $push: { 'associated_users': { userObject } } },
+                    function (error, success) {
+                        if (error) {
+                            res.json({ memberAdded: false })
+                        }
+                    }
+                );
+
+        //res.json({ retVessel : vessel2 })
+
+
+  /*Vessel.updateOne(
       { _id: req.body.vesselID },
       { $set: { "associated_users.$[member].role":  req.body.newRole} },
       {arrayFilters: [{"member.userID": req.body.memberID}]},
@@ -176,16 +204,9 @@ router.post("/updateMemberRole", async (req,res)=>{
     res.json({ retRole: 'ERROR' })
   }else{
     res.json({retRole: req.body.role})
-  }
+  }*/
 
 });
-
-router.post("/addProjectMember", async (req, res) => {
-  //find the user in our db via email address
-
-
-  //const user = await User.findOne({"email":req.param('email')});
-  //res.json({ nameOfAddedUser: user.firstName }) 
 
   router.post("/addProjectMember", async (req, res) => {
     //find the user in our db via email address

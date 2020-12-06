@@ -15,8 +15,9 @@ import {useHistory} from "react-router-dom";
 
         //query the database to autopopulate ProjectPage with members
         const getmembers = async (index) => {
+            console.log(userData.currVessel);
             associatedMembers = await Axios.post("http://localhost:5000/users/getMember",
-                { user: userData,
+                { vessel: userData.currVessel,
                     i: index
                 });
 
@@ -34,7 +35,7 @@ import {useHistory} from "react-router-dom";
             }
         }
 
-        const updatemember = async (id, role, index) => {
+        const updatemember = async (id, role) => {
             changeMember = await Axios.post("http://localhost:5000/users/updateMemberRole",
                 { vesselID: userData.currVessel.id,
                     memberID: id,
@@ -42,41 +43,38 @@ import {useHistory} from "react-router-dom";
                 });
 
             if(changeMember){
-                console.log(changeMember.data);
+                console.log(changeMember.data.retVessel);
 
-                memberArray[index].role = changeMember.data.retRole;
+                //memberArray[index].role = role;
             }
         }
 
         if(userData.user && memberArray.length === 0){
-            //add to array of all associated members:
-            for(let i = 0; i < userData.currVessel.associatedUsers.length; i++){
-                getmembers(i);
-                //setMemberName("");
+            if(userData.currVessel) {
+                //add to array of all associated members:
+                for (let i = 0; i < userData.currVessel.associatedUsers.length; i++) {
+                    getmembers(i);
+                    //setMemberName("");
+                }
             }
         }
         const history = useHistory();
         const proj = (event) => {
             //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
 
-            const id = event.target.id;
+            let id = event.target.id;
+            id = id + "";
             let roles = null;
-            let index = null;
             console.log(id);
 
             for(let i = 0; i<memberArray.length; i++){
                 if(memberArray[i].memberID == id){
-                    index = i;
                     roles = memberArray[i].role;
                     break;
                 }
             }
-            if(roles == "Not Admin"){
-                roles = "Admin";
-            }else{
-                roles = "Not Admin";
-            }
-            updatemember(id,roles, index);
+            roles = "test";
+            updatemember(id,roles);
 
             /*if(index != null){
                 history.push("/project")
@@ -90,27 +88,39 @@ import {useHistory} from "react-router-dom";
                 setVesselArray([]);
             }*/
         };
-
-
-        let listOfMembers = memberArray.map(member =>
-            `<div class="card bg-light mb-3" style="width: 18rem">
+        function refreshPage() {
+           setMemberName("");
+        }
+        if(userData) {
+            let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+            //console.log(memberArrayCopy.length);
+            console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i));
+            if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length) {
+                let listOfMembers = memberArrayCopy.map(member =>
+                    `<div class="card bg-light mb-3" style="width: 18rem">
               <img class="card-img-top" src="" alt="Card image">
               <div class="card-body">
               <h3 class="card-title">${member.fName + " " + member.lName}</h3>
-              <button id="${member.memberID}" onClick={proj} class="register-button ">Update User Roles</button> 
+              <button id="${member.memberID}" class="register-button ">Update User Roles</button> 
               <br>
               </div>
               </div>
               <br>
        
       `
-        ).join('');
+                ).join('');
 
-        return (
-                <table border = "0" cellPadding = "25" cellSpacing = "10">
-                    <div  onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
-                </table>);
-
+                return (
+                    <table border="0" cellPadding="25" cellSpacing="10">
+                        <div onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
+                    </table>);
+            } else {
+                setTimeout(function () {
+                    refreshPage();
+                }, 1000);
+                return ("hi");
+            }
+        }
 
         /* let membersString = "No associated members";
         if(memberArray.length > 0){
