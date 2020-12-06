@@ -5,7 +5,6 @@ import Axios from "axios";
 
 const WebMasterList = () => {
     const [vesselArray, setVesselArray] = useState([]);
-    const [open, setOpen] = useState(false);
     let axiosdeleteVessel;
     let axiosGetVessels;
     useEffect(() => { 
@@ -35,41 +34,23 @@ const WebMasterList = () => {
         console.log(id);
         axiosdeleteVessel(id);
         axiosGetVessels();
-        setOpen(false);
     };
 
     const updateVessels = () => {axiosGetVessels();};
 
-    const closeModal = () => {
-        setOpen(false);
-    };
-
     if(vesselArray.length > 0){
-        /*let listOfVessels = vesselArray.map(vessel =>
+        let listOfVessels = vesselArray.map(vessel =>
           `<h3 class="card-title">${vessel.name} 
-          <button id="${vessel.name}" onClick={deleteVessel} class="webMasterList-button">Delete</button> 
+          <button id="${vessel.name}" onClick={deleteVessel} class="webMasterList-button ">Delete</button> 
           </h3>`
-        ).join('');*/
+        ).join('');
     
         return (
         <div className="page">
             <button type="button" className="register-button" onClick={updateVessels}>Update</button>
         <h2>List of Vessels</h2>
           <table border = "0" cellPadding = "25" cellSpacing = "10"> 
-          <div>
-            {vesselArray.map(vessel =>
-            <h3 class="card-title">{vessel.name} 
-            <button id={vessel.name} onClick={() => setOpen(o => !o)} class="webMasterList-button">Delete</button> 
-            <Popup open={open} closeOnDocumentClick onClose={closeModal}>
-                <h2>Are you sure you want to delete this Vessel</h2>
-                    <button class="register-button " type="webMasterList-button" onClick={deleteVessel}>
-                        Yes
-                    </button>
-                    <button type="button" className="webMasterList-button" onClick={closeModal}>No</button>
-            </Popup>
-            </h3>
-            )}
-            </div>
+            <div  onClick={deleteVessel} dangerouslySetInnerHTML={{__html: listOfVessels}}></div>
           </table>
         </div>);
     }
