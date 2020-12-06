@@ -153,78 +153,7 @@ import {useHistory} from "react-router-dom";
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="https://bootdey.com/img/Content/user_3.jpg"
-                                                                     alt="">
-                                                                    <a href="#" className="user-link">Full name 2</a>
-                                                                    <span className="user-subhead">Admin</span>
-                                                                </img>
-                                                            </td>
-                                                            <td>2013/08/12</td>
-                                                            <td className="text-center">
-                                                                <span className="label label-success">Active</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">marlon@brando.com</a>
-                                                            </td>
-                                                            <td style="width: 20%;">
-                                                                <a href="#" className="table-link  text-warning">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                                <a href="#" className="table-link  text-info">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                                <a href="#" className="table-link danger">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="https://bootdey.com/img/Content/user_2.jpg"
-                                                                     alt="">
-                                                                    <a href="#" className="user-link">Full name 3</a>
-                                                                    <span className="user-subhead">Member</span>
-                                                                </img>
-                                                            </td>
-                                                            <td>2013/08/12</td>
-                                                            <td className="text-center">
-                                                                <span className="label label-danger">inactive</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">marlon@brando.com</a>
-                                                            </td>
-                                                            <td style="width: 20%;">
-                                                                <a href="#" className="table-link  text-warning">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                                <a href="#" className="table-link  text-info">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                                <a href="#" className="table-link danger">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                        
                                                         </tbody>
                                                     </table>
                                                 </div>
