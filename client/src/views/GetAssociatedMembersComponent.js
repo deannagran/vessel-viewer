@@ -13,6 +13,7 @@ import {useHistory} from "react-router-dom";
         const [memberArray, setMemberArray] = useState([]);
         let changeMember = null;
         const [open, setOpen] = useState(false);
+        let deleteMember = null;
 
         //query the database to autopopulate ProjectPage with members
         const getmembers = async (index) => {
@@ -40,13 +41,23 @@ import {useHistory} from "react-router-dom";
             changeMember = await Axios.post("http://localhost:5000/users/updateMemberRole",
                 { vesselID: userData.currVessel.id,
                     memberID: id,
-                    newRole : role
+                    rolesObject : role
                 });
 
             if(changeMember){
                 console.log(changeMember.data.retVessel);
 
                 //memberArray[index].role = role;
+            }
+        }
+
+        const deletemember = async (id) => {
+            deleteMember = await Axios.post("http://localhost:5000/users/deleteMember",
+                { vesselID: userData.currVessel.id,
+                    memberID: id
+                });
+            if(deleteMember){
+                console.log(deleteMember.data.retSuccess);
             }
         }
 
@@ -62,25 +73,26 @@ import {useHistory} from "react-router-dom";
         const history = useHistory();
         const proj = (event) => {
             //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
-
-
+            let roles = null;
             let id = event.target.id;
-            if(true){
+            id = id + "";
+            let first3 = id.substring(0,3);
+            id = id.substring(3);
+            if(first3 = "del"){
                 console.log(id);
+                deletemember(id);
+            }else{
+                roles = {canComment: true, canInvite: true, canEditRoles: true};
+                //updatemember(id,roles);
             }
 
-            id = id + "";
-            let roles = null;
-            console.log(id);
-
-            for(let i = 0; i<memberArray.length; i++){
+            /*for(let i = 0; i<memberArray.length; i++){
                 if(memberArray[i].memberID == id){
                     roles = memberArray[i].role;
                     break;
                 }
-            }
-            roles = {canComment: true, canInvite: true, canEditRoles: true};
-            updatemember(id,roles);
+            }*/
+            //updatemember(id,roles);
 
             /*if(index != null){
                 history.push("/project")
@@ -143,8 +155,8 @@ import {useHistory} from "react-router-dom";
                                         </a>
                                         <a href="#" class="table-link danger">
                                             <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                <i class="fa fa-square fa-stack-2x" id = "del${member.memberID}"></i>
+                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse" id = "del${member.memberID}"></i>
                                             </span>
                                         </a>
                                     </td>
