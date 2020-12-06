@@ -14,7 +14,6 @@ const  VesselModelComponent = (props) => {
           + ' width="' + "100%" + '"'
           + ' height="' + "300" + '"'
           + ' frameborder="0"'
-          + ' allowfullscreen'
           + ' src=' +(''+userData.currVessel.modelLink)
 
           + '">Browser does not support embedded objects.<br/>Visit directly <a href="https://www.vesselfinder.com" target="_blank">www.vesselfinder.com</a>'
