@@ -57,7 +57,7 @@ export default function App() {
       <BrowserRouter>
         <UserContext.Provider value={{ userData, setUserData }}>
           <Header />
-          <Footer />
+          
           <div className="container">
             <Switch>
               <Route exact path="/" component={Welcome} />          
@@ -73,6 +73,7 @@ export default function App() {
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
+          <Footer />
         </UserContext.Provider>
       </BrowserRouter>
     </>

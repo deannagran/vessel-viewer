@@ -169,8 +169,11 @@ img{
 }
 
 .container {
+  position: relative;
+  min-height: 100vh;
   margin: 0 auto;
   max-width: 900px;
+  padding-bottom: 10%;
 }
 
 
@@ -435,7 +438,16 @@ font-weight: 800;
     background-color: #00111e;
     color: white;
     text-align: center;
+    
+    
+   
   }
+  .ftable{
+    margin: auto;
+    text-align: left;
+
+  }
+  
 
 
 
