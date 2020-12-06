@@ -339,47 +339,45 @@ router.post("/webMasterList", async (req, res) => {
 
  });
  router.post("/webMasterListDelete", async (req, res) => {
-  try {
-    let { name } = req.body;
+  let name = req.body.name;
 
-    // validate
-    if (!name){
-        return res.status(400).json({ msg: "Not all required fields have been entered." });
-    }
-    const vessel = await Vessel.findOne({ "name": req.body.name });
-    const user = await User.find({"associatedVessels": vessel._id});
-    var docArray = user.map(function(User) {
-      return User.toObject();
-    });
-    //res.json({u: docArray});
-    /*for(let i = 0; i < user.length; i++){  
-      User.updateOne(
-        { email: user[i].email },
-        { $pull: { 'associatedVessels': vessel._id } },
-      );
-    }*/
-    user.map(temp => {
-      //for(let i = 0; i < temp.associatedVessels.length; i++){
-        //if(temp.associatedVessels[i] == '' + vessel._id + ''){
-          res.json({u: temp});
-          User.updateOne(
-            { _id: user._id },
-            { $pull: { 'associatedVessels': '' + vessel._id + '' } }
-          );
-        //}
+  // validate
+  if (!name){
+      return res.status(400).json({ msg: "Not all required fields have been entered." });
+  }
+  const vessel = await Vessel.findOne({ "name": req.body.name });
+  const user = await User.find({"associatedVessels": vessel._id});
+  var docArray = user.map(function(User) {
+    return User.toObject();
+  });
+  user.map(temp => {
+    //for(let i = 0; i < temp.associatedVessels.length; i++){
+      //if(temp.associatedVessels[i] == '' + vessel._id + ''){
+        //res.json({u: temp});
+        
+        let user2 = User.updateOne(
+          { _id: temp._id },
+          { $pull: { 'associatedVessels': vessel._id } },
+          function (error, success) {
+              if (error) {
+                res.json({ users: 'ERROR' })
+              }
+              else{
+                res.json({ users: name })
+              }
+          });
+        //res.json({users: user2})
       //}
-    }
-    );
-    /*await Vessel.deleteOne({"name":req.body.name});
-    if(!vessel){
-      res.json({vesselName: name});
-    }
-    else{
-      res.json({vesselName: null});
-    }*/
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  } 
+    //}
+  }
+  );
+  await Vessel.deleteOne({"name":req.body.name});
+  if(!vessel){
+    res.json({vesselName: name});
+  }
+  else{
+    res.json({vesselName: null});
+  }
  });
 
 router.post('/sendContact', (req, res) => {
