@@ -169,9 +169,13 @@ img{
 }
 
 .container {
+  position: relative;
+  min-height: 100vh;
   margin: 0 auto;
   max-width: 900px;
+  padding-bottom: 10%;
 }
+
 
 
 /* Contact page */
@@ -235,7 +239,6 @@ img{
   background-color: #00325c;
   color: #ffffff;
   font-size: 1.1rem;
-  font-family: Ubuntu-Regular
 }
 #header .auth-options button:hover {
   background-color: #395f7e;
@@ -427,8 +430,23 @@ font-weight: 800;
   float:right;
   }
 
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #00111e;
+    color: white;
+    text-align: center;
+    
+    
+   
+  }
+  .ftable{
+    margin: auto;
+    text-align: left;
 
-
+  }
   
 
 
