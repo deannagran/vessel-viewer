@@ -24,7 +24,9 @@ export default function Contact(props) {
 
   const sent = () => 
   {
+    //alert("Your message has been sent successfully!"); 
     setShow(true);
+    
   }
 
   if (userData.user){

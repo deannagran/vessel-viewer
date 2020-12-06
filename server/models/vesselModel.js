@@ -4,8 +4,7 @@ const vesselSchema = mongoose.Schema({
     model_link: {type: String, required: true},
     comments : [{
         content : String,
-        posterID : String,
-        date : String
+        posterID : String
     }],
     project_files : {type: String},
     vesselfinder_link : {type: String, required: true},
