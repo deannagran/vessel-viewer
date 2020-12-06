@@ -5,51 +5,55 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const JWT_SECRET = require('../config/config').jwt.JWT_SECRET;
 const Vessel = require("../models/vesselModel");
+const nodemailer = require('nodemailer');
+const registerConfirm = require("../mail/registerConfirm");
+const commentAlert = require("../mail/commentAlert");
 
 router.get("/test", (req, res) => {
     res.send("Test working!");
 });
 
 router.post("/register", async (req, res) => {
-    try {
-        let { email, password, passwordCheck, firstName, lastName, companyName, associatedVessels, webMaster } = req.body;
+  try {
+    let { email, password, passwordCheck, firstName, lastName, companyName, associatedVessels, webMaster } = req.body;
 
-        // validate
-        if (!email || !password || !passwordCheck || !firstName || !lastName)
-            return res.status(400).json({ msg: "Not all required fields have been entered." });
-        if (password.length < 5)
-            return res
-                .status(400)
-                .json({ msg: "Passwords must be at least 5 characters long." });
-        if (password !== passwordCheck)
-            return res
-                .status(400)
-                .json({ msg: "Please enter the same password twice for verification." });
+    // validate
+    if (!email || !password || !passwordCheck || !firstName || !lastName)
+      return res.status(400).json({ msg: "Not all required fields have been entered." });
+    if (password.length < 5)
+      return res
+        .status(400)
+        .json({ msg: "Passwords must be at least 5 characters long." });
+    if (password !== passwordCheck)
+      return res
+        .status(400)
+        .json({ msg: "Please enter the same password twice for verification." });
 
-        const existingUser = await User.findOne({ email: email });
-        if (existingUser)
-            return res
-                .status(400)
-                .json({ msg: "An account with this email already exists." });
+    const existingUser = await User.findOne({ email: email });
+    if (existingUser)
+      return res
+        .status(400)
+        .json({ msg: "An account with this email already exists." });
 
-        //generate hash for user password
-        const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
+    //generate hash for user password
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
 
-        const newUser = new User({
-            email,
-            password: passwordHash,
-            firstName,
-            lastName,
-            companyName,
-            webMaster: false,
-            associatedVessels
-        });
-        const savedUser = await newUser.save();
-        res.json(savedUser);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+    const newUser = new User({
+      email,
+      password: passwordHash,
+      firstName,
+      lastName,
+      companyName,
+      webMaster: false,
+      associatedVessels
+    });
+    const savedUser = await newUser.save();
+    res.json(savedUser);
+    registerConfirm(newUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 router.post("/login", async (req, res) => {
@@ -134,7 +138,7 @@ router.post("/login", async (req, res) => {
   router.post("/findVessel", async (req, res) => {
     const vessel = await Vessel.findById(req.body.user.user.associatedVessels[req.body.i]);
     if(vessel){
-      res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users }) 
+      res.json({ retInfo: vessel.name, retId: vessel._id, retModelLink: vessel.model_link, retVFLink: vessel.vesselfinder_link, retAssociatedUsers: vessel.associated_users, retNumComments: vessel.comments.length }) 
     }else{
       res.json({ retInfo: "null" }) 
     }
@@ -242,5 +246,113 @@ router.post("/login", async (req, res) => {
       res.status(500).json({ error: err.message });
   }
  });
-  
+
+ router.post("/getComment", async (req, res) => {
+  //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+  const vessel = await Vessel.findById(req.body.vesselID);
+  if(vessel){
+    //get name of the comment's original poster
+    const user = await User.findById(vessel.comments[req.body.i].posterID);
+    if(user){
+      const fname = user.firstName;
+      const lname = user.lastName;
+      const fnameCapitalized = fname.charAt(0).toUpperCase() + fname.slice(1);
+      const lnameCapitalized = lname.charAt(0).toUpperCase() + lname.slice(1);
+
+      let fullname = fnameCapitalized + " " + lnameCapitalized;
+      res.json({ poster: fullname, comment: vessel.comments[req.body.i].content, postedDate: vessel.comments[req.body.i].date}) 
+    }else{
+      res.json({ poster: "null", comment: "null", date: "null"}) 
+    }
+  }else{
+    res.json({ poster: "null", comment: "null", date: "null"}) 
+  }
+});
+
+router.post("/postComment", async (req, res) => {
+  //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+  const vessel = await Vessel.findById(req.body.vesselID);
+  const user = await User.findById(req.body.posterID);
+  const fname = user.firstName;
+  const lname = user.lastName;
+  const fnameCapitalized = fname.charAt(0).toUpperCase() + fname.slice(1);
+  const lnameCapitalized = lname.charAt(0).toUpperCase() + lname.slice(1);
+  let fullname = fnameCapitalized + " " + lnameCapitalized;
+
+  if (vessel) {
+    let commentObject = ({ posterID: req.body.posterID, content: req.body.content, date: req.body.date });
+    Vessel.updateOne(
+      { _id: vessel._id },
+      { $push: { comments: commentObject } },
+      function (error, success) {
+        if (error) {
+          res.json({ commentPosted: false })
+        }
+      });
+
+    res.json({ commentPosted: true })
+    commentAlert(vessel, fullname, commentObject);
+
+  } else {
+    res.json({ commentPosted: false })
+  }
+});
+
+router.post("/deleteComment", async (req, res) => {
+  //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
+  const vessel = await Vessel.findById(req.body.vesselID);
+  if(vessel){
+
+    for(let i = 0; i<vessel.comments.length; i++){
+      if(vessel.comments[i].date == req.body.date){
+
+        Vessel.update(
+          { _id: vessel._id },
+          { $pull: { 'comments': { date: req.body.date } } },
+          function (error, success) {
+            if (error) {
+              res.json({ commentDeleted: false })
+            }
+        }
+        );
+        break;
+      }
+    }
+    res.json({ commentDeleted: true })
+  }else{
+    res.json({ commentDeleted: false })
+  }
+});
+
+router.post('/sendContact', (req, res) => {
+  var mailOptions = {
+    from: 'vesselfinderteam@gmail.com',
+    to: 'vesselfinderteam@gmail.com',
+    subject: 'New Contact Form Submission',
+    html: '<h2>User information: </h2>' + 'Name: ' + req.body.user_name + '<br>' +
+      'Email: ' + req.body.user_email + '<br>' +
+      'Phone number: ' + req.body.user_phone + '<br>' +
+      'Company: ' + req.body.user_company + '<br>' +
+      '<h2>Message content: </h2>' +
+      req.body.user_message
+    ,
+  };
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'vesselfinderteam@gmail.com',
+      pass: 'team404!'
+    }
+  });
+
+  transporter.sendMail(mailOptions, (err, res) => {
+    if (err) {
+      return console.log(err);
+    } else {
+      console.log('Send mail successfully');
+    }
+  });
+});
+
 module.exports = router;
