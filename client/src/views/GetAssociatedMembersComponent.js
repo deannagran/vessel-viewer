@@ -75,18 +75,7 @@ import {useHistory} from "react-router-dom";
             }
             roles = {canComment: true, canInvite: true, canEditRoles: true};
             updatemember(id,roles);
-
-            /*if(index != null){
-                history.push("/project")
-                if(userData){
-                    setUserData({
-                        token: userData.user.token,
-                        user: userData.user,
-                        currVessel: vesselArray[index]
-                    });
-                }
-                setVesselArray([]);
-            }*/
+            
         };
         function refreshPage() {
            setMemberName("");
@@ -122,21 +111,6 @@ import {useHistory} from "react-router-dom";
             }
         }
 
-        /* let membersString = "No associated members";
-        if(memberArray.length > 0){
-            membersString = "";
-            for(let i = 0; i<memberArray.length/2; i++){
-                let fName = memberArray[i].fName;
-                let lName = memberArray[i].lName;
-                let role = memberArray[i].role;
-                let member = "Name: " + fName + " " + lName + " Role: " + role;
-                membersString = membersString + member;
-            }
-        }
-        return (
-            <h3>{membersString}</h3>
-        );
-                */
     }
 
     export default GetAssociatedMembersComponent;
