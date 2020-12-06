@@ -110,8 +110,6 @@ import {useHistory} from "react-router-dom";
                                                         <thead>
                                                         <tr>
                                                             <th><span>User</span></th>
-                                                            <th><span>Created</span></th>
-                                                            <th className="text-center"><span>Status</span></th>
                                                             <th><span>Email</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
@@ -124,10 +122,6 @@ import {useHistory} from "react-router-dom";
                                                                     <a href="#" className="user-link">${member.fName + " " + member.lName}</a>
                                                                     <span className="user-subhead">Member</span>
                                                                 </img>
-                                                            </td>
-                                                            <td>2013/08/12</td>
-                                                            <td className="text-center">
-                                                                <span className="label label-default">pending</span>
                                                             </td>
                                                             <td>
                                                                 <a href="#">${member.email}</a>
