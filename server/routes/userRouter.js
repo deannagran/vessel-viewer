@@ -271,9 +271,11 @@ router.get("/", auth, async (req, res) => {
 router.post("/webMaster", async (req, res) => {
   const user = await User.findOne({ "email": req.body.email });
   const vessel = await Vessel.findOne({ "name": req.body.vesselID });
+  //const userCheck = await user.findOne({"associatedVessels": req.body.vesselID});
 
-  if (user && user.length != 0) {
-    user.associatedVessels.push(vessel._id);
+  if (user && user.length != 0 && vessel) {
+    //user.associatedVessels.push(vessel._id);
+    //vessel.associated_users.push(user._id);
 
     User.updateOne(
       { _id: user._id },
@@ -283,6 +285,14 @@ router.post("/webMaster", async (req, res) => {
           res.json({ nameOfAddedUser: 'ERROR' })
         }
       });
+      Vessel.updateOne(
+        { _id: vessel._id },
+        { $push: { associated_users: { userID: user._id, role: "Admin" } } },
+        function (error, success) {
+          if (error) {
+            res.json({ nameOfAddedUser: 'ERROR' })
+          }
+        });
 
     res.json({ nameOfAddedUser: user.firstName })
   } else {
@@ -336,18 +346,42 @@ router.post("/webMasterList", async (req, res) => {
     if (!name){
         return res.status(400).json({ msg: "Not all required fields have been entered." });
     }
-    await Vessel.deleteOne({"name":req.body.name});
+    const vessel = await Vessel.findOne({ "name": req.body.name });
+    const user = await User.find({"associatedVessels": vessel._id});
+    var docArray = user.map(function(User) {
+      return User.toObject();
+    });
+    //res.json({u: docArray});
+    /*for(let i = 0; i < user.length; i++){  
+      User.updateOne(
+        { email: user[i].email },
+        { $pull: { 'associatedVessels': vessel._id } },
+      );
+    }*/
+    user.map(temp => {
+      //for(let i = 0; i < temp.associatedVessels.length; i++){
+        //if(temp.associatedVessels[i] == '' + vessel._id + ''){
+          res.json({u: temp});
+          User.updateOne(
+            { _id: user._id },
+            { $pull: { 'associatedVessels': '' + vessel._id + '' } }
+          );
+        //}
+      //}
+    }
+    );
+    /*await Vessel.deleteOne({"name":req.body.name});
     if(!vessel){
       res.json({vesselName: name});
     }
     else{
       res.json({vesselName: null});
-    }
-} catch (err) {
+    }*/
+  } catch (err) {
     res.status(500).json({ error: err.message });
-}
+  } 
  });
- 
+
 router.post('/sendContact', (req, res) => {
   var mailOptions = {
     from: 'vesselfinderteam@gmail.com',

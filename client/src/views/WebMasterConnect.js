@@ -57,7 +57,7 @@ const WebMasterConnect = () => {
           <Alert variant="danger" onClose={() => setShow(false)} dismissible>
             <Alert.Heading>Sorry!</Alert.Heading>
             <p>
-              The user email address you entered does not currently exist in our system. 
+              The user email address or the vessel you entered does not currently exist in our system. 
             </p>
           </Alert>
         );
