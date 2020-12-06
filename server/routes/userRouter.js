@@ -150,7 +150,7 @@ router.post("/getMember", async (req, res) => {
   const member = await User.findById(memberID);
   const role = await req.body.vessel.associatedUsers[req.body.i].role;
   if(member){
-      res.json({ retMemberID: memberID, retFName: member.firstName, retLName: member.lastName, retRole: role })
+      res.json({ retMemberID: memberID, retFName: member.firstName, retLName: member.lastName, retRole: role, retEmail: member.email })
   }else{
       res.json({ retFName: "null" })
   }

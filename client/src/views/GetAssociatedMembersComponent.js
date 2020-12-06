@@ -27,7 +27,7 @@ import {useHistory} from "react-router-dom";
                 setMemberName(""+associatedMembers.data.retFName+" "+associatedMembers.data.retLName);
 
                 let memberObject = ({memberID: ""+associatedMembers.data.retMemberID, fName: ""+associatedMembers.data.retFName, lName:""+associatedMembers.data.retLName,
-                    role: ""+associatedMembers.data.retRole } );
+                    role: ""+associatedMembers.data.retRole, email: ""+associatedMembers.data.retEmail } );
 
                 memberArray.push(memberObject);
             }else{
@@ -121,7 +121,7 @@ import {useHistory} from "react-router-dom";
                                                             <td>
                                                                 <img src="https://bootdey.com/img/Content/user_1.jpg"
                                                                      alt="">
-                                                                    <a href="#" className="user-link">Full name 1</a>
+                                                                    <a href="#" className="user-link">${member.fName + " " + member.lName}</a>
                                                                     <span className="user-subhead">Member</span>
                                                                 </img>
                                                             </td>
@@ -130,7 +130,7 @@ import {useHistory} from "react-router-dom";
                                                                 <span className="label label-default">pending</span>
                                                             </td>
                                                             <td>
-                                                                <a href="#">marlon@brando.com</a>
+                                                                <a href="#">${member.email}</a>
                                                             </td>
                                                             <td style="width: 20%;">
                                                                 <a href="#" className="table-link text-warning">
