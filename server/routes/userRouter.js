@@ -160,7 +160,7 @@ router.post("/updateMemberRole", async (req,res)=>{
   //add user to associatedUsers attribute on this vessel object
   Vessel.updateOne(
       { _id: req.body.vesselID },
-      { $set: { "associated_users.$[req.body.memberID]":  req.body.role} },
+      { $set: { "associated_users.$[req.body.memberID].role":  req.body.role} },
       function (error, success) {
         if (error) {
           res.json({ retNewRole: 'ERROR' })

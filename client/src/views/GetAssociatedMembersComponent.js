@@ -42,14 +42,9 @@ import {useHistory} from "react-router-dom";
                 });
 
             if(changeMember){
-                console.log(associatedMembers.data);
+                console.log(changeMember.data);
 
                 memberArray[index].role = role;
-
-                let memberObject = ({memberID: ""+associatedMembers.data.retMemberID, fName: ""+associatedMembers.data.retFName, lName:""+associatedMembers.data.retLName,
-                    role: ""+associatedMembers.data.retRole } );
-
-                memberArray.push(memberObject);
             }
         }
 
