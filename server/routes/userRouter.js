@@ -280,7 +280,7 @@ router.post("/updateMemberRole", async (req,res)=>{
           });
          Vessel.updateOne(
              { _id: vessel._id },
-             { $push: { associated_users: { userID: user._id, role: "Admin" } } },
+             { $push: { associated_users: { userID: user._id, role: {canComment: false, canInvite: false, canEditRoles: false} } } },
              function (error, success) {
                  if (error) {
                      res.json({ nameOfAddedUser: 'ERROR' })

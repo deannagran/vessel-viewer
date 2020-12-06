@@ -73,7 +73,7 @@ import {useHistory} from "react-router-dom";
                     break;
                 }
             }
-            roles = "test";
+            roles = {canComment: true, canInvite: true, canEditRoles: true};
             updatemember(id,roles);
 
             /*if(index != null){
