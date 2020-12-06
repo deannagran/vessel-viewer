@@ -160,7 +160,6 @@ import {useHistory} from "react-router-dom";
                     </link>
               
        
-      `
                 ).join('');
 
                 return (
