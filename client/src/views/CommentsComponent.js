@@ -128,7 +128,7 @@ const postComment = () => {
         <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
         <div class="post-comments">
             <p class="meta" >${comment.date + "  "}<a href="#">${comment.poster}</a> says: <i class="pull-right">
-            <button id="${comment.date}" >×</button></i>
+            <button id="${comment.date}" style="float: right;">x</button></i>
             <p>
                 ${comment.comment}
             </p>
@@ -155,7 +155,7 @@ const postComment = () => {
                               </p>
                           </div>
                         </li>
-                        <div onClick={del} dangerouslySetInnerHTML={{__html: listOfComments}}></div>
+                        <div  onClick={del} dangerouslySetInnerHTML={{__html: listOfComments}}></div>
                         <div class="form-group">
                         
                         <label for="comment"></label>
