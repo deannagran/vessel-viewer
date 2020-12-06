@@ -25,7 +25,6 @@ const WebMasterList = () => {
     }
     axiosdeleteVessel = async (vesselid) => {
         //console.log("deleteVessel" + vesselid);
-        setVesselName('s');
         let routeResponse2 = await Axios.post("http://localhost:5000/users/webMasterListDelete",
         { 
           name: vesselid
@@ -38,13 +37,8 @@ const WebMasterList = () => {
         const id = event.target.id;
         //console.log(id);
         axiosdeleteVessel(id);
-        setTimeout(2000);
-        axiosGetVessels();
+        setTimeout(axiosGetVessels, 1000);
     };
-
-    function refreshPage() {
-        setVesselName('');
-    }
 
     const updateVessels = () => {axiosGetVessels();};
 
