@@ -44,7 +44,7 @@ import {useHistory} from "react-router-dom";
             if(changeMember){
                 console.log(changeMember.data);
 
-                memberArray[index].role = role;
+                memberArray[index].role = changeMember.data.retRole;
             }
         }
 
@@ -60,23 +60,23 @@ import {useHistory} from "react-router-dom";
             //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
 
             const id = event.target.id;
-            let role = null;
+            let roles = null;
             let index = null;
             console.log(id);
 
             for(let i = 0; i<memberArray.length; i++){
                 if(memberArray[i].memberID == id){
                     index = i;
-                    role = memberArray[i].role;
+                    roles = memberArray[i].role;
                     break;
                 }
             }
-            if(role == "Admin"){
-                role = "Not Admin";
+            if(roles == "Not Admin"){
+                roles = "Admin";
             }else{
-                role = "Admin";
+                roles = "Not Admin";
             }
-            updatemember(id,role, index);
+            updatemember(id,roles, index);
 
             /*if(index != null){
                 history.push("/project")
