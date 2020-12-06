@@ -159,7 +159,7 @@ import {useHistory} from "react-router-dom";
                             </div>
                         </hr>
                     </link>
-              <br>
+              
        
       `
                 ).join('');
