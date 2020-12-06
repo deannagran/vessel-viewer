@@ -12,6 +12,7 @@ import {useHistory} from "react-router-dom";
         const [memberName, setMemberName] = useState(0);
         const [memberArray, setMemberArray] = useState([]);
         let changeMember = null;
+        const [open, setOpen] = useState(false);
 
         //query the database to autopopulate ProjectPage with members
         const getmembers = async (index) => {
@@ -62,7 +63,12 @@ import {useHistory} from "react-router-dom";
         const proj = (event) => {
             //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
 
+
             let id = event.target.id;
+            if(true){
+                console.log(id);
+            }
+
             id = id + "";
             let roles = null;
             console.log(id);
@@ -91,80 +97,77 @@ import {useHistory} from "react-router-dom";
         function refreshPage() {
            setMemberName("");
         }
+        const submit = () => {
+            console.log("submitted");
+            setOpen(false);
+        }
+
+        const closeModal = () => {
+            setOpen(false);
+        };
         if(userData) {
-            let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
+            let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);
-            console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i));
+            console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
             if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length) {
                 let listOfMembers = memberArrayCopy.map(member =>
-                    `<link rel="stylesheet" type="text/css"
-                          href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-                        <hr>
-                            <div className="container bootstrap snippets bootdey">
-                                <div className="row">
-                                    <div className="col-lg-12">
-                                        <div className="main-box no-header clearfix">
-                                            <div className="main-box-body clearfix">
-                                                <div className="table-responsive">
-                                                    <table className="table user-list">
-                                                        <thead>
-                                                        <tr>
-                                                            <th><span>User</span></th>
-                                                            <th><span>Email</span></th>
-                                                            <th>&nbsp;</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <img src="https://bootdey.com/img/Content/user_1.jpg"
-                                                                     alt="">
-                                                                    <a href="#" className="user-link">${member.fName + " " + member.lName}</a>
-                                                                </img>
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">${member.email}</a>
-                                                            </td>
-                                                            <td style="width: 20%;">
-                                                                <a href="#" className="table-link text-warning">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    `
+                        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<hr>
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">
+                                        <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
+                                        <span class="user-subhead">Member</span>
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td>
+                                        <a href="#">${member.email}</a>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <a href="#" class="table-link text-info">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                             </span>
-                                                                </a>
-                                                                <a href="#" className="table-link text-info">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                        </a>
+                                        <a href="#" class="table-link danger">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                                             </span>
-                                                                </a>
-                                                                <a href="#" className="table-link danger">
-                                            <span className="fa-stack">
-                                                <i className="fa fa-square fa-stack-2x"></i>
-                                                <i className="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                            <button id="${member.memberID}" class = "table-link text-warning">Update User Roles</button>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </hr>
-                    </link>
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
               
        
       `
                 ).join('');
 
                 return (
-                    <table border="0" cellPadding="25" cellSpacing="10">
+
+                    <table border="0" cellPadding="25" cellSpacing="20">
+
                         <div onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
                     </table>);
             } else {
