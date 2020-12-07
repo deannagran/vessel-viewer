@@ -77,15 +77,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             id = id.substring(3);
             if(first3 == "del"){
                 console.log("DELETE: " +first3 + id);
-                //deletemember(id);
+                deletemember(id);
             }else if(first3 == "set"){
                 console.log("SET: " + first3 + id);
-                roles = {canComment: true, canInvite: true, canEditRoles: true};
-                let x = document.getElementById("checkbox");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
+                roles = {canComment: false, canInvite: false, canEditRoles: false};
+                let cB = document.getElementById("checkbox");
+                if (cB.style.display === "none") {
+                    cB.style.display = "block";
                 } else {
-                    x.style.display = "none";
+                    cB.style.display = "none";
+                    let canComment = document.getElementById("canComment");
+                    if(canComment.checked == true){
+                        roles.canComment = true;
+                    }
+                    let canInvite = document.getElementById("canInvite");
+                    if(canInvite.checked == true){
+                        roles.canInvite = true;
+                    }
+                    let canEdit = document.getElementById("canEdit");
+                    if(canEdit.checked == true){
+                        roles.canEditRoles = true;
+                    }
+                    console.log(roles);
+                    updatemember(id, roles);
                 }
 
                 /*return(
@@ -180,22 +194,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                         </a>
                                         
                                     </td>
-                                    <td style = "width: 20%;" id = "checkbox">
+                                    <td style = "width: 20%;" id = "checkbox" >
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" value="" id="canComment">
-                                          <label class="form-check-label" for="defaultCheck1">
+                                          <label class="form-check-label" for="canComment">
                                             Can Comment?
                                           </label>
                                         </div>
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" value="" id="canInvite">
-                                          <label class="form-check-label" for="defaultCheck1">
+                                          <label class="form-check-label" for="canInvite">
                                             Can Invite Users?
                                           </label>
                                         </div>
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" value="" id="canEdit">
-                                          <label class="form-check-label" for="defaultCheck1">
+                                          <label class="form-check-label" for="canEdit">
                                             Can Edit Roles?
                                           </label>
                                         </div>
