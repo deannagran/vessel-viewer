@@ -9,7 +9,6 @@ import ProjectPage from "./views/ProjectPage";
 import Header from "./views/SiteHeader";
 import Footer from "./views/SiteFooter";
 import Confirmation from "./views/Confirmation";
-import contactConfirmation from "./views/contactConfirmation";
 import Login from "./views/auth/Login";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Contact from "./views/Contact/Contact";
@@ -71,7 +70,6 @@ export default function App() {
               <Route path="/myAccount" component={MyAccount} />
               <Route path="/webMaster" component={WebMaster} />
               <Route path="/confirmation" component={Confirmation} />
-              <Route path="/contactConfirmation" component={contactConfirmation} />
               <Route path="*" component={NotFound} />
             </Switch>
           </div>
