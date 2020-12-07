@@ -160,16 +160,14 @@ router.post("/updateMemberRole", async (req,res)=>{
   //Using currVessel.associatedMembers[i]
   //add user to associatedUsers attribute on this vessel object
     let userObject = {role: req.body.rolesObject, userID: req.body.memberID};
+    let success = true;
 
                 Vessel.updateOne(
                     { _id: req.body.vesselID },
                     { $pull: { 'associated_users': { userID: req.body.memberID } } },
                     function (error, success) {
                         if (error) {
-                            res.json({ memberDeleted: false })
-                        }
-                        if(success){
-                            res.json({memberDeleted: true})
+                            success = false;
                         }
                     }
                 );
@@ -179,9 +177,10 @@ router.post("/updateMemberRole", async (req,res)=>{
                     { $push: { associated_users: userObject } },
                     function (error, success) {
                         if (error) {
-                            res.json({ nameOfAddedUser: 'ERROR' })
+                            success = false;
                         }
                     });
+                res.json({retSuccess: success});
 
         //res.json({ retVessel : vessel2 })
 

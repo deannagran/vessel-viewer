@@ -78,12 +78,22 @@ import {useHistory} from "react-router-dom";
             id = id + "";
             let first3 = id.substring(0,3);
             id = id.substring(3);
-            if(first3 = "del"){
-                console.log(id);
-                deletemember(id);
-            }else{
+            if(first3 == "del"){
+                console.log("DELETE: " +first3 + id);
+                //deletemember(id);
+            }else if(first3 == "set"){
+                console.log("SET: " + first3 + id);
                 roles = {canComment: true, canInvite: true, canEditRoles: true};
-                //updatemember(id,roles);
+
+                /*const roleCheckBox = (`<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">\n' +
+                '<label for="vehicle1"> I have a bike</label><br>\n' +
+                '<input type="checkbox" id="vehicle2" name="vehicle2" value="Car">\n' +
+                '<label for="vehicle2"> I have a car</label><br>\n' +
+                '<input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">\n' +
+                '<label for="vehicle3"> I have a boat</label><br>`).join('');
+                return(
+                    <div onClick={proj} dangerouslySetInnerHTML={{__html: roleCheckBox}}></div>
+                );*/
             }
 
             /*for(let i = 0; i<memberArray.length; i++){
@@ -149,8 +159,8 @@ import {useHistory} from "react-router-dom";
                                     <td style="width: 20%;">
                                         <a href="#" class="table-link text-info">
                                             <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                <i class="fa fa-square fa-stack-2x" id = "set${member.memberID}"></i>
+                                                <i class="fa fa-pencil fa-stack-1x fa-inverse" id = "set${member.memberID}"></i>
                                             </span>
                                         </a>
                                         <a href="#" class="table-link danger">
@@ -159,6 +169,7 @@ import {useHistory} from "react-router-dom";
                                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse" id = "del${member.memberID}"></i>
                                             </span>
                                         </a>
+                                        
                                     </td>
                                 </tr>
                                 
