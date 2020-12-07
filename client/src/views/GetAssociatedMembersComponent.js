@@ -5,15 +5,22 @@ import VesselModelComponent from "./VesselModelComponent";
 import AddProjectMembersComponent from "./AddProjectMembersComponent";
 import Axios from "axios";
 import {useHistory} from "react-router-dom";
+import Popup from "reactjs-popup";
+import 'reactjs-popup/dist/index.css';
+import Alert from 'react-bootstrap/Alert'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
     const GetAssociatedMembersComponent = () => {
         const { userData, setUserData } = useContext(UserContext);
         let associatedMembers = null;
+        let changeMember = null;
+        let deleteMember = null;
         const [memberName, setMemberName] = useState(0);
         const [memberArray, setMemberArray] = useState([]);
-        let changeMember = null;
+
         const [open, setOpen] = useState(false);
-        let deleteMember = null;
+        const [show, setShow] = useState(true);
+        const [email, setEmail] = useState(null);
 
         //query the database to autopopulate ProjectPage with members
         const getmembers = async (index) => {
@@ -61,16 +68,6 @@ import {useHistory} from "react-router-dom";
             }
         }
 
-        if(userData.user && memberArray.length === 0){
-            if(userData.currVessel) {
-                //add to array of all associated members:
-                for (let i = 0; i < userData.currVessel.associatedUsers.length; i++) {
-                    getmembers(i);
-                    //setMemberName("");
-                }
-            }
-        }
-        const history = useHistory();
         const proj = (event) => {
             //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
             let roles = null;
@@ -84,6 +81,21 @@ import {useHistory} from "react-router-dom";
             }else if(first3 == "set"){
                 console.log("SET: " + first3 + id);
                 roles = {canComment: true, canInvite: true, canEditRoles: true};
+                let x = document.getElementById("checkbox");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+
+                /*return(
+                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+                        <Alert.Heading>Sorry!</Alert.Heading>
+                        <p>
+                            The user email address you entered does not currently exist in our system.
+                        </p>
+                    </Alert>
+                )*/
 
                 /*const roleCheckBox = (`<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">\n' +
                 '<label for="vehicle1"> I have a bike</label><br>\n' +
@@ -96,38 +108,35 @@ import {useHistory} from "react-router-dom";
                 );*/
             }
 
-            /*for(let i = 0; i<memberArray.length; i++){
-                if(memberArray[i].memberID == id){
-                    roles = memberArray[i].role;
-                    break;
-                }
-            }*/
-            //updatemember(id,roles);
-
-            /*if(index != null){
-                history.push("/project")
-                if(userData){
-                    setUserData({
-                        token: userData.user.token,
-                        user: userData.user,
-                        currVessel: vesselArray[index]
-                    });
-                }
-                setVesselArray([]);
-            }*/
         };
+
         function refreshPage() {
            setMemberName("");
         }
+
         const submit = () => {
             console.log("submitted");
             setOpen(false);
         }
 
         const closeModal = () => {
+            console.log("closed");
             setOpen(false);
         };
-        if(userData) {
+
+        const history = useHistory();
+
+        if(userData.user && memberArray.length === 0){
+            if(userData.currVessel) {
+                //add to array of all associated members:
+                for (let i = 0; i < userData.currVessel.associatedUsers.length; i++) {
+                    getmembers(i);
+                    //setMemberName("");
+                }
+            }
+        }
+
+        if(userData && !open) {
             let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);
             console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
@@ -171,6 +180,26 @@ import {useHistory} from "react-router-dom";
                                         </a>
                                         
                                     </td>
+                                    <td style = "width: 20%;" id = "checkbox">
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canComment">
+                                          <label class="form-check-label" for="defaultCheck1">
+                                            Can Comment?
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canInvite">
+                                          <label class="form-check-label" for="defaultCheck1">
+                                            Can Invite Users?
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canEdit">
+                                          <label class="form-check-label" for="defaultCheck1">
+                                            Can Edit Roles?
+                                          </label>
+                                        </div>
+                                    </td>
                                 </tr>
                                 
                                 
@@ -192,12 +221,14 @@ import {useHistory} from "react-router-dom";
                     <table border="0" cellPadding="25" cellSpacing="20">
 
                         <div onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
-                    </table>);
+                    </table>
+
+                );
             } else {
                 setTimeout(function () {
                     refreshPage();
                 }, 1000);
-                return ("hi");
+                return ("Something went wrong, please refresh the page...");
             }
         }
 
