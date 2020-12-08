@@ -19,7 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const [memberArray, setMemberArray] = useState([]);
 
         const [open, setOpen] = useState(false);
-        const [show, setShow] = useState(true);
+        const [showCB, setShowCB] = useState(false);
         const [email, setEmail] = useState(null);
 
         //query the database to autopopulate ProjectPage with members
@@ -82,10 +82,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 console.log("SET: " + first3 + id);
                 roles = {canComment: false, canInvite: false, canEditRoles: false};
                 let cB = document.getElementById("checkbox");
-                if (cB.style.display === "none") {
-                    cB.style.display = "block";
-                } else {
-                    cB.style.display = "none";
+                if (cB.style.display === "block") {
                     let canComment = document.getElementById("canComment");
                     if(canComment.checked == true){
                         roles.canComment = true;
@@ -98,8 +95,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                     if(canEdit.checked == true){
                         roles.canEditRoles = true;
                     }
+                    cB.style.display = "none";
+                    setShowCB(showCB=>(false));
                     console.log(roles);
                     updatemember(id, roles);
+
+                } else {
+                    cB.style.display = "block";
+                    setShowCB(showCB=>(true));
+
                 }
 
                 /*return(
@@ -150,11 +154,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             }
         }
 
-        if(userData && !open) {
+        if(userData) {
             let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);
             console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
-            if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length) {
+            if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length && !showCB) {
                 let listOfMembers = memberArrayCopy.map(member =>
                     `
                         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
@@ -170,7 +174,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">
+                                        <img src="default-profile-picture.png" width = "75" style="height: 7%" alt="">
                                         <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
                                         <span class="user-subhead">Member</span>
                                     </td>
@@ -194,7 +198,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                         </a>
                                         
                                     </td>
-                                    <td style = "width: 20%;" id = "checkbox" >
+                                    <td style = "display: none" id = "checkbox" >
                                         <div class="form-check">
                                           <input class="form-check-input" type="checkbox" value="" id="canComment">
                                           <label class="form-check-label" for="canComment">
@@ -238,10 +242,90 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                     </table>
 
                 );
-            } else {
-                setTimeout(function () {
-                    refreshPage();
-                }, 1000);
+            } else if(userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length && showCB){
+                let listOfMembers = memberArrayCopy.map(member =>
+                    `
+                        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<hr>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="default-profile-picture.png" width = "75" style="height =7%" alt="">
+                                        <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
+                                        <span class="user-subhead">Member</span>
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td>
+                                        <a href="#">${member.email}</a>
+                                    </td>
+                                    <td style="width: 20%;">
+                                        <a href="#" class="table-link text-info">
+                                            <span class="fa-stack">
+                                                
+                                                <i id = "set${member.memberID}"></i>
+                                                <img id = "set${member.memberID}" src = "green_checkmark.png" width = "25" style="height: 100%"></span>
+                                            </span>
+                                        </a>
+                                        
+                                    </td>
+                                    <td style = "display: block;" id = "checkbox" >
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canComment">
+                                          <label class="form-check-label" for="canComment">
+                                            Can Comment?
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canInvite">
+                                          <label class="form-check-label" for="canInvite">
+                                            Can Invite Users?
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" value="" id="canEdit">
+                                          <label class="form-check-label" for="canEdit">
+                                            Can Edit Roles?
+                                          </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+              
+       
+      `
+                ).join('');
+
+                return (
+
+                    <table border="0" cellPadding="25" cellSpacing="20">
+
+                        <div onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
+                    </table>
+
+                );
+            }else {
+                    setTimeout(function () {
+                        refreshPage();
+                    }, 1000
+                );
                 return ("Something went wrong, please refresh the page...");
             }
         }
