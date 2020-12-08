@@ -83,22 +83,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 roles = {canComment: false, canInvite: false, canEditRoles: false};
                 let cB = document.getElementById("checkbox");
                 if (cB.style.display === "block") {
-                    let canComment = document.getElementById("canComment");
+                    let canComment = document.getElementById(id+"canComment");
                     if(canComment.checked == true){
                         roles.canComment = true;
                     }
-                    let canInvite = document.getElementById("canInvite");
+                    let canInvite = document.getElementById(id+"canInvite");
                     if(canInvite.checked == true){
                         roles.canInvite = true;
                     }
-                    let canEdit = document.getElementById("canEdit");
+                    let canEdit = document.getElementById(id+"canEdit");
                     if(canEdit.checked == true){
                         roles.canEditRoles = true;
                     }
-                    cB.style.display = "none";
                     setShowCB(showCB=>(false));
                     console.log(roles);
                     updatemember(id, roles);
+                    cB.style.display = "none";
 
                 } else {
                     cB.style.display = "block";
@@ -258,7 +258,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                             <tbody>
                                 <tr>
                                     <td>
-                                        <img src="default-profile-picture.png" width = "75" style="height =7%" alt="">
+                                        <img src="default-profile-picture.png" width = "75" style="height: 7%" alt="">
                                         <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
                                         <span class="user-subhead">Member</span>
                                     </td>
@@ -271,27 +271,27 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                         <a href="#" class="table-link text-info">
                                             <span class="fa-stack">
                                                 
-                                                <i id = "set${member.memberID}"></i>
-                                                <img id = "set${member.memberID}" src = "green_checkmark.png" width = "25" style="height: 100%"></span>
+                                                <i id = "set${member.memberID}"></i> 
+                                                <img id = "set${member.memberID}" src = "green_checkmark.png" width = "25" style="height: 75%"></span>
                                             </span>
                                         </a>
                                         
                                     </td>
                                     <td style = "display: block;" id = "checkbox" >
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canComment">
+                                          <input class="form-check-input" type="checkbox" value="" id="${member.memberID}canComment">
                                           <label class="form-check-label" for="canComment">
                                             Can Comment?
                                           </label>
                                         </div>
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canInvite">
+                                          <input class="form-check-input" type="checkbox" value="" id="${member.memberID}canInvite">
                                           <label class="form-check-label" for="canInvite">
                                             Can Invite Users?
                                           </label>
                                         </div>
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canEdit">
+                                          <input class="form-check-input" type="checkbox" value="" id="${member.memberID}canEdit">
                                           <label class="form-check-label" for="canEdit">
                                             Can Edit Roles?
                                           </label>

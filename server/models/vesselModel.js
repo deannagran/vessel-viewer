@@ -10,7 +10,7 @@ const vesselSchema = mongoose.Schema({
     project_files : {type: String},
     vesselfinder_link : {type: String, required: true},
     associated_users : [{
-        role : [{canComment: Boolean, canInvite : Boolean, canEditRoles : Boolean}], //canComment, canInviteUsers, canEditUserRoles
+        role : {canComment: Boolean, canInvite : Boolean, canEditRoles : Boolean}, //canComment, canInviteUsers, canEditUserRoles
         userID : String
     }]
 
