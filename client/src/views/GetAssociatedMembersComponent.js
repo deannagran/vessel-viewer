@@ -17,10 +17,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         let deleteMember = null;
         const [memberName, setMemberName] = useState(0);
         const [memberArray, setMemberArray] = useState([]);
+        const [refresh, setRefresh] = useState(false);
 
         const [open, setOpen] = useState(false);
         const [showCB, setShowCB] = useState(false);
         const [email, setEmail] = useState(null);
+
+        const history = useHistory();
+        if(userData.currVessel.associatedUsers.length === 0 ){
+            history.push("/dashboard")
+        }
+
 
         //query the database to autopopulate ProjectPage with members
         const getmembers = async (index) => {
@@ -78,6 +85,50 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             if(first3 == "del"){
                 console.log("DELETE: " +first3 + id);
                 deletemember(id);
+                let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
+                if(memberArrayCopy.length === 1){
+                    //we are deleting the only user left
+                    memberArrayCopy = [];
+                    setMemberArray([]);
+                    let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
+                        numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
+                        associatedUsers: []}
+                    if(userData){
+                        setUserData({
+                            token: userData.user.token,
+                            user: userData.user,
+                            currVessel: vessel
+                        });
+                    }
+                    return(null);
+                }
+                else{
+                    let memberArrayCopy2 = [];
+                    for(let i = 0; i<memberArrayCopy.length; i++){
+                        if(memberArrayCopy[i].memberID != id){
+                            memberArrayCopy2.push(memberArrayCopy[i]);
+                        }
+                    }
+                    console.log("LENGTH OF MEMBER ARRRAYA COPY:" + memberArrayCopy.length);
+
+                    let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
+                        numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
+                        associatedUsers: memberArrayCopy2}
+                    if(userData){
+                        setUserData({
+                            token: userData.user.token,
+                            user: userData.user,
+                            currVessel: vessel
+                        });
+                    }
+                    setMemberArray(memberArrayCopy2);
+
+                }
+
+
+
+                //return ("loading");
+
             }else if(first3 == "set"){
                 console.log("SET: " + first3 + id);
                 roles = {canComment: false, canInvite: false, canEditRoles: false};
@@ -129,7 +180,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         };
 
         function refreshPage() {
-           setMemberName("");
+           setRefresh(!refresh);
         }
 
         const submit = () => {
@@ -142,7 +193,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             setOpen(false);
         };
 
-        const history = useHistory();
 
         if(userData.user && memberArray.length === 0){
             if(userData.currVessel) {
@@ -154,9 +204,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             }
         }
 
-        if(userData) {
+        if(userData && memberArray.length>0) {
             let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);
+            if(memberArrayCopy.length != userData.currVessel.associatedUsers.length){
+                console.log("the member array copy is not equal to associated users");
+                console.log(memberArrayCopy.length + " != " + userData.currVessel.associatedUsers.length);
+                setTimeout(function () {
+                        refreshPage();
+                    }, 1000
+                );
+                return ("loading");
+            }
             console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
             if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length && !showCB) {
                 let listOfMembers = memberArrayCopy.map(member =>
@@ -175,22 +234,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                 <tr>
                                     <td>
                                         <img src="default-profile-picture.png" width = "75" style="height: 7%" alt="">
-                                        <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
+                                        <a  class="user-link">${member.fName + " " + member.lName}</a>
                                         <span class="user-subhead">Member</span>
                                     </td>
                                     <td class="text-center">
                                     </td>
                                     <td>
-                                        <a href="#">${member.email}</a>
+                                        <a>${member.email}</a>
                                     </td>
                                     <td style="width: 20%;">
-                                        <a href="#" class="table-link text-info">
+                                        <a class="table-link text-info">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x" id = "set${member.memberID}"></i>
                                                 <i class="fa fa-pencil fa-stack-1x fa-inverse" id = "set${member.memberID}"></i>
                                             </span>
                                         </a>
-                                        <a href="#" class="table-link danger">
+                                        <a class="table-link danger">
                                             <span class="fa-stack">
                                                 <i class="fa fa-square fa-stack-2x" id = "del${member.memberID}"></i>
                                                 <i class="fa fa-trash-o fa-stack-1x fa-inverse" id = "del${member.memberID}"></i>
@@ -259,16 +318,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                 <tr>
                                     <td>
                                         <img src="default-profile-picture.png" width = "75" style="height: 7%" alt="">
-                                        <a href="#" class="user-link">${member.fName + " " + member.lName}</a>
+                                        <a class="user-link">${member.fName + " " + member.lName}</a>
                                         <span class="user-subhead">Member</span>
                                     </td>
                                     <td class="text-center">
                                     </td>
                                     <td>
-                                        <a href="#">${member.email}</a>
+                                        <a>${member.email}</a>
                                     </td>
                                     <td style="width: 20%;">
-                                        <a href="#" class="table-link text-info">
+                                        <a class="table-link text-info">
                                             <span class="fa-stack">
                                                 
                                                 <i id = "set${member.memberID}"></i> 
@@ -322,12 +381,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
                 );
             }else {
+                console.log("need to refresh");
                     setTimeout(function () {
                         refreshPage();
                     }, 1000
                 );
-                return ("Something went wrong, please refresh the page...");
+                return ("loading");
             }
+        }else if(userData.currVessel.associatedUsers.length === 0 ){
+
+            return(null);
+        }else{
+            console.log("user data isnt valid or memberarray is empty");
+            console.log("length: " + memberArray.length);
+            setTimeout(function () {
+                    refreshPage();
+                }, 1000
+            );
+            return ("loading2");
         }
 
         /* let membersString = "No associated members";
