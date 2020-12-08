@@ -12,10 +12,11 @@ const WebMasterConnect = () => {
     const [open, setOpen] = useState(false);
     const [show, setShow] = useState(true);
 
-    const axiosAddUser = async (emailString, vesselString) => {
+    const axiosAddUser = async (emailString, vesselString, roles) => {
       let routeResponse = await Axios.post("http://localhost:5000/users/webMaster",
       { email: emailString,
-        vesselID: vesselString
+        vesselID: vesselString,
+          rolesObject: roles
       }); 
 
       if(routeResponse){
@@ -34,10 +35,23 @@ const WebMasterConnect = () => {
       }
     } 
     const submit = () => {
+        let roles = {canComment: false, canInvite: false, canEditRoles: false};
+        let canComment = document.getElementById("canComment");
+        if(canComment.checked == true){
+            roles.canComment = true;
+        }
+        let canInvite = document.getElementById("canInvite");
+        if(canInvite.checked == true){
+            roles.canInvite = true;
+        }
+        let canEdit = document.getElementById("canEdit");
+        if(canEdit.checked == true){
+            roles.canEditRoles = true;
+        }
       if(email && vessel){
           console.log(email);
           setOpen(false);
-          axiosAddUser(email, vessel);
+          axiosAddUser(email, vessel, roles);
           setEmail(null);
           setVessel(null);
       }
@@ -104,6 +118,25 @@ const WebMasterConnect = () => {
               onChange={(e) => setVessel(e.target.value)}
             ></input>
           </div>
+            <label for="checkmark">Please select which user roles to be added to the user.</label>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="canComment"></input>
+                    <label className="form-check-label" htmlFor="canComment">
+                        User can make comments.
+                    </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="canInvite"></input>
+                <label className="form-check-label" htmlFor="canInvite">
+                    User can invite other users.
+                </label>
+            </div>
+            <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="canEdit"></input>
+                <label className="form-check-label" htmlFor="canEdit">
+                    User can edit other user roles.
+                </label>
+            </div>
           <button class="register-button " type="submit" onClick={submit}>
             Submit
           </button>
