@@ -22,6 +22,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const [open, setOpen] = useState(false);
         const [showCB, setShowCB] = useState(false);
         const [email, setEmail] = useState(null);
+        const [userButtonID, setUserButtonID] = useState("");
 
         const history = useHistory();
         if(userData.currVessel.associatedUsers.length === 0 ){
@@ -59,7 +60,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 });
 
             if(changeMember){
-                console.log(changeMember.data.retVessel);
+                console.log(changeMember.data.retSuccess);
 
                 //memberArray[index].role = role;
             }
@@ -81,7 +82,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             let id = event.target.id;
             id = id + "";
             let first3 = id.substring(0,3);
-            id = id.substring(3);
+            console.log("WHAT BUTTON WAS CLICKED" + id);
+            if(first3 == "can"){
+                id = id.substring(5);
+            }else{
+                id = id.substring(3);
+            }
+
+            setUserButtonID(id);
             if(first3 == "del"){
                 console.log("DELETE: " +first3 + id);
                 deletemember(id);
@@ -134,47 +142,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 roles = {canComment: false, canInvite: false, canEditRoles: false};
                 let cB = document.getElementById("checkbox");
                 if (cB.style.display === "block") {
-                    let canComment = document.getElementById(id+"canComment");
+                    let canComment = document.getElementById("canCo"+id);
                     if(canComment.checked == true){
                         roles.canComment = true;
                     }
-                    let canInvite = document.getElementById(id+"canInvite");
+                    let canInvite = document.getElementById("canIn" + id);
                     if(canInvite.checked == true){
                         roles.canInvite = true;
                     }
-                    let canEdit = document.getElementById(id+"canEdit");
+                    let canEdit = document.getElementById("canEd" + id);
                     if(canEdit.checked == true){
                         roles.canEditRoles = true;
                     }
                     setShowCB(showCB=>(false));
                     console.log(roles);
+                    console.log("ID: " + id);
                     updatemember(id, roles);
                     cB.style.display = "none";
 
-                } else {
+                }else{
                     cB.style.display = "block";
                     setShowCB(showCB=>(true));
 
                 }
 
-                /*return(
-                    <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                        <Alert.Heading>Sorry!</Alert.Heading>
-                        <p>
-                            The user email address you entered does not currently exist in our system.
-                        </p>
-                    </Alert>
-                )*/
-
-                /*const roleCheckBox = (`<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">\n' +
-                '<label for="vehicle1"> I have a bike</label><br>\n' +
-                '<input type="checkbox" id="vehicle2" name="vehicle2" value="Car">\n' +
-                '<label for="vehicle2"> I have a car</label><br>\n' +
-                '<input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">\n' +
-                '<label for="vehicle3"> I have a boat</label><br>`).join('');
-                return(
-                    <div onClick={proj} dangerouslySetInnerHTML={{__html: roleCheckBox}}></div>
-                );*/
             }
 
         };
@@ -259,20 +250,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                                     </td>
                                     <td style = "display: none" id = "checkbox" >
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canComment">
-                                          <label class="form-check-label" for="canComment">
+                                          <input class="form-check-input" type="checkbox" value="" id="canCo${member.memberID}">
+                                          <label class="form-check-label" for="canCo${member.memberID}">
                                             Can Comment?
                                           </label>
                                         </div>
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canInvite">
-                                          <label class="form-check-label" for="canInvite">
+                                          <input class="form-check-input" type="checkbox" value="" id="canIn${member.memberID}">
+                                          <label class="form-check-label" for="canIn${member.memberID}">
                                             Can Invite Users?
                                           </label>
                                         </div>
                                         <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="canEdit">
-                                          <label class="form-check-label" for="canEdit">
+                                          <input class="form-check-input" type="checkbox" value="" id="canEd${member.memberID}">
+                                          <label class="form-check-label" for="canEd${member.memberID}">
                                             Can Edit Roles?
                                           </label>
                                         </div>
@@ -302,7 +293,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
                 );
             } else if(userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length && showCB){
-                let listOfMembers = memberArrayCopy.map(member =>
+                let checkboxCard = null;
+                let normalCard = null;
+                let cardArray = [];
+                for(let i = 0; i<memberArrayCopy.length; i++){
+                    let member = memberArrayCopy[i];
+                    if(member.memberID === userButtonID){
+                        checkboxCard = ` <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"> <hr>
+
+ <div class="row"> <div class="col-lg-12"> <div class="main-box no-header clearfix"> <div class="main-box-body clearfix"> <div class="table-responsive"> <table class="table user-list"> <tbody> <tr> <td> <img src="default-profile-picture.png" width = "75" style="height: 7%" alt=""> <a class="user-link">${member.fName + " " + member.lName}</a> <span class="user-subhead">Member</span> </td> <td class="text-center"> </td> <td> <a>${member.email}</a> </td> <td style="width: 20%;"> <a class="table-link text-info"> <span class="fa-stack"> <i id = "che${member.memberID}"></i> <img id = "set${member.memberID}" src = "green_checkmark.png" width = "25" style="height: 75%"></span> </span> </a> </td> <td style = "display: block;" id = "checkbox" > <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canCo${member.memberID}"> <label class="form-check-label" for="canCo${member.memberID}"> Can Comment? </label> </div> <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canIn${member.memberID}"> <label class="form-check-label" for="canIn${member.memberID}"> Can Invite Users? </label> </div> <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canEd${member.memberID}"> <label class="form-check-label" for="canEd${member.memberID}"> Can Edit Roles? </label> </div> </td> </tr> </tbody> </table> </div> </div> </div> </div> </div>
+
+ `
+                        cardArray.push(checkboxCard);
+                    }else{
+                        normalCard = ` <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"> <hr>
+
+ <div class="row"> <div class="col-lg-12"> <div class="main-box no-header clearfix"> <div class="main-box-body clearfix"> <div class="table-responsive"> <table class="table user-list"> <tbody> <tr> <td> <img src="default-profile-picture.png" width = "75" style="height: 7%" alt=""> <a class="user-link">${member.fName + " " + member.lName}</a> <span class="user-subhead">Member</span> </td> <td class="text-center"> </td> <td> <a>${member.email}</a> </td> <td style="width: 20%;"> <a class="table-link text-info"> <span class="fa-stack"> <i class="fa fa-square fa-stack-2x" id = "set${member.memberID}"></i> <i class="fa fa-pencil fa-stack-1x fa-inverse" id = "set${member.memberID}"></i> </span> </a> <a class="table-link danger"> <span class="fa-stack"> <i class="fa fa-square fa-stack-2x" id = "del${member.memberID}"></i> <i class="fa fa-trash-o fa-stack-1x fa-inverse" id = "del${member.memberID}"></i> </span> </a> </td> <td style = "display: none" id = "checkbox" > <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canCo${member.memberID}"> <label class="form-check-label" for="canCo${member.memberID}"> Can Comment? </label> </div> <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canIn${member.memberID}"> <label class="form-check-label" for="canIn${member.memberID}"> Can Invite Users? </label> </div> <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="canEd${member.memberID}"> <label class="form-check-label" for="canEd${member.memberID}"> Can Edit Roles? </label> </div> </td> </tr> </tbody> </table> </div> </div> </div> </div> </div>
+
+ `
+                        cardArray.push(normalCard);
+
+                    }
+                }
+                let listOfMembers = cardArray.join("");
+
+                /*let listOfMembers = memberArrayCopy.map(member =>
                     `
                         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <hr>
@@ -370,7 +385,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
               
        
       `
-                ).join('');
+                ).join('');*/
 
                 return (
 
