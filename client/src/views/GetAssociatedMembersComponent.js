@@ -19,7 +19,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const [memberArray, setMemberArray] = useState([]);
         const [refresh, setRefresh] = useState(false);
 
-        const [currentlyEditingID, setCurrentlyEditingID] = useState(null);
         const [open, setOpen] = useState(false);
         const [showCB, setShowCB] = useState(false);
         const [email, setEmail] = useState(null);
@@ -139,42 +138,32 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 //return ("loading");
 
             }else if(first3 == "set"){
-                let ignoreClick = false;
-                if(currentlyEditingID == null){
-                    setCurrentlyEditingID(id);
-                }else if(currentlyEditingID !== id){
-                    ignoreClick = true;
-                }
-                
                 console.log("SET: " + first3 + id);
                 roles = {canComment: false, canInvite: false, canEditRoles: false};
                 let cB = document.getElementById("checkbox");
-                if(!ignoreClick){
-                    if (cB.style.display === "block") {
-                        let canComment = document.getElementById("canCo"+id);
-                        if(canComment.checked == true){
-                            roles.canComment = true;
-                        }
-                        let canInvite = document.getElementById("canIn" + id);
-                        if(canInvite.checked == true){
-                            roles.canInvite = true;
-                        }
-                        let canEdit = document.getElementById("canEd" + id);
-                        if(canEdit.checked == true){
-                            roles.canEditRoles = true;
-                        }
-                        setShowCB(showCB=>(false));
-                        console.log(roles);
-                        console.log("ID: " + id);
-                        updatemember(id, roles);
-                        cB.style.display = "none";
-                        setCurrentlyEditingID(null);
-    
-                    }else {
-                        cB.style.display = "block";
-                        setShowCB(showCB=>(true));
-    
+                if (cB.style.display === "block") {
+                    let canComment = document.getElementById("canCo"+id);
+                    if(canComment.checked == true){
+                        roles.canComment = true;
                     }
+                    let canInvite = document.getElementById("canIn" + id);
+                    if(canInvite.checked == true){
+                        roles.canInvite = true;
+                    }
+                    let canEdit = document.getElementById("canEd" + id);
+                    if(canEdit.checked == true){
+                        roles.canEditRoles = true;
+                    }
+                    setShowCB(showCB=>(false));
+                    console.log(roles);
+                    console.log("ID: " + id);
+                    updatemember(id, roles);
+                    cB.style.display = "none";
+
+                }else{
+                    cB.style.display = "block";
+                    setShowCB(showCB=>(true));
+
                 }
 
             }
