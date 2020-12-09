@@ -60,7 +60,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 });
 
             if(changeMember){
-                console.log(changeMember.data.retSuccess);
+                console.log("ROLES SENT TO updatemember");
+                console.log(changeMember.data.retSuccess.role);
+                console.log("ID SENT TO updatemember");
+                console.log(changeMember.data.retSuccess.userID);
 
                 //memberArray[index].role = role;
             }

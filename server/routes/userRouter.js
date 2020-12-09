@@ -177,9 +177,10 @@ router.post("/updateMemberRole", async (req,res)=>{
                     function (error, success) {
                         if (error) {
                             res.json({retSuccess: false});
+                        }else if(success){
+                            res.json({retSuccess: userObject});
                         }
                     });
-                res.json({retSuccess: true});
 
 });
 
