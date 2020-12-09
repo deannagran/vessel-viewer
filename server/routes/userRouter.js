@@ -153,19 +153,20 @@ router.post("/login", async (req, res) => {
 
 
      const user = await User.findOne({"email":req.body.email});
+     let rolesObject = {canComment: false, canInvite: false, canEditRoles: false};
 
      if(user && user.length != 0){
       user.associatedVessels.push(req.body.vesselID);
 
       //add user to associatedUsers attribute on this vessel object:
-      let vesselObject = {role: 'admin', userID: ''+user._id+''};
+      let vesselObject = {role: rolesObject, userID: ''+user._id+''};
 
       Vessel.updateOne(
         { _id: req.body.vesselID },
         { $push: {associated_users: vesselObject} },
         function (error, success) {
               if (error) {
-                res.json({ nameOfAddedUser: 'ERROR' })
+                //res.json({ nameOfAddedUser: 'ERROR' })
               }
           });
 
@@ -176,7 +177,7 @@ router.post("/login", async (req, res) => {
         { $push: {associatedVessels: ''+req.body.vesselID+''} },
         function (error, success) {
               if (error) {
-                res.json({ nameOfAddedUser: 'ERROR' })
+                //res.json({ nameOfAddedUser: 'ERROR' })
               }
           });
 
@@ -200,62 +201,115 @@ router.post("/login", async (req, res) => {
     } */
 
   });
-  router.post("/webMaster", async (req, res) => {
-    const user = await User.findOne({ "email": req.body.email });
-    const vessel = await Vessel.findOne({ "name": req.body.vesselID });
-    //const userCheck = await user.findOne({"associatedVessels": req.body.vesselID});
+
+  router.post("/updateMemberRole", async (req,res)=>{
+    //Using currVessel.associatedMembers[i]
+    //add user to associatedUsers attribute on this vessel object
+      let userObject = {userID: req.body.memberID, role: req.body.rolesObject };
   
-    if (user && user.length != 0 && vessel) {
-      //user.associatedVessels.push(vessel._id);
-      //vessel.associated_users.push(user._id);
+                  Vessel.updateOne(
+                      { _id: req.body.vesselID },
+                      { $pull: { 'associated_users': { userID: req.body.memberID } } },
+                      function (error, success) {
+                          if (error) {
+                              res.json({retSuccess: false});
+                          }
+                      }
+                  );
   
-      User.updateOne(
-        { _id: user._id },
-        { $push: { associatedVessels: '' + vessel._id + '' } },
-        function (error, success) {
-          if (error) {
-            res.json({ nameOfAddedUser: 'ERROR' })
-          }
-        });
-        Vessel.updateOne(
-          { _id: vessel._id },
-          { $push: { associated_users: { userID: user._id, role: "Admin" } } },
-          function (error, success) {
-            if (error) {
-              res.json({ nameOfAddedUser: 'ERROR' })
-            }
-          });
+                  Vessel.updateOne(
+                      { _id: req.body.vesselID },
+                      { $push: { associated_users: userObject } },
+                      function (error, success) {
+                          if (error) {
+                              res.json({retSuccess: false});
+                          }else if(success){
+                              res.json({retSuccess: userObject});
+                          }
+                      });
   
-      res.json({ nameOfAddedUser: user.firstName })
-    } else {
-      res.json({ nameOfAddedUser: null })
-    }
   });
-  router.post("/webMasterAddVessel", async (req, res) => {
-    try {
-      let { name, model_link, vesselfinder_link } = req.body;
-  
-      // validate
-      if (!name || !model_link || !vesselfinder_link) {
+
+  router.post("/deleteMember", async (req,res)=>{
+    let success = true;
+    Vessel.updateOne(
+        { _id: req.body.vesselID },
+        { $pull: { 'associated_users': { userID: req.body.memberID } } },
+        function (error, success) {
+            if (error) {
+                success =false;
+            }
+        }
+    );
+    User.updateOne(
+        { _id: req.body.memberID },
+        { $pull: { 'associatedVessels': req.body.vesselID } },
+        function (error, success) {
+            if (error) {
+                success = false;
+            }
+        }
+    )
+    res.json({retSuccess: success})
+});
+
+
+router.post("/webMaster", async (req, res) => {
+  const user = await User.findOne({"email":req.body.email});
+  const vessel = await Vessel.findOne({"name":req.body.vesselID});
+
+  if(user && user.length != 0){
+   //user.associatedVessels.push(vessel._id);
+
+   User.updateOne(
+     { _id: user._id },
+     { $push: {associatedVessels: ''+vessel._id+''} },
+     function (error, success) {
+           if (error) {
+             res.json({ nameOfAddedUser: 'ERROR' })
+           }
+       });
+      Vessel.updateOne(
+          { _id: vessel._id },
+          { $push: { associated_users: { userID: user._id, role: req.body.rolesObject } } },
+          function (error, success) {
+              if (error) {
+                  res.json({ nameOfAddedUser: 'ERROR' })
+              }
+          });
+
+   res.json({ nameOfAddedUser: user.firstName }) 
+  }else{
+   res.json({ nameOfAddedUser: null}) 
+  }
+});
+
+router.post("/webMasterAddVessel", async (req, res) => {
+  try {
+    let { name, model_link, vesselfinder_link } = req.body;
+
+    // validate
+    if (!name || !model_link || !vesselfinder_link){
         return res.status(400).json({ msg: "Not all required fields have been entered." });
-      }
-      const newVessel = new Vessel({
+    }
+    const newVessel = new Vessel({
         name,
         model_link,
         vesselfinder_link
-      });
-      const vessel = await Vessel.findOne({ "name": req.body.name });
-      if (!vessel) {
-        const savedVessel = await newVessel.save();
-        res.json({ vesselName: savedVessel.name });
-      }
-      else {
-        res.json({ vesselName: null });
-      }
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+    });
+    const vessel = await Vessel.findOne({"name":req.body.name});
+    if(!vessel){
+      const savedVessel = await newVessel.save();
+      res.json({vesselName: savedVessel.name});
     }
-  });
+    else{
+      res.json({vesselName: null});
+    }
+} catch (err) {
+    res.status(500).json({ error: err.message });
+}
+});
+
   router.post("/webMasterList", async (req, res) => {
     const vesselList = await Vessel.find({});
     // validate
@@ -314,7 +368,7 @@ router.post("/login", async (req, res) => {
  router.post("/getComment", async (req, res) => {
   //Return a comment on the specified vessel page, the user who posted it, and the date it was posted.
   const vessel = await Vessel.findById(req.body.vesselID);
-  if(vessel){
+  if(vessel && vessel.comments){
     //get name of the comment's original poster
     const user = await User.findById(vessel.comments[req.body.i].posterID);
     if(user){
@@ -359,6 +413,17 @@ router.post("/postComment", async (req, res) => {
 
   } else {
     res.json({ commentPosted: false })
+  }
+});
+
+router.post("/getMember", async (req, res) => {
+  const memberID = req.body.vessel.associatedUsers[req.body.i].userID;
+  const member = await User.findById(memberID);
+  const role = await req.body.vessel.associatedUsers[req.body.i].role;
+  if(member){
+      res.json({ retMemberID: memberID, retFName: member.firstName, retLName: member.lastName, retRole: role, retEmail: member.email })
+  }else{
+      res.json({ retFName: "null" })
   }
 });
 

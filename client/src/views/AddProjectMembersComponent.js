@@ -86,62 +86,73 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
         }
 
+          let role = null;
 
-        return(
-/*             <Popup trigger={<button className="register-button "> Add Project Member </button>} position="right center">
-            <div>Add a new user to this project via email address. ‏‏‎ ‎‏‏‎ ‎
-            ‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‎‎
-           <form class="ui form small fluid">
-                <div class="required field">
-                  <input
-                    style={{ height: "35px" }}
-                    type="text"
-                    required
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  ></input>
-                </div>
-                <button class="register-button " type="submit" onClick={close}>
-                  Submit
-                </button>
-              </form>
-            </div> 
-          </Popup> */
-          <div>
+          for(let i = 0; i < userData.currVessel.associatedUsers.length; i++){
+              if(userData.currVessel.associatedUsers[i].userID == userData.user.id){
+                  role = userData.currVessel.associatedUsers[i].role.canInvite;
+              }
+          }
+          if(role) {
+              return (
+                  /*             <Popup trigger={<button className="register-button "> Add Project Member </button>} position="right center">
+                              <div>Add a new user to this project via email address. ‏‏‎ ‎‏‏‎ ‎
+                              ‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‎‎
+                             <form class="ui form small fluid">
+                                  <div class="required field">
+                                    <input
+                                      style={{ height: "35px" }}
+                                      type="text"
+                                      required
+                                      placeholder="Email"
+                                      onChange={(e) => setEmail(e.target.value)}
+                                    ></input>
+                                  </div>
+                                  <button class="register-button " type="submit" onClick={close}>
+                                    Submit
+                                  </button>
+                                </form>
+                              </div>
+                            </Popup> */
+                  <div>
 
-          <button type="button" className="register-button" onClick={() => setOpen(o => !o)}>
-            Add New Project Member
-          </button>
-          <Popup open={open} closeOnDocumentClick onClose={closeModal}>
-              
-            <div className="modal">
-                
-            Add a new user to this project via email address. ‏‏‎ ‎
-            <br></br>
-‏
-            </div>
-            <form class="ui form small fluid">
-            <label for="exampleInputEmail1">Please enter the email address of the user you would like to add to this project. ‏‏‎ ‎</label>
-                <div class="required field">
-                  <input
-                    style={{ height: "35px" }}
-                    type="text"
-                    required
-                    placeholder="Email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  ></input>
-                </div>
-                <button type="button" className="register-button" onClick={closeModal}>Cancel</button>
-                <button class="register-button " type="submit" onClick={submit}>
-                  Submit
-                </button>
-                
-              </form>
-            
-          </Popup>
+                      <button type="button" className="register-button" onClick={() => setOpen(o => !o)}>
+                          Add New Project Member
+                      </button>
+                      <Popup open={open} closeOnDocumentClick onClose={closeModal}>
 
-        </div>
-        )
+                          <div className="modal">
+
+                              Add a new user to this project via email address. ‏‏‎ ‎
+                              <br></br>
+                              ‏
+                          </div>
+                          <form class="ui form small fluid">
+                              <label for="exampleInputEmail1">Please enter the email address of the user you would like
+                                  to add to this project. ‏‏‎ ‎</label>
+                              <div class="required field">
+                                  <input
+                                      style={{height: "35px"}}
+                                      type="text"
+                                      required
+                                      placeholder="Email"
+                                      onChange={(e) => setEmail(e.target.value)}
+                                  ></input>
+                              </div>
+                              <button type="button" className="register-button" onClick={closeModal}>Cancel</button>
+                              <button class="register-button " type="submit" onClick={submit}>
+                                  Submit
+                              </button>
+
+                          </form>
+
+                      </Popup>
+
+                  </div>
+              )
+          }else{
+              return(null);
+          }
         }
       
         export default AddProjectMembersComponent;
