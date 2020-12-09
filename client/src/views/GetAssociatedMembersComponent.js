@@ -195,6 +195,69 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             }
         }
 
+        let role = null;
+        if(userData && userData.currVessel){
+
+            for(let i = 0; i < userData.currVessel.associatedUsers.length; i++){
+                if(userData.currVessel.associatedUsers[i].userID == userData.user.id){
+                    role = userData.currVessel.associatedUsers[i].role.canEditRoles;
+                }
+            }
+            if(!role){
+                let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
+                let listOfMembers = memberArrayCopy.map(member =>
+                    `
+                        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<hr>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box no-header clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table user-list">
+                            
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="default-profile-picture.png" width = "75" style="height: 7%" alt="">
+                                        <a  class="user-link">${member.fName + " " + member.lName}</a>
+                                        <span class="user-subhead">Member</span>
+                                    </td>
+                                    <td class="text-center">
+                                    </td>
+                                    <td>
+                                        <a>${member.email}</a>
+                                    </td>
+                                   
+                                    
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+              
+       
+      `
+                ).join('');
+
+                return (
+
+                    <table border="0" cellPadding="25" cellSpacing="20">
+
+                        <div onClick={proj} dangerouslySetInnerHTML={{__html: listOfMembers}}></div>
+                    </table>
+
+                );
+            }
+        }
+
         if(userData && memberArray.length>0) {
             let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);

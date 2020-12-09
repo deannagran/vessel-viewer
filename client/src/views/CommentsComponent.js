@@ -115,6 +115,14 @@ const postComment = () => {
 }
 
   if (userData.user){
+      let role;
+
+      for(let i = 0; i < userData.currVessel.associatedUsers.length; i++){
+          if(userData.currVessel.associatedUsers[i].userID == userData.user.id){
+              role = userData.currVessel.associatedUsers[i].role.canComment;
+          }
+      }
+      console.log(role);
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -136,7 +144,33 @@ const postComment = () => {
       </li>
         `
       ).join('');
+    if(!role){
+        return (
+            <div class="container bootstrap snippets bootdey">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="blog-comment">
+                            <h3 class="text-success">Comments</h3>
+                            <hr/>
+                            <ul class="comments">
+                                <li class="clearfix">
+                                    <img src="https://www.clipartkey.com/mpngs/m/152-1520367_user-profile-default-image-png-clipart-png-download.png" class="avatar" alt=""></img>
+                                    <div class="post-comments">
+                                        <p class="meta"> {today} <a href="#">    Digital Twin Marine</a> says: <i class="pull-right"></i></p>
+                                        <p>
+                                            Welcome to your project page! Here you can leave comments regarding your vessel and Digital Twin Marine will be notified.
+                                        </p>
+                                    </div>
+                                </li>
+                                <div  onClick={del} dangerouslySetInnerHTML={{__html: listOfComments}}></div>
 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if(commentsArray.length > 0){
         return (
             <div class="container bootstrap snippets bootdey">

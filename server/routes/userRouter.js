@@ -215,12 +215,13 @@ router.post("/deleteMember", async (req,res)=>{
 
 
      const user = await User.findOne({"email":req.body.email});
+     let rolesObject = {canComment: false, canInvite: false, canEditRoles: false};
 
      if(user && user.length != 0){
       user.associatedVessels.push(req.body.vesselID);
 
       //add user to associatedUsers attribute on this vessel object:
-      let vesselObject = {role: 'admin', userID: ''+user._id+''};
+      let vesselObject = {role: rolesObject, userID: ''+user._id+''};
 
       Vessel.updateOne(
         { _id: req.body.vesselID },
