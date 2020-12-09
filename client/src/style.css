@@ -172,7 +172,7 @@ img{
   position: relative;
   min-height: 100vh;
   margin: 0 auto;
-  max-width: 900px;
+  max-width: 70%;
   padding-bottom: 10%;
 }
 
@@ -509,6 +509,8 @@ body{
   border-top: 1px solid #e7ebee;
   padding: 12px 8px;
 }
-
+.comment{
+  max-width: 100%;
+}
 
 

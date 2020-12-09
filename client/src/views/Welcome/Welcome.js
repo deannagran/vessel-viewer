@@ -21,15 +21,15 @@ export default function Welcome(props){
 
       return(
       <div className="page">
-      <h1>Welcome to the Digital Twin Marine Vessel Viewer!</h1>
+      <center><h1 class="h1-responsive font-weight-bold text-center my-4">Welcome to the Digital Twin Marine Vessel Viewer!</h1>
       <table border = "0" cellPadding = "25" cellSpacing = "10"> 
             <tr>
-                  <td><h2>New here?</h2><button onClick={register} class="register-button ">Register</button></td>
+                  <center><td><h2>New here?</h2><button onClick={register} class="register-button ">Register</button></td></center>
             </tr>
             <tr>
-                  <td><h2>Already have an account?</h2> <button onClick={login} class="login-button ">Log In</button></td>
+            <center><td><h2>Already have an account?</h2> <button onClick={login} class="login-button ">Log In</button></td></center>
             </tr>
-      </table>
+      </table></center>
     </div>
   );
 }

@@ -146,11 +146,11 @@ const postComment = () => {
       ).join('');
     if(!role){
         return (
-            <div class="container bootstrap snippets bootdey">
+            <div class="container bootstrap snippets bootdey" className="comment">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="blog-comment">
-                            <h3 class="text-success">Comments</h3>
+                            <h3 class="h1-responsive font-weight-bold text-center my-4">Comments</h3>
                             <hr/>
                             <ul class="comments">
                                 <li class="clearfix">
@@ -173,11 +173,11 @@ const postComment = () => {
     }
     if(commentsArray.length > 0){
         return (
-            <div class="container bootstrap snippets bootdey">
+            <div class="container bootstrap snippets bootdey" className="comment">
             <div class="row">
                 <div class="col-md-12">
                     <div class="blog-comment">
-                        <h3 class="text-success">Comments</h3>
+                        <h3 class="h1-responsive font-weight-bold text-center my-4">Comments</h3>
                         <hr/>
                         <ul class="comments">
                         <li class="clearfix">
@@ -194,7 +194,7 @@ const postComment = () => {
                         
                         <label for="comment"></label>
                         <textarea onChange={(e) => setCommentText(e.target.value)} placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
-                        <div class="float-right"><button onClick={postComment} class="btn btn-primary" type="submit">Post Comment</button></div>
+                        <div class="float-right"><button onClick={postComment} class="register-button" type="submit">Post Comment</button></div>
                         </div>
                         
                         </ul>
@@ -213,11 +213,11 @@ const postComment = () => {
         );
     }else{
         return (
-            <div class="container bootstrap snippets bootdey">
+            <div class="container bootstrap snippets bootdey" className="comment">
             <div class="row">
                 <div class="col-md-12">
                     <div class="blog-comment">
-                        <h3 class="text-success">Comments</h3>
+                        <h3 class="h1-responsive font-weight-bold text-center my-4">Comments</h3>
                         <hr/>
                         <ul class="comments">
                         <li class="clearfix">
@@ -233,7 +233,7 @@ const postComment = () => {
                         
                         <label for="comment"></label>
                         <textarea onChange={(e) => setCommentText(e.target.value)} placeholder="Leave a comment..." class="form-control" rows="5" id="comment"></textarea>
-                        <div class="float-right"><button onClick={postComment} class="btn btn-primary" type="submit">Post Comment</button></div>
+                        <div class="float-right"><button onClick={postComment} class="register-button" type="submit">Post Comment</button></div>
                         </div>
                         
                         </ul>

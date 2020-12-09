@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         const [memberArray, setMemberArray] = useState([]);
         const [refresh, setRefresh] = useState(false);
 
+        const [currentlyEditingID, setCurrentlyEditingID] = useState(null);
         const [open, setOpen] = useState(false);
         const [showCB, setShowCB] = useState(false);
         const [email, setEmail] = useState(null);
@@ -60,10 +61,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 });
 
             if(changeMember){
-                console.log("ROLES SENT TO updatemember");
-                console.log(changeMember.data.retSuccess.role);
-                console.log("ID SENT TO updatemember");
-                console.log(changeMember.data.retSuccess.userID);
+                console.log(changeMember.data.retSuccess);
 
                 //memberArray[index].role = role;
             }
@@ -80,96 +78,110 @@ import 'bootstrap/dist/css/bootstrap.min.css';
         }
 
         const proj = (event) => {
-            //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
-            let roles = null;
+           //brings user to the project page, and updates our currVessel attribute depending on the button user clicked:
+            let roles = {canComment: false, canInvite: false, canEditRoles: false};
             let id = event.target.id;
             id = id + "";
-            let first3 = id.substring(0,3);
-            console.log("WHAT BUTTON WAS CLICKED" + id);
-            if(first3 == "can"){
-                id = id.substring(5);
-            }else{
-                id = id.substring(3);
-            }
-
-            setUserButtonID(id);
-            if(first3 == "del"){
-                console.log("DELETE: " +first3 + id);
-                deletemember(id);
-                let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
-                if(memberArrayCopy.length === 1){
-                    //we are deleting the only user left
-                    memberArrayCopy = [];
-                    setMemberArray([]);
-                    let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
-                        numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
-                        associatedUsers: []}
-                    if(userData){
-                        setUserData({
-                            token: userData.user.token,
-                            user: userData.user,
-                            currVessel: vessel
-                        });
-                    }
-                    return(null);
+            if(id !== "checkbox" && id !== ""){
+                let first3 = id.substring(0,3);
+                console.log("WHAT BUTTON WAS CLICKED" + id);
+                if(first3 == "can"){
+                    id = id.substring(5);
+                }else{
+                    id = id.substring(3);
                 }
-                else{
-                    let memberArrayCopy2 = [];
-                    for(let i = 0; i<memberArrayCopy.length; i++){
-                        if(memberArrayCopy[i].memberID != id){
-                            memberArrayCopy2.push(memberArrayCopy[i]);
+    
+                setUserButtonID(id);
+                if(first3 == "del"){
+                    console.log("DELETE: " +first3 + id);
+                    deletemember(id);
+                    let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
+                    if(memberArrayCopy.length === 1){
+                        //we are deleting the only user left
+                        memberArrayCopy = [];
+                        setMemberArray([]);
+                        let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
+                            numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
+                            associatedUsers: []}
+                        if(userData){
+                            setUserData({
+                                token: userData.user.token,
+                                user: userData.user,
+                                currVessel: vessel
+                            });
+                        }
+                        return(null);
+                    }
+                    else{
+                        let memberArrayCopy2 = [];
+                        for(let i = 0; i<memberArrayCopy.length; i++){
+                            if(memberArrayCopy[i].memberID != id){
+                                memberArrayCopy2.push(memberArrayCopy[i]);
+                            }
+                        }
+                        console.log("LENGTH OF MEMBER ARRRAYA COPY:" + memberArrayCopy.length);
+    
+                        let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
+                            numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
+                            associatedUsers: memberArrayCopy2}
+                        if(userData){
+                            setUserData({
+                                token: userData.user.token,
+                                user: userData.user,
+                                currVessel: vessel
+                            });
+                        }
+                        setMemberArray(memberArrayCopy2);
+    
+                    }
+    
+    
+    
+                    //return ("loading");
+    
+                }else if(first3 == "set"){
+                    let ignoreClick = false;
+                    console.log("Active id: " + id);
+                    if(currentlyEditingID == null){
+                        setCurrentlyEditingID(id);
+                    }else if(currentlyEditingID !== id){
+                        ignoreClick = true;
+                    }
+                    
+                    //console.log("SET: " + first3 + id);
+                    roles = {canComment: false, canInvite: false, canEditRoles: false};
+                    let cB = document.getElementById("checkbox");
+                    if(!ignoreClick){
+                        if (cB.style.display === "block") {
+                            let canComment = document.getElementById("canCo"+id);
+                            if(canComment.checked == true){
+                                roles.canComment = true;
+                            }
+                            let canInvite = document.getElementById("canIn" + id);
+                            if(canInvite.checked == true){
+                                roles.canInvite = true;
+                            }
+                            let canEdit = document.getElementById("canEd" + id);
+                            if(canEdit.checked == true){
+                                roles.canEditRoles = true;
+                            }
+                            setShowCB(showCB=>(false));
+                            //console.log(roles);
+                            //console.log("ID: " + id);
+                            updatemember(id, roles);
+                            cB.style.display = "none";
+                            setCurrentlyEditingID(null);
+        
+                        }else {
+                            cB.style.display = "block";
+                            setShowCB(showCB=>(true));
+        
                         }
                     }
-                    console.log("LENGTH OF MEMBER ARRRAYA COPY:" + memberArrayCopy.length);
-
-                    let vessel = {id: userData.currVessel.id, name: userData.currVessel.name, modelLink: userData.currVessel.modelLink,
-                        numComments: userData.currVessel.numComments, VFlink: userData.currVessel.VFlink,
-                        associatedUsers: memberArrayCopy2}
-                    if(userData){
-                        setUserData({
-                            token: userData.user.token,
-                            user: userData.user,
-                            currVessel: vessel
-                        });
-                    }
-                    setMemberArray(memberArrayCopy2);
-
+    
                 }
-
-
-
-                //return ("loading");
-
-            }else if(first3 == "set"){
-                console.log("SET: " + first3 + id);
-                roles = {canComment: false, canInvite: false, canEditRoles: false};
-                let cB = document.getElementById("checkbox");
-                if (cB.style.display === "block") {
-                    let canComment = document.getElementById("canCo"+id);
-                    if(canComment.checked == true){
-                        roles.canComment = true;
-                    }
-                    let canInvite = document.getElementById("canIn" + id);
-                    if(canInvite.checked == true){
-                        roles.canInvite = true;
-                    }
-                    let canEdit = document.getElementById("canEd" + id);
-                    if(canEdit.checked == true){
-                        roles.canEditRoles = true;
-                    }
-                    setShowCB(showCB=>(false));
-                    console.log(roles);
-                    console.log("ID: " + id);
-                    updatemember(id, roles);
-                    cB.style.display = "none";
-
-                }else{
-                    cB.style.display = "block";
-                    setShowCB(showCB=>(true));
-
-                }
-
             }
+            
 
         };
 
@@ -265,15 +277,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             let memberArrayCopy = memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i);
             //console.log(memberArrayCopy.length);
             if(memberArrayCopy.length != userData.currVessel.associatedUsers.length){
-                console.log("the member array copy is not equal to associated users");
-                console.log(memberArrayCopy.length + " != " + userData.currVessel.associatedUsers.length);
+                //console.log("the member array copy is not equal to associated users");
+                //console.log(memberArrayCopy.length + " != " + userData.currVessel.associatedUsers.length);
                 setTimeout(function () {
                         refreshPage();
                     }, 1000
                 );
                 return ("loading");
             }
-            console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
+            //console.log(memberArray.filter((v,i,a)=>a.findIndex(t=>(t.memberID === v.memberID))===i));
             if (userData.currVessel && memberArrayCopy.length === userData.currVessel.associatedUsers.length && !showCB) {
                 let listOfMembers = memberArrayCopy.map(member =>
                     `
@@ -467,19 +479,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                         refreshPage();
                     }, 1000
                 );
-                return ("loading");
+                return ("Loading...");
             }
         }else if(userData.currVessel.associatedUsers.length === 0 ){
 
             return(null);
         }else{
-            console.log("user data isnt valid or memberarray is empty");
-            console.log("length: " + memberArray.length);
+            //console.log("user data isnt valid or memberarray is empty");
+            //console.log("length: " + memberArray.length);
             setTimeout(function () {
                     refreshPage();
                 }, 1000
             );
-            return ("loading2");
+            return ("Loading...");
         }
 
         /* let membersString = "No associated members";
