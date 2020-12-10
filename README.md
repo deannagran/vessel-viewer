@@ -1,9 +1,14 @@
 ## _**PLEASE READ THIS TO COMPLETION BEFORE ASKING ANY QUESTIONS!**_
+Vessel Viewer is an app made for the external company Digital Twin Marine, as part of UF's CEN3031 course. This app allows clients to view their custom VR vessel models and securely share the vessel project page with other employees. 
 
 ### _**IMPORTANT NOTES**_ - 
 1. Never push anything from your node_modules folder to this repo. 
-2. This project does not have a MongoDB connection setup.
-- local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your db credentials will be kept safe when the app is deployed.
+2. You can reconfigure the current MongoDB setup for local development or production use. See corresponding instructions below:
+
+- Local development: create a config file (make sure to name it config.js) in the config folder, which exports your db.uri connection. An example is provided, config/config.example.js. This file will be ignored by git so your DB credentials will be kept safe when the app is deployed. Note: for local development, any files with Axios post requests must be changed to localhost:5000. If this is not done, the router will not behave as anticipated. 
+
+For example, line 24 in client/Dashboard.js: `associatedVessels = await Axios.post(url + "/users/findVessel" `
+should be changed to: `associatedVessels = await Axios.post("http://localhost:5000/users/findVessel"`
 
 ## Run these commands to get started!
 
@@ -14,12 +19,10 @@
 
 
 ## Getting Started
-This project holds both the client application and the server application, so there will be node modules in multiple places. First, run `npm install` from the root. After this, you will run `cd server && npm install` and `cd client && npm install` from the root. 
-
-Then you will want to create a config.js file in `/server/config` which will contain the MongoDB URI and JSONWebToken password. This file will be ignored by git so your credentials will be kept safe.
-
-This app can be deployed directly to heroku since there is a script defined in package.json which will automatically handle building and deploying the app. For more information on deploying to heroku reference the extra resources at the bottom of this file. 
-
+To get started, make a copy of this template repo for your project team.
+Since this project will hold both the client application and the server application, there will be node modules in two different places. First, run `npm install` and `npm install nodemailer` from the root. After this, you will run `cd server && npm install and cd client && npm install` from the root.
+Then you will want to create a config.js file in /server/config which will contain the MongoDB URI and JSONWebToken password. This file will be ignored by git, so your credentials will be kept safe.
+As the application grows, you may want to add or modify existing functions. You can find all of the components that we created to set up the website in /client/src/views and /server/mail. Accordingly, in /server/routes/userRouter, you can find all the URLs that the HTTPS requests are routed to.
 
 ## Available Scripts
 
@@ -32,16 +35,6 @@ Open [http://localhost:3000](http://localhost:3000) to view the client in the br
 ### `yarn workspace server start`
 
 Runs just the server in development mode.<br>
-
-
-### `yarn workspace server build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-If deploying to heroku this does not need to be run since it is handled by the heroku-postbuild script<br>
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
 ## File structure
@@ -57,6 +50,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 #### `server` - Holds the server application
 - #### `config` - This holds our configuration files, like mongoDB uri and JSON web token password
 - #### `controllers` - These hold all of the callback functions that each route will call
+- #### `mail` - This holds all of the function that used in the mail-related router.
 - #### `middleware` - This is where we define the middleware which will protect selected routes.
 - #### `models` - This holds all of our data models, namely our user model
 - #### `routes` - This holds all of our HTTP to URL path associations for each unique url
@@ -65,9 +59,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 #### `.gitignore` - Tells git which files to ignore
 #### `README` - This file!
 
-## Learn More
-To learn how to setup a local MongoDB instance for testing, check out how to [connect to MongoDB](https://docs.mongodb.com/guides/server/drivers/).
-
-To learn how to deploy a full-stack web app to heroku, check out [this great guide](https://daveceddia.com/deploy-react-express-app-heroku/).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Source Credits
+1. Some of Vessel Viewer's backend was made using Devistry's MERN Stack user auth tutorial (namely AuthOptions.js and the /login, /register, and /tokenIsValid routers within userRouter). Check him out here: https://www.youtube.com/watch?v=4_ZiJGY5F38&ab_channel=Devistry
+2. This project's primary directory structure was built using Dakota Rennemann's MERN Template code. https://github.com/rennemannd/MERN-Template
+3. Certain frontend elements (contact form, icons) were referenced from MDBootstrap here: https://mdbootstrap.com/docs/jquery/forms/contact/
+4. All sample vessel models are property of Digital Twin Marine. https://digitaltwinmarine.com/

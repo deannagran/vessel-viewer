@@ -26,7 +26,8 @@ export default function App() {
     currVessel: undefined,
   });
 
-
+//This is the same user auth technique used in Devistry's MERN stack tutorial:
+//https://www.youtube.com/watch?v=4_ZiJGY5F38&ab_channel=Devistry
   useEffect(() => {
     const checkLoggedIn = async () => {
       let token = localStorage.getItem("auth-token");
